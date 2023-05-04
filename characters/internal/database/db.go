@@ -2,13 +2,14 @@ package database
 
 import (
 	"context"
+	"log"
 	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func NewConnection(connectionString string) (*mongo.Client, error) {
+func NewConnection(logger *log.Logger, connectionString string) (*mongo.Client, error) {
 	clientOptions := options.Client().ApplyURI(connectionString)
 	client, err := mongo.Connect(context.Background(), clientOptions)
 	if err != nil {
@@ -22,6 +23,6 @@ func NewConnection(connectionString string) (*mongo.Client, error) {
 	if err != nil {
 		return nil, err
 	}
-
+	logger.Print("DB connected")
 	return client, nil
 }

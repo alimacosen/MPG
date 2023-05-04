@@ -1,15 +1,12 @@
 package config
 
-import (
-	"os"
-)
-
-type Config struct {
+type DBConfig struct {
 	DBConnectionString string
 }
 
-func New() *Config {
-	return &Config{
-		DBConnectionString: os.Getenv("DB_CONNECTION_STRING"),
+func NewDBConfig() *DBConfig {
+	return &DBConfig{
+		DBConnectionString: "mongodb://localhost:27017",
 	}
 }
+

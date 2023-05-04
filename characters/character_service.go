@@ -27,8 +27,7 @@ func (s *characterServicesrvc) CreateCharacter(ctx context.Context, p *character
 
 // GetCharacter implements getCharacter.
 func (s *characterServicesrvc) GetCharacter(ctx context.Context, p *characterservice.GetCharacterPayload) (res *characterservice.Character, err error) {
-	res = &characterservice.Character{}
-	s.logger.Print("characterService.getCharacter")
+	res, err = s.characterHandler.GetCharacter(ctx, p)
 	return
 }
 

@@ -23,10 +23,14 @@ func (s *CharacterService) Create(ctx context.Context, character *model.Characte
 	return result, nil
 }
 
-//func (s *CharacterService) GetAll() ([]*model.Character, error) {
-//	return s.repo.GetAll()
-//}
-//
+func (s *CharacterService) GetById(ctx context.Context, id string) (*model.Character, error) {
+	result, err := s.repo.FindByID(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
 //func (s *CharacterService) Update(book *model.Character) error {
 //	return s.repo.Update(book)
 //}
