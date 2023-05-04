@@ -1,2 +1,4 @@
 .DS_Store
 .idea/*
+characters_server
+characters_server-cli
