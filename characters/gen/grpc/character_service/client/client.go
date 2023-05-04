@@ -76,14 +76,14 @@ func (c *Client) GetCharacter() goa.Endpoint {
 	}
 }
 
-// UpdateCharacterAttributes calls the "UpdateCharacterAttributes" function in
+// UpdateCharacter calls the "UpdateCharacter" function in
 // character_servicepb.CharacterServiceClient interface.
-func (c *Client) UpdateCharacterAttributes() goa.Endpoint {
+func (c *Client) UpdateCharacter() goa.Endpoint {
 	return func(ctx context.Context, v any) (any, error) {
 		inv := goagrpc.NewInvoker(
-			BuildUpdateCharacterAttributesFunc(c.grpccli, c.opts...),
-			EncodeUpdateCharacterAttributesRequest,
-			DecodeUpdateCharacterAttributesResponse)
+			BuildUpdateCharacterFunc(c.grpccli, c.opts...),
+			EncodeUpdateCharacterRequest,
+			DecodeUpdateCharacterResponse)
 		res, err := inv.Invoke(ctx, v)
 		if err != nil {
 			resp := goagrpc.DecodeError(err)

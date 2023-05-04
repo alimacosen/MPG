@@ -59,11 +59,10 @@ func NewGetCharacterResult(message *character_servicepb.GetCharacterResponse) *c
 	return result
 }
 
-// NewProtoUpdateCharacterAttributesRequest builds the gRPC request type from
-// the payload of the "updateCharacterAttributes" endpoint of the
-// "CharacterService" service.
-func NewProtoUpdateCharacterAttributesRequest(payload *characterservice.UpdateCharacterAttributesPayload) *character_servicepb.UpdateCharacterAttributesRequest {
-	message := &character_servicepb.UpdateCharacterAttributesRequest{
+// NewProtoUpdateCharacterRequest builds the gRPC request type from the payload
+// of the "updateCharacter" endpoint of the "CharacterService" service.
+func NewProtoUpdateCharacterRequest(payload *characterservice.UpdateCharacterPayload) *character_servicepb.UpdateCharacterRequest {
+	message := &character_servicepb.UpdateCharacterRequest{
 		Id:          payload.ID,
 		Name:        payload.Name,
 		Description: payload.Description,
@@ -79,18 +78,10 @@ func NewProtoUpdateCharacterAttributesRequest(payload *characterservice.UpdateCh
 	return message
 }
 
-// NewUpdateCharacterAttributesResult builds the result type of the
-// "updateCharacterAttributes" endpoint of the "CharacterService" service from
-// the gRPC response type.
-func NewUpdateCharacterAttributesResult(message *character_servicepb.UpdateCharacterAttributesResponse) *characterservice.Character {
-	result := &characterservice.Character{
-		ID:          message.Id,
-		Name:        message.Name,
-		Description: message.Description,
-		Health:      int(message.Health),
-		Experience:  int(message.Experience),
-		InventoryID: message.InventoryId,
-	}
+// NewUpdateCharacterResult builds the result type of the "updateCharacter"
+// endpoint of the "CharacterService" service from the gRPC response type.
+func NewUpdateCharacterResult(message *character_servicepb.UpdateCharacterResponse) int {
+	result := int(message.Field)
 	return result
 }
 

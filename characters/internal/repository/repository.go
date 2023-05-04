@@ -15,7 +15,7 @@ import (
 type CharacterRepository interface {
 	FindByID(ctx context.Context, id string) (*model.Character, error)
 	Create(ctx context.Context, character *model.Character) (*model.Character, error)
-	Update(ctx context.Context, character *model.Character) (*model.Character, error)
+	Update(ctx context.Context, id string, updateFields model.UpdateFields) (int, error)
 	Delete(ctx context.Context, id string) (int, error)
 }
 
@@ -55,7 +55,7 @@ func (r *mongoCharacterRepository) FindByID(ctx context.Context, id string) (*mo
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
 			r.logger.Println("No document found with the specified filter.")
-			return nil, characterservice.NoMatch("Character not found")
+			return nil, characterservice.GetNoMatch("Character not found")
 		}
 		return nil, err
 	}
@@ -63,8 +63,26 @@ func (r *mongoCharacterRepository) FindByID(ctx context.Context, id string) (*mo
 	return &character, nil
 }
 
-func (r *mongoCharacterRepository) Update(ctx context.Context, user *model.Character) (*model.Character, error) {
-	return &model.Character{}, nil
+func (r *mongoCharacterRepository) Update(ctx context.Context, id string, updateFields model.UpdateFields) (int, error) {
+	collection := r.db.Collection("charactersCollection")
+	objectID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		r.logger.Println(err)
+	}
+
+	updateDoc := bson.M{"$set": updateFields}
+	res, err := collection.UpdateByID(ctx, objectID, updateDoc)
+	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			r.logger.Println("No document found with the specified filter.")
+			return 0, characterservice.UpdateNoMatch("Character not found")
+		}
+		return 0, err
+	}
+
+	modifiedCnt := int(res.ModifiedCount)
+
+	return modifiedCnt, nil
 }
 
 func (r *mongoCharacterRepository) Delete(ctx context.Context, id string) (int, error) {
@@ -78,7 +96,7 @@ func (r *mongoCharacterRepository) Delete(ctx context.Context, id string) (int, 
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
 			r.logger.Println("No document found with the specified filter.")
-			return 0, characterservice.NoMatch("Character not found")
+			return 0, characterservice.DeleteNoMatch("Character not found")
 		}
 		return 0, err
 	}

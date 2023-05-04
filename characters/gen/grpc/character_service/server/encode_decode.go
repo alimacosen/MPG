@@ -76,32 +76,32 @@ func DecodeGetCharacterRequest(ctx context.Context, v any, md metadata.MD) (any,
 	return payload, nil
 }
 
-// EncodeUpdateCharacterAttributesResponse encodes responses from the
-// "CharacterService" service "updateCharacterAttributes" endpoint.
-func EncodeUpdateCharacterAttributesResponse(ctx context.Context, v any, hdr, trlr *metadata.MD) (any, error) {
-	result, ok := v.(*characterservice.Character)
+// EncodeUpdateCharacterResponse encodes responses from the "CharacterService"
+// service "updateCharacter" endpoint.
+func EncodeUpdateCharacterResponse(ctx context.Context, v any, hdr, trlr *metadata.MD) (any, error) {
+	result, ok := v.(int)
 	if !ok {
-		return nil, goagrpc.ErrInvalidType("CharacterService", "updateCharacterAttributes", "*characterservice.Character", v)
+		return nil, goagrpc.ErrInvalidType("CharacterService", "updateCharacter", "int", v)
 	}
-	resp := NewProtoUpdateCharacterAttributesResponse(result)
+	resp := NewProtoUpdateCharacterResponse(result)
 	return resp, nil
 }
 
-// DecodeUpdateCharacterAttributesRequest decodes requests sent to
-// "CharacterService" service "updateCharacterAttributes" endpoint.
-func DecodeUpdateCharacterAttributesRequest(ctx context.Context, v any, md metadata.MD) (any, error) {
+// DecodeUpdateCharacterRequest decodes requests sent to "CharacterService"
+// service "updateCharacter" endpoint.
+func DecodeUpdateCharacterRequest(ctx context.Context, v any, md metadata.MD) (any, error) {
 	var (
-		message *character_servicepb.UpdateCharacterAttributesRequest
+		message *character_servicepb.UpdateCharacterRequest
 		ok      bool
 	)
 	{
-		if message, ok = v.(*character_servicepb.UpdateCharacterAttributesRequest); !ok {
-			return nil, goagrpc.ErrInvalidType("CharacterService", "updateCharacterAttributes", "*character_servicepb.UpdateCharacterAttributesRequest", v)
+		if message, ok = v.(*character_servicepb.UpdateCharacterRequest); !ok {
+			return nil, goagrpc.ErrInvalidType("CharacterService", "updateCharacter", "*character_servicepb.UpdateCharacterRequest", v)
 		}
 	}
-	var payload *characterservice.UpdateCharacterAttributesPayload
+	var payload *characterservice.UpdateCharacterPayload
 	{
-		payload = NewUpdateCharacterAttributesPayload(message)
+		payload = NewUpdateCharacterPayload(message)
 	}
 	return payload, nil
 }

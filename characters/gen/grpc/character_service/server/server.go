@@ -20,10 +20,10 @@ import (
 
 // Server implements the character_servicepb.CharacterServiceServer interface.
 type Server struct {
-	CreateCharacterH           goagrpc.UnaryHandler
-	GetCharacterH              goagrpc.UnaryHandler
-	UpdateCharacterAttributesH goagrpc.UnaryHandler
-	DeleteCharacterH           goagrpc.UnaryHandler
+	CreateCharacterH goagrpc.UnaryHandler
+	GetCharacterH    goagrpc.UnaryHandler
+	UpdateCharacterH goagrpc.UnaryHandler
+	DeleteCharacterH goagrpc.UnaryHandler
 	character_servicepb.UnimplementedCharacterServiceServer
 }
 
@@ -31,10 +31,10 @@ type Server struct {
 // endpoints.
 func New(e *characterservice.Endpoints, uh goagrpc.UnaryHandler) *Server {
 	return &Server{
-		CreateCharacterH:           NewCreateCharacterHandler(e.CreateCharacter, uh),
-		GetCharacterH:              NewGetCharacterHandler(e.GetCharacter, uh),
-		UpdateCharacterAttributesH: NewUpdateCharacterAttributesHandler(e.UpdateCharacterAttributes, uh),
-		DeleteCharacterH:           NewDeleteCharacterHandler(e.DeleteCharacter, uh),
+		CreateCharacterH: NewCreateCharacterHandler(e.CreateCharacter, uh),
+		GetCharacterH:    NewGetCharacterHandler(e.GetCharacter, uh),
+		UpdateCharacterH: NewUpdateCharacterHandler(e.UpdateCharacter, uh),
+		DeleteCharacterH: NewDeleteCharacterHandler(e.DeleteCharacter, uh),
 	}
 }
 
@@ -57,7 +57,7 @@ func (s *Server) CreateCharacter(ctx context.Context, message *character_service
 		var en goa.GoaErrorNamer
 		if errors.As(err, &en) {
 			switch en.GoaErrorName() {
-			case "invalid_args":
+			case "create_invalid_args":
 				return nil, goagrpc.NewStatusError(codes.InvalidArgument, err, goagrpc.NewErrorResponse(err))
 			}
 		}
@@ -85,9 +85,9 @@ func (s *Server) GetCharacter(ctx context.Context, message *character_servicepb.
 		var en goa.GoaErrorNamer
 		if errors.As(err, &en) {
 			switch en.GoaErrorName() {
-			case "invalid_args":
+			case "get_invalid_args":
 				return nil, goagrpc.NewStatusError(codes.InvalidArgument, err, goagrpc.NewErrorResponse(err))
-			case "no_match":
+			case "get_no_match":
 				return nil, goagrpc.NewStatusError(codes.NotFound, err, goagrpc.NewErrorResponse(err))
 			}
 		}
@@ -96,34 +96,34 @@ func (s *Server) GetCharacter(ctx context.Context, message *character_servicepb.
 	return resp.(*character_servicepb.GetCharacterResponse), nil
 }
 
-// NewUpdateCharacterAttributesHandler creates a gRPC handler which serves the
-// "CharacterService" service "updateCharacterAttributes" endpoint.
-func NewUpdateCharacterAttributesHandler(endpoint goa.Endpoint, h goagrpc.UnaryHandler) goagrpc.UnaryHandler {
+// NewUpdateCharacterHandler creates a gRPC handler which serves the
+// "CharacterService" service "updateCharacter" endpoint.
+func NewUpdateCharacterHandler(endpoint goa.Endpoint, h goagrpc.UnaryHandler) goagrpc.UnaryHandler {
 	if h == nil {
-		h = goagrpc.NewUnaryHandler(endpoint, DecodeUpdateCharacterAttributesRequest, EncodeUpdateCharacterAttributesResponse)
+		h = goagrpc.NewUnaryHandler(endpoint, DecodeUpdateCharacterRequest, EncodeUpdateCharacterResponse)
 	}
 	return h
 }
 
-// UpdateCharacterAttributes implements the "UpdateCharacterAttributes" method
-// in character_servicepb.CharacterServiceServer interface.
-func (s *Server) UpdateCharacterAttributes(ctx context.Context, message *character_servicepb.UpdateCharacterAttributesRequest) (*character_servicepb.UpdateCharacterAttributesResponse, error) {
-	ctx = context.WithValue(ctx, goa.MethodKey, "updateCharacterAttributes")
+// UpdateCharacter implements the "UpdateCharacter" method in
+// character_servicepb.CharacterServiceServer interface.
+func (s *Server) UpdateCharacter(ctx context.Context, message *character_servicepb.UpdateCharacterRequest) (*character_servicepb.UpdateCharacterResponse, error) {
+	ctx = context.WithValue(ctx, goa.MethodKey, "updateCharacter")
 	ctx = context.WithValue(ctx, goa.ServiceKey, "CharacterService")
-	resp, err := s.UpdateCharacterAttributesH.Handle(ctx, message)
+	resp, err := s.UpdateCharacterH.Handle(ctx, message)
 	if err != nil {
 		var en goa.GoaErrorNamer
 		if errors.As(err, &en) {
 			switch en.GoaErrorName() {
-			case "invalid_args":
+			case "update_invalid_args":
 				return nil, goagrpc.NewStatusError(codes.InvalidArgument, err, goagrpc.NewErrorResponse(err))
-			case "no_match":
+			case "update_no_match":
 				return nil, goagrpc.NewStatusError(codes.NotFound, err, goagrpc.NewErrorResponse(err))
 			}
 		}
 		return nil, goagrpc.EncodeError(err)
 	}
-	return resp.(*character_servicepb.UpdateCharacterAttributesResponse), nil
+	return resp.(*character_servicepb.UpdateCharacterResponse), nil
 }
 
 // NewDeleteCharacterHandler creates a gRPC handler which serves the
@@ -145,9 +145,9 @@ func (s *Server) DeleteCharacter(ctx context.Context, message *character_service
 		var en goa.GoaErrorNamer
 		if errors.As(err, &en) {
 			switch en.GoaErrorName() {
-			case "invalid_args":
+			case "delete_invalid_args":
 				return nil, goagrpc.NewStatusError(codes.InvalidArgument, err, goagrpc.NewErrorResponse(err))
-			case "no_match":
+			case "delete_no_match":
 				return nil, goagrpc.NewStatusError(codes.NotFound, err, goagrpc.NewErrorResponse(err))
 			}
 		}

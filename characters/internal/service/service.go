@@ -31,9 +31,13 @@ func (s *CharacterService) GetById(ctx context.Context, id string) (*model.Chara
 	return result, nil
 }
 
-//func (s *CharacterService) Update(book *model.Character) error {
-//	return s.repo.Update(book)
-//}
+func (s *CharacterService) Update(ctx context.Context, id string, updateFields *model.UpdateFields) (int, error) {
+	result, err := s.repo.Update(ctx, id, *updateFields)
+	if err != nil {
+		return 0, err
+	}
+	return result, nil
+}
 
 func (s *CharacterService) Delete(ctx context.Context, id string) (int, error) {
 	result, err := s.repo.Delete(ctx, id)

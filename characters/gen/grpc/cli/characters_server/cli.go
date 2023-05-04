@@ -21,7 +21,7 @@ import (
 //
 //	command (subcommand1|subcommand2|...)
 func UsageCommands() string {
-	return `character-service (create-character|get-character|update-character-attributes|delete-character)
+	return `character-service (create-character|get-character|update-character|delete-character)
 `
 }
 
@@ -46,8 +46,8 @@ func ParseEndpoint(cc *grpc.ClientConn, opts ...grpc.CallOption) (goa.Endpoint, 
 		characterServiceGetCharacterFlags       = flag.NewFlagSet("get-character", flag.ExitOnError)
 		characterServiceGetCharacterMessageFlag = characterServiceGetCharacterFlags.String("message", "", "")
 
-		characterServiceUpdateCharacterAttributesFlags       = flag.NewFlagSet("update-character-attributes", flag.ExitOnError)
-		characterServiceUpdateCharacterAttributesMessageFlag = characterServiceUpdateCharacterAttributesFlags.String("message", "", "")
+		characterServiceUpdateCharacterFlags       = flag.NewFlagSet("update-character", flag.ExitOnError)
+		characterServiceUpdateCharacterMessageFlag = characterServiceUpdateCharacterFlags.String("message", "", "")
 
 		characterServiceDeleteCharacterFlags       = flag.NewFlagSet("delete-character", flag.ExitOnError)
 		characterServiceDeleteCharacterMessageFlag = characterServiceDeleteCharacterFlags.String("message", "", "")
@@ -55,7 +55,7 @@ func ParseEndpoint(cc *grpc.ClientConn, opts ...grpc.CallOption) (goa.Endpoint, 
 	characterServiceFlags.Usage = characterServiceUsage
 	characterServiceCreateCharacterFlags.Usage = characterServiceCreateCharacterUsage
 	characterServiceGetCharacterFlags.Usage = characterServiceGetCharacterUsage
-	characterServiceUpdateCharacterAttributesFlags.Usage = characterServiceUpdateCharacterAttributesUsage
+	characterServiceUpdateCharacterFlags.Usage = characterServiceUpdateCharacterUsage
 	characterServiceDeleteCharacterFlags.Usage = characterServiceDeleteCharacterUsage
 
 	if err := flag.CommandLine.Parse(os.Args[1:]); err != nil {
@@ -98,8 +98,8 @@ func ParseEndpoint(cc *grpc.ClientConn, opts ...grpc.CallOption) (goa.Endpoint, 
 			case "get-character":
 				epf = characterServiceGetCharacterFlags
 
-			case "update-character-attributes":
-				epf = characterServiceUpdateCharacterAttributesFlags
+			case "update-character":
+				epf = characterServiceUpdateCharacterFlags
 
 			case "delete-character":
 				epf = characterServiceDeleteCharacterFlags
@@ -135,9 +135,9 @@ func ParseEndpoint(cc *grpc.ClientConn, opts ...grpc.CallOption) (goa.Endpoint, 
 			case "get-character":
 				endpoint = c.GetCharacter()
 				data, err = characterservicec.BuildGetCharacterPayload(*characterServiceGetCharacterMessageFlag)
-			case "update-character-attributes":
-				endpoint = c.UpdateCharacterAttributes()
-				data, err = characterservicec.BuildUpdateCharacterAttributesPayload(*characterServiceUpdateCharacterAttributesMessageFlag)
+			case "update-character":
+				endpoint = c.UpdateCharacter()
+				data, err = characterservicec.BuildUpdateCharacterPayload(*characterServiceUpdateCharacterMessageFlag)
 			case "delete-character":
 				endpoint = c.DeleteCharacter()
 				data, err = characterservicec.BuildDeleteCharacterPayload(*characterServiceDeleteCharacterMessageFlag)
@@ -161,7 +161,7 @@ Usage:
 COMMAND:
     create-character: CreateCharacter implements createCharacter.
     get-character: GetCharacter implements getCharacter.
-    update-character-attributes: UpdateCharacterAttributes implements updateCharacterAttributes.
+    update-character: UpdateCharacter implements updateCharacter.
     delete-character: DeleteCharacter implements deleteCharacter.
 
 Additional help:
@@ -195,14 +195,14 @@ Example:
 `, os.Args[0])
 }
 
-func characterServiceUpdateCharacterAttributesUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] character-service update-character-attributes -message JSON
+func characterServiceUpdateCharacterUsage() {
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] character-service update-character -message JSON
 
-UpdateCharacterAttributes implements updateCharacterAttributes.
+UpdateCharacter implements updateCharacter.
     -message JSON: 
 
 Example:
-    %[1]s character-service update-character-attributes --message '{
+    %[1]s character-service update-character --message '{
       "description": "Ducimus quia.",
       "experience": 3777308563020406149,
       "health": 6942598532338844437,
@@ -220,7 +220,7 @@ DeleteCharacter implements deleteCharacter.
 
 Example:
     %[1]s character-service delete-character --message '{
-      "id": "Omnis et tenetur molestias sapiente eum eos."
+      "id": "Ut et rerum."
    }'
 `, os.Args[0])
 }

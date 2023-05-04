@@ -15,20 +15,20 @@ import (
 
 // Endpoints wraps the "CharacterService" service endpoints.
 type Endpoints struct {
-	CreateCharacter           goa.Endpoint
-	GetCharacter              goa.Endpoint
-	UpdateCharacterAttributes goa.Endpoint
-	DeleteCharacter           goa.Endpoint
+	CreateCharacter goa.Endpoint
+	GetCharacter    goa.Endpoint
+	UpdateCharacter goa.Endpoint
+	DeleteCharacter goa.Endpoint
 }
 
 // NewEndpoints wraps the methods of the "CharacterService" service with
 // endpoints.
 func NewEndpoints(s Service) *Endpoints {
 	return &Endpoints{
-		CreateCharacter:           NewCreateCharacterEndpoint(s),
-		GetCharacter:              NewGetCharacterEndpoint(s),
-		UpdateCharacterAttributes: NewUpdateCharacterAttributesEndpoint(s),
-		DeleteCharacter:           NewDeleteCharacterEndpoint(s),
+		CreateCharacter: NewCreateCharacterEndpoint(s),
+		GetCharacter:    NewGetCharacterEndpoint(s),
+		UpdateCharacter: NewUpdateCharacterEndpoint(s),
+		DeleteCharacter: NewDeleteCharacterEndpoint(s),
 	}
 }
 
@@ -37,7 +37,7 @@ func NewEndpoints(s Service) *Endpoints {
 func (e *Endpoints) Use(m func(goa.Endpoint) goa.Endpoint) {
 	e.CreateCharacter = m(e.CreateCharacter)
 	e.GetCharacter = m(e.GetCharacter)
-	e.UpdateCharacterAttributes = m(e.UpdateCharacterAttributes)
+	e.UpdateCharacter = m(e.UpdateCharacter)
 	e.DeleteCharacter = m(e.DeleteCharacter)
 }
 
@@ -59,12 +59,12 @@ func NewGetCharacterEndpoint(s Service) goa.Endpoint {
 	}
 }
 
-// NewUpdateCharacterAttributesEndpoint returns an endpoint function that calls
-// the method "updateCharacterAttributes" of service "CharacterService".
-func NewUpdateCharacterAttributesEndpoint(s Service) goa.Endpoint {
+// NewUpdateCharacterEndpoint returns an endpoint function that calls the
+// method "updateCharacter" of service "CharacterService".
+func NewUpdateCharacterEndpoint(s Service) goa.Endpoint {
 	return func(ctx context.Context, req any) (any, error) {
-		p := req.(*UpdateCharacterAttributesPayload)
-		return s.UpdateCharacterAttributes(ctx, p)
+		p := req.(*UpdateCharacterPayload)
+		return s.UpdateCharacter(ctx, p)
 	}
 }
 

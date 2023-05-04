@@ -26,10 +26,10 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	CharacterService_CreateCharacter_FullMethodName           = "/character_service.CharacterService/CreateCharacter"
-	CharacterService_GetCharacter_FullMethodName              = "/character_service.CharacterService/GetCharacter"
-	CharacterService_UpdateCharacterAttributes_FullMethodName = "/character_service.CharacterService/UpdateCharacterAttributes"
-	CharacterService_DeleteCharacter_FullMethodName           = "/character_service.CharacterService/DeleteCharacter"
+	CharacterService_CreateCharacter_FullMethodName = "/character_service.CharacterService/CreateCharacter"
+	CharacterService_GetCharacter_FullMethodName    = "/character_service.CharacterService/GetCharacter"
+	CharacterService_UpdateCharacter_FullMethodName = "/character_service.CharacterService/UpdateCharacter"
+	CharacterService_DeleteCharacter_FullMethodName = "/character_service.CharacterService/DeleteCharacter"
 )
 
 // CharacterServiceClient is the client API for CharacterService service.
@@ -40,8 +40,8 @@ type CharacterServiceClient interface {
 	CreateCharacter(ctx context.Context, in *CreateCharacterRequest, opts ...grpc.CallOption) (*CreateCharacterResponse, error)
 	// GetCharacter implements getCharacter.
 	GetCharacter(ctx context.Context, in *GetCharacterRequest, opts ...grpc.CallOption) (*GetCharacterResponse, error)
-	// UpdateCharacterAttributes implements updateCharacterAttributes.
-	UpdateCharacterAttributes(ctx context.Context, in *UpdateCharacterAttributesRequest, opts ...grpc.CallOption) (*UpdateCharacterAttributesResponse, error)
+	// UpdateCharacter implements updateCharacter.
+	UpdateCharacter(ctx context.Context, in *UpdateCharacterRequest, opts ...grpc.CallOption) (*UpdateCharacterResponse, error)
 	// DeleteCharacter implements deleteCharacter.
 	DeleteCharacter(ctx context.Context, in *DeleteCharacterRequest, opts ...grpc.CallOption) (*DeleteCharacterResponse, error)
 }
@@ -72,9 +72,9 @@ func (c *characterServiceClient) GetCharacter(ctx context.Context, in *GetCharac
 	return out, nil
 }
 
-func (c *characterServiceClient) UpdateCharacterAttributes(ctx context.Context, in *UpdateCharacterAttributesRequest, opts ...grpc.CallOption) (*UpdateCharacterAttributesResponse, error) {
-	out := new(UpdateCharacterAttributesResponse)
-	err := c.cc.Invoke(ctx, CharacterService_UpdateCharacterAttributes_FullMethodName, in, out, opts...)
+func (c *characterServiceClient) UpdateCharacter(ctx context.Context, in *UpdateCharacterRequest, opts ...grpc.CallOption) (*UpdateCharacterResponse, error) {
+	out := new(UpdateCharacterResponse)
+	err := c.cc.Invoke(ctx, CharacterService_UpdateCharacter_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -98,8 +98,8 @@ type CharacterServiceServer interface {
 	CreateCharacter(context.Context, *CreateCharacterRequest) (*CreateCharacterResponse, error)
 	// GetCharacter implements getCharacter.
 	GetCharacter(context.Context, *GetCharacterRequest) (*GetCharacterResponse, error)
-	// UpdateCharacterAttributes implements updateCharacterAttributes.
-	UpdateCharacterAttributes(context.Context, *UpdateCharacterAttributesRequest) (*UpdateCharacterAttributesResponse, error)
+	// UpdateCharacter implements updateCharacter.
+	UpdateCharacter(context.Context, *UpdateCharacterRequest) (*UpdateCharacterResponse, error)
 	// DeleteCharacter implements deleteCharacter.
 	DeleteCharacter(context.Context, *DeleteCharacterRequest) (*DeleteCharacterResponse, error)
 	mustEmbedUnimplementedCharacterServiceServer()
@@ -115,8 +115,8 @@ func (UnimplementedCharacterServiceServer) CreateCharacter(context.Context, *Cre
 func (UnimplementedCharacterServiceServer) GetCharacter(context.Context, *GetCharacterRequest) (*GetCharacterResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCharacter not implemented")
 }
-func (UnimplementedCharacterServiceServer) UpdateCharacterAttributes(context.Context, *UpdateCharacterAttributesRequest) (*UpdateCharacterAttributesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateCharacterAttributes not implemented")
+func (UnimplementedCharacterServiceServer) UpdateCharacter(context.Context, *UpdateCharacterRequest) (*UpdateCharacterResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateCharacter not implemented")
 }
 func (UnimplementedCharacterServiceServer) DeleteCharacter(context.Context, *DeleteCharacterRequest) (*DeleteCharacterResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteCharacter not implemented")
@@ -170,20 +170,20 @@ func _CharacterService_GetCharacter_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CharacterService_UpdateCharacterAttributes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateCharacterAttributesRequest)
+func _CharacterService_UpdateCharacter_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateCharacterRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CharacterServiceServer).UpdateCharacterAttributes(ctx, in)
+		return srv.(CharacterServiceServer).UpdateCharacter(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: CharacterService_UpdateCharacterAttributes_FullMethodName,
+		FullMethod: CharacterService_UpdateCharacter_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CharacterServiceServer).UpdateCharacterAttributes(ctx, req.(*UpdateCharacterAttributesRequest))
+		return srv.(CharacterServiceServer).UpdateCharacter(ctx, req.(*UpdateCharacterRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -222,8 +222,8 @@ var CharacterService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _CharacterService_GetCharacter_Handler,
 		},
 		{
-			MethodName: "UpdateCharacterAttributes",
-			Handler:    _CharacterService_UpdateCharacterAttributes_Handler,
+			MethodName: "UpdateCharacter",
+			Handler:    _CharacterService_UpdateCharacter_Handler,
 		},
 		{
 			MethodName: "DeleteCharacter",

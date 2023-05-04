@@ -50,10 +50,10 @@ var _ = Service("CharacterService", func() {
 			Required("name")
 		})
 		Result(Character)
-		Error("invalid_args", String, "Invalid arguments. Required: name  Optional: description ")
+		Error("create_invalid_args", String, "Invalid arguments. Required: name  Optional: description ")
 		GRPC(func() {
 			Response(CodeOK)
-			Response("invalid_args", CodeInvalidArgument)
+			Response("create_invalid_args", CodeInvalidArgument)
 		})
 	})
 
@@ -65,16 +65,16 @@ var _ = Service("CharacterService", func() {
 			Required("id")
 		})
 		Result(Character)
-		Error("invalid_args", String, "Invalid arguments. Required: id ")
-		Error("no_match", String, "No character matched given criteria")
+		Error("get_invalid_args", String, "Invalid arguments. Required: id ")
+		Error("get_no_match", String, "No character matched given criteria")
 		GRPC(func() {
 			Response(CodeOK)
-			Response("invalid_args", CodeInvalidArgument)
-			Response("no_match", CodeNotFound)
+			Response("get_invalid_args", CodeInvalidArgument)
+			Response("get_no_match", CodeNotFound)
 		})
 	})
 
-	Method("updateCharacterAttributes", func() {
+	Method("updateCharacter", func() {
 		Payload(func() {
 			Field(1, "id", String, "UUId of the Character", func() {
 				Meta("rpc:tag", "1")
@@ -93,13 +93,13 @@ var _ = Service("CharacterService", func() {
 			})
 			Required("id")
 		})
-		Result(Character)
-		Error("invalid_args", String, "Invalid arguments. Required: id  Optional: name, description, health, experience ")
-		Error("no_match", String, "No character matched given criteria")
+		Result(Int)
+		Error("update_invalid_args", String, "Invalid arguments. Required: id  Optional: name, description, health, experience ")
+		Error("update_no_match", String, "No character matched given criteria")
 		GRPC(func() {
 			Response(CodeOK)
-			Response("invalid_args", CodeInvalidArgument)
-			Response("no_match", CodeNotFound)
+			Response("update_invalid_args", CodeInvalidArgument)
+			Response("update_no_match", CodeNotFound)
 		})
 	})
 
@@ -110,13 +110,13 @@ var _ = Service("CharacterService", func() {
 			})
 			Required("id")
 		})
-		Error("invalid_args", String, "Invalid arguments. Required: id ")
-		Error("no_match", String, "No character matched given criteria")
+		Error("delete_invalid_args", String, "Invalid arguments. Required: id ")
+		Error("delete_no_match", String, "No character matched given criteria")
 		Result(Int)
 		GRPC(func() {
 			Response(CodeOK)
-			Response("invalid_args", CodeInvalidArgument)
-			Response("no_match", CodeNotFound)
+			Response("delete_invalid_args", CodeInvalidArgument)
+			Response("delete_no_match", CodeNotFound)
 		})
 	})
 })

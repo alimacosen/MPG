@@ -15,27 +15,27 @@ import (
 
 // Client is the "CharacterService" service client.
 type Client struct {
-	CreateCharacterEndpoint           goa.Endpoint
-	GetCharacterEndpoint              goa.Endpoint
-	UpdateCharacterAttributesEndpoint goa.Endpoint
-	DeleteCharacterEndpoint           goa.Endpoint
+	CreateCharacterEndpoint goa.Endpoint
+	GetCharacterEndpoint    goa.Endpoint
+	UpdateCharacterEndpoint goa.Endpoint
+	DeleteCharacterEndpoint goa.Endpoint
 }
 
 // NewClient initializes a "CharacterService" service client given the
 // endpoints.
-func NewClient(createCharacter, getCharacter, updateCharacterAttributes, deleteCharacter goa.Endpoint) *Client {
+func NewClient(createCharacter, getCharacter, updateCharacter, deleteCharacter goa.Endpoint) *Client {
 	return &Client{
-		CreateCharacterEndpoint:           createCharacter,
-		GetCharacterEndpoint:              getCharacter,
-		UpdateCharacterAttributesEndpoint: updateCharacterAttributes,
-		DeleteCharacterEndpoint:           deleteCharacter,
+		CreateCharacterEndpoint: createCharacter,
+		GetCharacterEndpoint:    getCharacter,
+		UpdateCharacterEndpoint: updateCharacter,
+		DeleteCharacterEndpoint: deleteCharacter,
 	}
 }
 
 // CreateCharacter calls the "createCharacter" endpoint of the
 // "CharacterService" service.
 // CreateCharacter may return the following errors:
-//   - "invalid_args" (type InvalidArgs)
+//   - "create_invalid_args" (type CreateInvalidArgs)
 //   - error: internal error
 func (c *Client) CreateCharacter(ctx context.Context, p *CreateCharacterPayload) (res *Character, err error) {
 	var ires any
@@ -49,8 +49,8 @@ func (c *Client) CreateCharacter(ctx context.Context, p *CreateCharacterPayload)
 // GetCharacter calls the "getCharacter" endpoint of the "CharacterService"
 // service.
 // GetCharacter may return the following errors:
-//   - "invalid_args" (type InvalidArgs)
-//   - "no_match" (type NoMatch)
+//   - "get_invalid_args" (type GetInvalidArgs)
+//   - "get_no_match" (type GetNoMatch)
 //   - error: internal error
 func (c *Client) GetCharacter(ctx context.Context, p *GetCharacterPayload) (res *Character, err error) {
 	var ires any
@@ -61,26 +61,26 @@ func (c *Client) GetCharacter(ctx context.Context, p *GetCharacterPayload) (res 
 	return ires.(*Character), nil
 }
 
-// UpdateCharacterAttributes calls the "updateCharacterAttributes" endpoint of
-// the "CharacterService" service.
-// UpdateCharacterAttributes may return the following errors:
-//   - "invalid_args" (type InvalidArgs)
-//   - "no_match" (type NoMatch)
+// UpdateCharacter calls the "updateCharacter" endpoint of the
+// "CharacterService" service.
+// UpdateCharacter may return the following errors:
+//   - "update_invalid_args" (type UpdateInvalidArgs)
+//   - "update_no_match" (type UpdateNoMatch)
 //   - error: internal error
-func (c *Client) UpdateCharacterAttributes(ctx context.Context, p *UpdateCharacterAttributesPayload) (res *Character, err error) {
+func (c *Client) UpdateCharacter(ctx context.Context, p *UpdateCharacterPayload) (res int, err error) {
 	var ires any
-	ires, err = c.UpdateCharacterAttributesEndpoint(ctx, p)
+	ires, err = c.UpdateCharacterEndpoint(ctx, p)
 	if err != nil {
 		return
 	}
-	return ires.(*Character), nil
+	return ires.(int), nil
 }
 
 // DeleteCharacter calls the "deleteCharacter" endpoint of the
 // "CharacterService" service.
 // DeleteCharacter may return the following errors:
-//   - "invalid_args" (type InvalidArgs)
-//   - "no_match" (type NoMatch)
+//   - "delete_invalid_args" (type DeleteInvalidArgs)
+//   - "delete_no_match" (type DeleteNoMatch)
 //   - error: internal error
 func (c *Client) DeleteCharacter(ctx context.Context, p *DeleteCharacterPayload) (res int, err error) {
 	var ires any

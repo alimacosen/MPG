@@ -87,38 +87,38 @@ func DecodeGetCharacterResponse(ctx context.Context, v any, hdr, trlr metadata.M
 	return res, nil
 }
 
-// BuildUpdateCharacterAttributesFunc builds the remote method to invoke for
-// "CharacterService" service "updateCharacterAttributes" endpoint.
-func BuildUpdateCharacterAttributesFunc(grpccli character_servicepb.CharacterServiceClient, cliopts ...grpc.CallOption) goagrpc.RemoteFunc {
+// BuildUpdateCharacterFunc builds the remote method to invoke for
+// "CharacterService" service "updateCharacter" endpoint.
+func BuildUpdateCharacterFunc(grpccli character_servicepb.CharacterServiceClient, cliopts ...grpc.CallOption) goagrpc.RemoteFunc {
 	return func(ctx context.Context, reqpb any, opts ...grpc.CallOption) (any, error) {
 		for _, opt := range cliopts {
 			opts = append(opts, opt)
 		}
 		if reqpb != nil {
-			return grpccli.UpdateCharacterAttributes(ctx, reqpb.(*character_servicepb.UpdateCharacterAttributesRequest), opts...)
+			return grpccli.UpdateCharacter(ctx, reqpb.(*character_servicepb.UpdateCharacterRequest), opts...)
 		}
-		return grpccli.UpdateCharacterAttributes(ctx, &character_servicepb.UpdateCharacterAttributesRequest{}, opts...)
+		return grpccli.UpdateCharacter(ctx, &character_servicepb.UpdateCharacterRequest{}, opts...)
 	}
 }
 
-// EncodeUpdateCharacterAttributesRequest encodes requests sent to
-// CharacterService updateCharacterAttributes endpoint.
-func EncodeUpdateCharacterAttributesRequest(ctx context.Context, v any, md *metadata.MD) (any, error) {
-	payload, ok := v.(*characterservice.UpdateCharacterAttributesPayload)
+// EncodeUpdateCharacterRequest encodes requests sent to CharacterService
+// updateCharacter endpoint.
+func EncodeUpdateCharacterRequest(ctx context.Context, v any, md *metadata.MD) (any, error) {
+	payload, ok := v.(*characterservice.UpdateCharacterPayload)
 	if !ok {
-		return nil, goagrpc.ErrInvalidType("CharacterService", "updateCharacterAttributes", "*characterservice.UpdateCharacterAttributesPayload", v)
+		return nil, goagrpc.ErrInvalidType("CharacterService", "updateCharacter", "*characterservice.UpdateCharacterPayload", v)
 	}
-	return NewProtoUpdateCharacterAttributesRequest(payload), nil
+	return NewProtoUpdateCharacterRequest(payload), nil
 }
 
-// DecodeUpdateCharacterAttributesResponse decodes responses from the
-// CharacterService updateCharacterAttributes endpoint.
-func DecodeUpdateCharacterAttributesResponse(ctx context.Context, v any, hdr, trlr metadata.MD) (any, error) {
-	message, ok := v.(*character_servicepb.UpdateCharacterAttributesResponse)
+// DecodeUpdateCharacterResponse decodes responses from the CharacterService
+// updateCharacter endpoint.
+func DecodeUpdateCharacterResponse(ctx context.Context, v any, hdr, trlr metadata.MD) (any, error) {
+	message, ok := v.(*character_servicepb.UpdateCharacterResponse)
 	if !ok {
-		return nil, goagrpc.ErrInvalidType("CharacterService", "updateCharacterAttributes", "*character_servicepb.UpdateCharacterAttributesResponse", v)
+		return nil, goagrpc.ErrInvalidType("CharacterService", "updateCharacter", "*character_servicepb.UpdateCharacterResponse", v)
 	}
-	res := NewUpdateCharacterAttributesResult(message)
+	res := NewUpdateCharacterResult(message)
 	return res, nil
 }
 

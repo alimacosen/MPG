@@ -18,8 +18,8 @@ service CharacterService {
 	rpc CreateCharacter (CreateCharacterRequest) returns (CreateCharacterResponse);
 	// GetCharacter implements getCharacter.
 	rpc GetCharacter (GetCharacterRequest) returns (GetCharacterResponse);
-	// UpdateCharacterAttributes implements updateCharacterAttributes.
-	rpc UpdateCharacterAttributes (UpdateCharacterAttributesRequest) returns (UpdateCharacterAttributesResponse);
+	// UpdateCharacter implements updateCharacter.
+	rpc UpdateCharacter (UpdateCharacterRequest) returns (UpdateCharacterResponse);
 	// DeleteCharacter implements deleteCharacter.
 	rpc DeleteCharacter (DeleteCharacterRequest) returns (DeleteCharacterResponse);
 }
@@ -66,7 +66,7 @@ message GetCharacterResponse {
 	string inventory_id = 6;
 }
 
-message UpdateCharacterAttributesRequest {
+message UpdateCharacterRequest {
 	// UUId of the Character
 	string id = 1;
 	// Name of the Character
@@ -79,19 +79,8 @@ message UpdateCharacterAttributesRequest {
 	optional sint32 experience = 5;
 }
 
-message UpdateCharacterAttributesResponse {
-	// UUId of the character
-	string id = 1;
-	// Name of the character
-	string name = 2;
-	// Description of the character
-	string description = 3;
-	// The amount of health value of the character
-	sint32 health = 4;
-	// The amount of experience value of the character
-	sint32 experience = 5;
-	// UUId of the inventory record
-	string inventory_id = 6;
+message UpdateCharacterResponse {
+	sint32 field = 1;
 }
 
 message DeleteCharacterRequest {

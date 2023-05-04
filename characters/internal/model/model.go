@@ -4,6 +4,12 @@ import (
 	characterservice "characters/gen/character_service"
 )
 
+type UpdateFields struct {
+	Name        string `bson:"name,omitempty"`
+	Description string `bson:"description,omitempty"`
+	Health     int     `bson:"health,omitempty"`
+	Experience int     `bson:"experience,omitempty"`
+}
 
 type Character characterservice.Character
 

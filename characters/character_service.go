@@ -31,10 +31,9 @@ func (s *characterServicesrvc) GetCharacter(ctx context.Context, p *characterser
 	return
 }
 
-// UpdateCharacterAttributes implements updateCharacterAttributes.
-func (s *characterServicesrvc) UpdateCharacterAttributes(ctx context.Context, p *characterservice.UpdateCharacterAttributesPayload) (res *characterservice.Character, err error) {
-	res = &characterservice.Character{}
-	s.logger.Print("characterService.updateCharacterAttributes")
+// UpdateCharacter implements updateCharacter.
+func (s *characterServicesrvc) UpdateCharacter(ctx context.Context, p *characterservice.UpdateCharacterPayload) (res int, err error) {
+	res, err = s.characterHandler.UpdateCharacter(ctx, p)
 	return
 }
 

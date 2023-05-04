@@ -18,8 +18,8 @@ type Service interface {
 	CreateCharacter(context.Context, *CreateCharacterPayload) (res *Character, err error)
 	// GetCharacter implements getCharacter.
 	GetCharacter(context.Context, *GetCharacterPayload) (res *Character, err error)
-	// UpdateCharacterAttributes implements updateCharacterAttributes.
-	UpdateCharacterAttributes(context.Context, *UpdateCharacterAttributesPayload) (res *Character, err error)
+	// UpdateCharacter implements updateCharacter.
+	UpdateCharacter(context.Context, *UpdateCharacterPayload) (res int, err error)
 	// DeleteCharacter implements deleteCharacter.
 	DeleteCharacter(context.Context, *DeleteCharacterPayload) (res int, err error)
 }
@@ -32,7 +32,7 @@ const ServiceName = "CharacterService"
 // MethodNames lists the service method names as defined in the design. These
 // are the same values that are set in the endpoint request contexts under the
 // MethodKey key.
-var MethodNames = [4]string{"createCharacter", "getCharacter", "updateCharacterAttributes", "deleteCharacter"}
+var MethodNames = [4]string{"createCharacter", "getCharacter", "updateCharacter", "deleteCharacter"}
 
 // Character is the result type of the CharacterService service createCharacter
 // method.
@@ -74,9 +74,9 @@ type GetCharacterPayload struct {
 	ID string
 }
 
-// UpdateCharacterAttributesPayload is the payload type of the CharacterService
-// service updateCharacterAttributes method.
-type UpdateCharacterAttributesPayload struct {
+// UpdateCharacterPayload is the payload type of the CharacterService service
+// updateCharacter method.
+type UpdateCharacterPayload struct {
 	// UUId of the Character
 	ID string
 	// Name of the Character
@@ -90,41 +90,142 @@ type UpdateCharacterAttributesPayload struct {
 }
 
 // Invalid arguments. Required: name  Optional: description
-type InvalidArgs string
+type CreateInvalidArgs string
+
+// Invalid arguments. Required: id
+type DeleteInvalidArgs string
 
 // No character matched given criteria
-type NoMatch string
+type DeleteNoMatch string
+
+// Invalid arguments. Required: id
+type GetInvalidArgs string
+
+// No character matched given criteria
+type GetNoMatch string
+
+// Invalid arguments. Required: id  Optional: name, description, health,
+// experience
+type UpdateInvalidArgs string
+
+// No character matched given criteria
+type UpdateNoMatch string
 
 // Error returns an error description.
-func (e InvalidArgs) Error() string {
+func (e CreateInvalidArgs) Error() string {
 	return "Invalid arguments. Required: name  Optional: description "
 }
 
-// ErrorName returns "invalid_args".
+// ErrorName returns "create_invalid_args".
 //
 // Deprecated: Use GoaErrorName - https://github.com/goadesign/goa/issues/3105
-func (e InvalidArgs) ErrorName() string {
+func (e CreateInvalidArgs) ErrorName() string {
 	return e.GoaErrorName()
 }
 
-// GoaErrorName returns "invalid_args".
-func (e InvalidArgs) GoaErrorName() string {
-	return "invalid_args"
+// GoaErrorName returns "create_invalid_args".
+func (e CreateInvalidArgs) GoaErrorName() string {
+	return "create_invalid_args"
 }
 
 // Error returns an error description.
-func (e NoMatch) Error() string {
-	return "No character matched given criteria"
+func (e DeleteInvalidArgs) Error() string {
+	return "Invalid arguments. Required: id "
 }
 
-// ErrorName returns "no_match".
+// ErrorName returns "delete_invalid_args".
 //
 // Deprecated: Use GoaErrorName - https://github.com/goadesign/goa/issues/3105
-func (e NoMatch) ErrorName() string {
+func (e DeleteInvalidArgs) ErrorName() string {
 	return e.GoaErrorName()
 }
 
-// GoaErrorName returns "no_match".
-func (e NoMatch) GoaErrorName() string {
-	return "no_match"
+// GoaErrorName returns "delete_invalid_args".
+func (e DeleteInvalidArgs) GoaErrorName() string {
+	return "delete_invalid_args"
+}
+
+// Error returns an error description.
+func (e DeleteNoMatch) Error() string {
+	return "No character matched given criteria"
+}
+
+// ErrorName returns "delete_no_match".
+//
+// Deprecated: Use GoaErrorName - https://github.com/goadesign/goa/issues/3105
+func (e DeleteNoMatch) ErrorName() string {
+	return e.GoaErrorName()
+}
+
+// GoaErrorName returns "delete_no_match".
+func (e DeleteNoMatch) GoaErrorName() string {
+	return "delete_no_match"
+}
+
+// Error returns an error description.
+func (e GetInvalidArgs) Error() string {
+	return "Invalid arguments. Required: id "
+}
+
+// ErrorName returns "get_invalid_args".
+//
+// Deprecated: Use GoaErrorName - https://github.com/goadesign/goa/issues/3105
+func (e GetInvalidArgs) ErrorName() string {
+	return e.GoaErrorName()
+}
+
+// GoaErrorName returns "get_invalid_args".
+func (e GetInvalidArgs) GoaErrorName() string {
+	return "get_invalid_args"
+}
+
+// Error returns an error description.
+func (e GetNoMatch) Error() string {
+	return "No character matched given criteria"
+}
+
+// ErrorName returns "get_no_match".
+//
+// Deprecated: Use GoaErrorName - https://github.com/goadesign/goa/issues/3105
+func (e GetNoMatch) ErrorName() string {
+	return e.GoaErrorName()
+}
+
+// GoaErrorName returns "get_no_match".
+func (e GetNoMatch) GoaErrorName() string {
+	return "get_no_match"
+}
+
+// Error returns an error description.
+func (e UpdateInvalidArgs) Error() string {
+	return "Invalid arguments. Required: id  Optional: name, description, health, experience "
+}
+
+// ErrorName returns "update_invalid_args".
+//
+// Deprecated: Use GoaErrorName - https://github.com/goadesign/goa/issues/3105
+func (e UpdateInvalidArgs) ErrorName() string {
+	return e.GoaErrorName()
+}
+
+// GoaErrorName returns "update_invalid_args".
+func (e UpdateInvalidArgs) GoaErrorName() string {
+	return "update_invalid_args"
+}
+
+// Error returns an error description.
+func (e UpdateNoMatch) Error() string {
+	return "No character matched given criteria"
+}
+
+// ErrorName returns "update_no_match".
+//
+// Deprecated: Use GoaErrorName - https://github.com/goadesign/goa/issues/3105
+func (e UpdateNoMatch) ErrorName() string {
+	return e.GoaErrorName()
+}
+
+// GoaErrorName returns "update_no_match".
+func (e UpdateNoMatch) GoaErrorName() string {
+	return "update_no_match"
 }
