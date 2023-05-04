@@ -1,0 +1,115 @@
+// Code generated with goa v3.11.3, DO NOT EDIT.
+//
+// CharacterService protocol buffer definition
+//
+// Command:
+// $ goa gen characters/design
+
+syntax = "proto3";
+
+package character_service;
+
+option go_package = "/character_servicepb";
+
+// The character service performs CRUD operations for characters and their
+// attributes.
+service CharacterService {
+	// CreateCharacter implements createCharacter.
+	rpc CreateCharacter (CreateCharacterRequest) returns (CreateCharacterResponse);
+	// GetCharacter implements getCharacter.
+	rpc GetCharacter (GetCharacterRequest) returns (GetCharacterResponse);
+	// UpdateCharacterAttributes implements updateCharacterAttributes.
+	rpc UpdateCharacterAttributes (UpdateCharacterAttributesRequest) returns (UpdateCharacterAttributesResponse);
+	// DeleteCharacter implements deleteCharacter.
+	rpc DeleteCharacter (DeleteCharacterRequest) returns (DeleteCharacterResponse);
+}
+
+message CreateCharacterRequest {
+	// Name of the Character
+	string name = 1;
+	// Description of the Character
+	optional string description = 2;
+}
+
+message CreateCharacterResponse {
+	// UUId of the character
+	string id = 1;
+	// Name of the character
+	string name = 2;
+	// Description of the character
+	string description = 3;
+	// The amount of health value of the character
+	sint32 health = 4;
+	// The amount of experience value of the character
+	sint32 experience = 5;
+	// UUId of the inventory record
+	string inventory_id = 6;
+}
+
+message GetCharacterRequest {
+	// UUId of the Character
+	string id = 1;
+}
+
+message GetCharacterResponse {
+	// UUId of the character
+	string id = 1;
+	// Name of the character
+	string name = 2;
+	// Description of the character
+	string description = 3;
+	// The amount of health value of the character
+	sint32 health = 4;
+	// The amount of experience value of the character
+	sint32 experience = 5;
+	// UUId of the inventory record
+	string inventory_id = 6;
+}
+
+message UpdateCharacterAttributesRequest {
+	// UUId of the Character
+	string id = 1;
+	// Name of the Character
+	optional string name = 2;
+	// Description of the Character
+	optional string description = 3;
+	// The amount of health value of the Character
+	optional sint32 health = 4;
+	// The amount of experience value of the Character
+	optional sint32 experience = 5;
+}
+
+message UpdateCharacterAttributesResponse {
+	// UUId of the character
+	string id = 1;
+	// Name of the character
+	string name = 2;
+	// Description of the character
+	string description = 3;
+	// The amount of health value of the character
+	sint32 health = 4;
+	// The amount of experience value of the character
+	sint32 experience = 5;
+	// UUId of the inventory record
+	string inventory_id = 6;
+}
+
+message DeleteCharacterRequest {
+	// UUId of the Character
+	string id = 1;
+}
+
+message DeleteCharacterResponse {
+	// UUId of the character
+	string id = 1;
+	// Name of the character
+	string name = 2;
+	// Description of the character
+	string description = 3;
+	// The amount of health value of the character
+	sint32 health = 4;
+	// The amount of experience value of the character
+	sint32 experience = 5;
+	// UUId of the inventory record
+	string inventory_id = 6;
+}
