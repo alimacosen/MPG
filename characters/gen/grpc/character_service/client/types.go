@@ -105,14 +105,7 @@ func NewProtoDeleteCharacterRequest(payload *characterservice.DeleteCharacterPay
 
 // NewDeleteCharacterResult builds the result type of the "deleteCharacter"
 // endpoint of the "CharacterService" service from the gRPC response type.
-func NewDeleteCharacterResult(message *character_servicepb.DeleteCharacterResponse) *characterservice.Character {
-	result := &characterservice.Character{
-		ID:          message.Id,
-		Name:        message.Name,
-		Description: message.Description,
-		Health:      int(message.Health),
-		Experience:  int(message.Experience),
-		InventoryID: message.InventoryId,
-	}
+func NewDeleteCharacterResult(message *character_servicepb.DeleteCharacterResponse) int {
+	result := int(message.Field)
 	return result
 }

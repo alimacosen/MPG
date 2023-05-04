@@ -109,9 +109,9 @@ func DecodeUpdateCharacterAttributesRequest(ctx context.Context, v any, md metad
 // EncodeDeleteCharacterResponse encodes responses from the "CharacterService"
 // service "deleteCharacter" endpoint.
 func EncodeDeleteCharacterResponse(ctx context.Context, v any, hdr, trlr *metadata.MD) (any, error) {
-	result, ok := v.(*characterservice.Character)
+	result, ok := v.(int)
 	if !ok {
-		return nil, goagrpc.ErrInvalidType("CharacterService", "deleteCharacter", "*characterservice.Character", v)
+		return nil, goagrpc.ErrInvalidType("CharacterService", "deleteCharacter", "int", v)
 	}
 	resp := NewProtoDeleteCharacterResponse(result)
 	return resp, nil

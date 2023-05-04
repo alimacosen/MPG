@@ -112,7 +112,7 @@ var _ = Service("CharacterService", func() {
 		})
 		Error("invalid_args", String, "Invalid arguments. Required: id ")
 		Error("no_match", String, "No character matched given criteria")
-		Result(Character)
+		Result(Int)
 		GRPC(func() {
 			Response(CodeOK)
 			Response("invalid_args", CodeInvalidArgument)

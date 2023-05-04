@@ -28,8 +28,8 @@ func UsageCommands() string {
 // UsageExamples produces an example of a valid invocation of the CLI tool.
 func UsageExamples() string {
 	return os.Args[0] + ` character-service create-character --message '{
-      "description": "Quidem ea autem error ullam ducimus.",
-      "name": "Ut aut suscipit consequatur voluptas ut porro."
+      "description": "Ea autem error ullam ducimus corporis perspiciatis.",
+      "name": "Aut suscipit consequatur voluptas ut porro expedita."
    }'` + "\n" +
 		""
 }
@@ -176,8 +176,8 @@ CreateCharacter implements createCharacter.
 
 Example:
     %[1]s character-service create-character --message '{
-      "description": "Quidem ea autem error ullam ducimus.",
-      "name": "Ut aut suscipit consequatur voluptas ut porro."
+      "description": "Ea autem error ullam ducimus corporis perspiciatis.",
+      "name": "Aut suscipit consequatur voluptas ut porro expedita."
    }'
 `, os.Args[0])
 }
@@ -190,7 +190,7 @@ GetCharacter implements getCharacter.
 
 Example:
     %[1]s character-service get-character --message '{
-      "id": "Inventore aliquid libero dignissimos dolorem."
+      "id": "Aliquid libero dignissimos dolorem nemo molestias voluptas."
    }'
 `, os.Args[0])
 }
@@ -203,11 +203,11 @@ UpdateCharacterAttributes implements updateCharacterAttributes.
 
 Example:
     %[1]s character-service update-character-attributes --message '{
-      "description": "Eos commodi.",
-      "experience": 7265195379936315137,
-      "health": 6332591012168433997,
-      "id": "Fuga non perspiciatis maiores ut laborum.",
-      "name": "Odio nostrum."
+      "description": "Ducimus quia.",
+      "experience": 3777308563020406149,
+      "health": 6942598532338844437,
+      "id": "Non perspiciatis maiores ut laborum fugiat odio.",
+      "name": "Et eos."
    }'
 `, os.Args[0])
 }

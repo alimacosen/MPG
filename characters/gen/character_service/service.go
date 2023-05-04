@@ -21,7 +21,7 @@ type Service interface {
 	// UpdateCharacterAttributes implements updateCharacterAttributes.
 	UpdateCharacterAttributes(context.Context, *UpdateCharacterAttributesPayload) (res *Character, err error)
 	// DeleteCharacter implements deleteCharacter.
-	DeleteCharacter(context.Context, *DeleteCharacterPayload) (res *Character, err error)
+	DeleteCharacter(context.Context, *DeleteCharacterPayload) (res int, err error)
 }
 
 // ServiceName is the name of the service as defined in the design. This is the

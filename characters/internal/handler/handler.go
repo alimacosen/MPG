@@ -62,6 +62,22 @@ func (c *CharacterHandler) GetCharacter (ctx context.Context, p *characterservic
 	return
 }
 
+func (c *CharacterHandler) DeleteCharacter (ctx context.Context, p *characterservice.DeleteCharacterPayload) (res int, err error) {
+	id := p.ID
+	if len(id) == 0 {
+		return 0, characterservice.InvalidArgs("Id can not be an empty string")
+	}
+
+	svc := c.instances.GetSvc()
+
+	count, err := svc.Delete(ctx, id)
+	if err != nil {
+		return 0, err
+	}
+
+	return count, nil
+}
+
 func convert(c *model.Character) *characterservice.Character {
 	return &characterservice.Character{
 		ID: c.ID,

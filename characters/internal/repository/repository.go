@@ -16,7 +16,7 @@ type CharacterRepository interface {
 	FindByID(ctx context.Context, id string) (*model.Character, error)
 	Create(ctx context.Context, character *model.Character) (*model.Character, error)
 	Update(ctx context.Context, character *model.Character) (*model.Character, error)
-	Delete(ctx context.Context, id string) (*model.Character, error)
+	Delete(ctx context.Context, id string) (int, error)
 }
 
 type mongoCharacterRepository struct {
@@ -67,6 +67,21 @@ func (r *mongoCharacterRepository) Update(ctx context.Context, user *model.Chara
 	return &model.Character{}, nil
 }
 
-func (r *mongoCharacterRepository) Delete(ctx context.Context, id string) (*model.Character, error) {
-	return &model.Character{}, nil
+func (r *mongoCharacterRepository) Delete(ctx context.Context, id string) (int, error) {
+	collection := r.db.Collection("charactersCollection")
+	objectID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		r.logger.Println(err)
+	}
+	filter := bson.M{"_id": objectID}
+	res, err := collection.DeleteOne(ctx, filter)
+	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			r.logger.Println("No document found with the specified filter.")
+			return 0, characterservice.NoMatch("Character not found")
+		}
+		return 0, err
+	}
+
+	return int(res.DeletedCount), nil
 }

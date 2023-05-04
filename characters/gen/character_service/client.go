@@ -82,11 +82,11 @@ func (c *Client) UpdateCharacterAttributes(ctx context.Context, p *UpdateCharact
 //   - "invalid_args" (type InvalidArgs)
 //   - "no_match" (type NoMatch)
 //   - error: internal error
-func (c *Client) DeleteCharacter(ctx context.Context, p *DeleteCharacterPayload) (res *Character, err error) {
+func (c *Client) DeleteCharacter(ctx context.Context, p *DeleteCharacterPayload) (res int, err error) {
 	var ires any
 	ires, err = c.DeleteCharacterEndpoint(ctx, p)
 	if err != nil {
 		return
 	}
-	return ires.(*Character), nil
+	return ires.(int), nil
 }

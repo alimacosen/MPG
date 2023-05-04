@@ -39,8 +39,7 @@ func (s *characterServicesrvc) UpdateCharacterAttributes(ctx context.Context, p 
 }
 
 // DeleteCharacter implements deleteCharacter.
-func (s *characterServicesrvc) DeleteCharacter(ctx context.Context, p *characterservice.DeleteCharacterPayload) (res *characterservice.Character, err error) {
-	res = &characterservice.Character{}
-	s.logger.Print("characterService.deleteCharacter")
+func (s *characterServicesrvc) DeleteCharacter(ctx context.Context, p *characterservice.DeleteCharacterPayload) (res int, err error) {
+	res, err = s.characterHandler.DeleteCharacter(ctx, p)
 	return
 }

@@ -23,7 +23,7 @@ func BuildCreateCharacterPayload(characterServiceCreateCharacterMessage string) 
 		if characterServiceCreateCharacterMessage != "" {
 			err = json.Unmarshal([]byte(characterServiceCreateCharacterMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"description\": \"Quidem ea autem error ullam ducimus.\",\n      \"name\": \"Ut aut suscipit consequatur voluptas ut porro.\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"description\": \"Ea autem error ullam ducimus corporis perspiciatis.\",\n      \"name\": \"Aut suscipit consequatur voluptas ut porro expedita.\"\n   }'")
 			}
 		}
 	}
@@ -44,7 +44,7 @@ func BuildGetCharacterPayload(characterServiceGetCharacterMessage string) (*char
 		if characterServiceGetCharacterMessage != "" {
 			err = json.Unmarshal([]byte(characterServiceGetCharacterMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": \"Inventore aliquid libero dignissimos dolorem.\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": \"Aliquid libero dignissimos dolorem nemo molestias voluptas.\"\n   }'")
 			}
 		}
 	}
@@ -64,7 +64,7 @@ func BuildUpdateCharacterAttributesPayload(characterServiceUpdateCharacterAttrib
 		if characterServiceUpdateCharacterAttributesMessage != "" {
 			err = json.Unmarshal([]byte(characterServiceUpdateCharacterAttributesMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"description\": \"Eos commodi.\",\n      \"experience\": 7265195379936315137,\n      \"health\": 6332591012168433997,\n      \"id\": \"Fuga non perspiciatis maiores ut laborum.\",\n      \"name\": \"Odio nostrum.\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"description\": \"Ducimus quia.\",\n      \"experience\": 3777308563020406149,\n      \"health\": 6942598532338844437,\n      \"id\": \"Non perspiciatis maiores ut laborum fugiat odio.\",\n      \"name\": \"Et eos.\"\n   }'")
 			}
 		}
 	}
