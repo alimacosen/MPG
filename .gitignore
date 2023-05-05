@@ -1,4 +1,6 @@
 .DS_Store
 .idea/*
-characters_server
-characters_server-cli
+characters/characters_server
+characters/characters_server-cli
+inventories/inventory_server
+inventories/inventory_server-cli

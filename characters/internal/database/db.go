@@ -23,6 +23,6 @@ func NewConnection(logger *log.Logger, connectionString string) (*mongo.Client, 
 	if err != nil {
 		return nil, err
 	}
-	logger.Print("DB connected")
+	logger.Print("Character DB connected")
 	return client, nil
 }
