@@ -33,3 +33,16 @@ go build ./cmd/inventory_server  && go build ./cmd/inventory_server-cli
 
 
 8080
+
+go build ./cmd/item_server  && go build ./cmd/item_server-cli
+
+./item_server
+
+./item_server-cli  --url="grpc://localhost:8080" item-service create-item --message '{"name": "sword", "description": "very sharp", "healing": 10, "damage": 50, "protection": 35}'
+./item_server-cli  --url="grpc://localhost:8080" item-service create-item --message '{"name": "shield", "description": "very hard", "healing": 15, "damage": 10, "protection": 65}'
+
+./item_server-cli  --url="grpc://localhost:8080" item-service get-item --message '{"id": "6454e1881416cb009192ae31"}'
+
+./item_server-cli  --url="grpc://localhost:8080" item-service update-item --message '{"id": "6454e1881416cb009192ae31", "name": "111shield", "description": "111very hard", "healing": 17, "damage": 17, "protection": 67}'
+
+./item_server-cli  --url="grpc://localhost:8080" item-service delete-item --message '{"id": "6454e1af1416cb009192ae32"}'

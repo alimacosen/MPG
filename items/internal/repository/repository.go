@@ -33,25 +33,25 @@ func NewItemRepository(logger *log.Logger, client *mongo.Client, dbName string) 
 	}
 }
 
-func (r *mongoItemRepository) Create(ctx context.Context, inventory *model.Item) (*model.Item, error) {
+func (r *mongoItemRepository) Create(ctx context.Context, item *model.Item) (*model.Item, error) {
 	collection := r.db.Collection("itemCollection")
-	res, err := collection.InsertOne(ctx, inventory)
+	res, err := collection.InsertOne(ctx, item)
 	if err != nil {
 		return nil, err
 	}
-	inventory.ID = res.InsertedID.(primitive.ObjectID).Hex()
-	return inventory, err
+	item.ID = res.InsertedID.(primitive.ObjectID).Hex()
+	return item, err
 }
 
 func (r *mongoItemRepository) FindByID(ctx context.Context, id string) (*model.Item, error) {
 	collection := r.db.Collection("itemCollection")
-	var inventory model.Item
+	var item model.Item
 	objectID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		r.logger.Println(err)
 	}
 	filter := bson.M{"_id": objectID}
-	err = collection.FindOne(ctx, filter).Decode(&inventory)
+	err = collection.FindOne(ctx, filter).Decode(&item)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
 			r.logger.Println("No document found with the specified filter.")
@@ -59,8 +59,8 @@ func (r *mongoItemRepository) FindByID(ctx context.Context, id string) (*model.I
 		}
 		return nil, err
 	}
-
-	return &inventory, nil
+	item.ID = id
+	return &item, nil
 }
 
 func (r *mongoItemRepository) Update(ctx context.Context, id string, updateFields model.UpdateFields) (int, error) {

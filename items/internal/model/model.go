@@ -6,8 +6,8 @@ import (
 
 type UpdateFields struct {
 	Name        string `bson:"name,omitempty"`
-	Description string `bson:"name,omitempty"`
-	Damage      int    `bson:"description,omitempty"`
+	Description string `bson:"description,omitempty"`
+	Damage      int    `bson:"damage,omitempty"`
 	Healing     int    `bson:"healing,omitempty"`
 	Protection  int    `bson:"protection,omitempty"`
 }

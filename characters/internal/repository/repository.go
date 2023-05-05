@@ -59,7 +59,7 @@ func (r *mongoCharacterRepository) FindByID(ctx context.Context, id string) (*mo
 		}
 		return nil, err
 	}
-
+	character.ID = id
 	return &character, nil
 }
 

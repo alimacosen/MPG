@@ -25,13 +25,12 @@ func (i *ItemHandler) CreateItem(ctx context.Context, p *itemservice.CreateItemP
 
 	svc := i.instances.GetSvc()
 
-	ipr, err := svc.Create(ctx, itemPreliminary)
+	itemRes, err := svc.Create(ctx, itemPreliminary)
 	if err != nil {
 		return nil, err
 	}
 
-	res = convert(ipr)
-	i.logger.Println("res converted: ", res)
+	res = convert(itemRes)
 	return
 }
 

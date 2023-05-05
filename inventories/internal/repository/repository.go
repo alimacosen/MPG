@@ -59,7 +59,7 @@ func (r *mongoInventoryRepository) FindByID(ctx context.Context, id string) (*mo
 		}
 		return nil, err
 	}
-
+	inventory.ID = id
 	return &inventory, nil
 }
 
