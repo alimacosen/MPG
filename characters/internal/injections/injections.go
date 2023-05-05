@@ -3,13 +3,13 @@ package injections
 import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"log"
+	"mpg/characters/clients/inventories/grpc"
 	"mpg/characters/internal/config"
 	"mpg/characters/internal/database"
 	_ "mpg/characters/internal/database"
 	"mpg/characters/internal/repository"
 	"mpg/characters/internal/service"
 	inventoryservicec "mpg/inventories/gen/grpc/inventory_service/client"
-	"mpg/characters/clients/inventories/grpc"
 	"net/url"
 )
 

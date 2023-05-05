@@ -46,3 +46,13 @@ go build ./cmd/item_server  && go build ./cmd/item_server-cli
 ./item_server-cli  --url="grpc://localhost:8080" item-service update-item --message '{"id": "6454e1881416cb009192ae31", "name": "111shield", "description": "111very hard", "healing": 17, "damage": 17, "protection": 67}'
 
 ./item_server-cli  --url="grpc://localhost:8080" item-service delete-item --message '{"id": "6454e1af1416cb009192ae32"}'
+
+
+
+./entry_server-cli --url="http://localhost:8050" entry-character-service creat-character --body '{"description": "rrrr", "name": "EEE"}'
+
+./entry_server-cli --url="http://localhost:8050" entry-character-service get-character --id "6454b38fe5ffb9fa6b99f893"
+
+./entry_server-cli --url="http://localhost:8050" entry-character-service update-character --id "64551f8c34b1c02c61a00c12" --body '{"id": "64551f8c34b1c02c61a00c12", "description": "trtr", "name": "E1E1E1", "health": 42}'
+
+./entry_server-cli --url="http://localhost:8050" entry-character-service delete-character --id "64552546fad4971b156e2534"
