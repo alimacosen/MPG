@@ -8,6 +8,9 @@ import (
 	_ "mpg/characters/internal/database"
 	"mpg/characters/internal/repository"
 	"mpg/characters/internal/service"
+	inventoryservicec "mpg/inventories/gen/grpc/inventory_service/client"
+	"mpg/characters/clients/inventories/grpc"
+	"net/url"
 )
 
 type Instances struct {
@@ -15,15 +18,30 @@ type Instances struct {
 	mongoClient *mongo.Client
 	repo repository.CharacterRepository
 	svc *service.CharacterService
+	inventoryClient *inventoryservicec.Client
 }
 
-func NewInstances(logger *log.Logger) *Instances {
-	cfg := config.NewDBConfig()
-	mongoClient, _ := database.NewConnection(logger, cfg.DBConnectionString)
+func NewInstances(logger *log.Logger) (*Instances, error) {
+	dbCfg := config.NewDBConfig()
+	mongoClient, _ := database.NewConnection(logger, dbCfg.DBConnectionString)
 	repo := repository.NewCharacterRepository(logger, mongoClient, "CharacterDB")
 	svc := service.NewCharacterService(repo)
 
-	return &Instances{cfg: cfg, mongoClient: mongoClient, repo: repo, svc: svc}
+	inventorySvcCfg := config.NewInventoryServiceConfig()
+
+	parsedURL, err := url.Parse(inventorySvcCfg.Url)
+	if err != nil {
+		logger.Println("parsedURL error: ", err)
+		return &Instances{cfg: dbCfg, mongoClient: mongoClient, repo: repo, svc: svc, inventoryClient: nil}, err
+	}
+
+	inventoryClient, err := grpc.NewClient(parsedURL)
+	if err != nil {
+		logger.Println("NewClient error: ", err)
+		return &Instances{cfg: dbCfg, mongoClient: mongoClient, repo: repo, svc: svc, inventoryClient: nil}, err
+	}
+
+	return &Instances{cfg: dbCfg, mongoClient: mongoClient, repo: repo, svc: svc, inventoryClient: inventoryClient}, nil
 }
 
 func (i *Instances) GetSvc() *service.CharacterService {
@@ -32,5 +50,9 @@ func (i *Instances) GetSvc() *service.CharacterService {
 
 func (i *Instances) GetRepo() repository.CharacterRepository {
 	return i.repo
+}
+
+func (i *Instances) GetInventoryClient() *inventoryservicec.Client {
+	return i.inventoryClient
 }
 

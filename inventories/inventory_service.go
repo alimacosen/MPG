@@ -21,28 +21,24 @@ func NewInventoryService(logger *log.Logger) inventoryservice.Service {
 
 // CreateInventory implements createInventory.
 func (s *inventoryServicesrvc) CreateInventory(ctx context.Context, p *inventoryservice.CreateInventoryPayload) (res *inventoryservice.Inventory, err error) {
-	s.logger.Println("payload: ", p)
 	res, err = s.InventoryHandler.CreateInventory(ctx, p)
 	return
 }
 
 // GetInventory implements getInventory.
 func (s *inventoryServicesrvc) GetInventory(ctx context.Context, p *inventoryservice.GetInventoryPayload) (res *inventoryservice.Inventory, err error) {
-	s.logger.Println("payload: ", p)
 	res, err = s.InventoryHandler.GetInventory(ctx, p)
 	return
 }
 
 // UpdateInventory implements updateInventory.
 func (s *inventoryServicesrvc) UpdateInventory(ctx context.Context, p *inventoryservice.UpdateInventoryPayload) (res int, err error) {
-	s.logger.Println("payload: ", p)
 	res, err = s.InventoryHandler.UpdateInventory(ctx, p)
 	return
 }
 
 // DeleteInventory implements deleteInventory.
 func (s *inventoryServicesrvc) DeleteInventory(ctx context.Context, p *inventoryservice.DeleteInventoryPayload) (res int, err error) {
-	s.logger.Println("payload: ", p)
 	res, err = s.InventoryHandler.DeleteInventory(ctx, p)
 	return
 }

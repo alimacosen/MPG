@@ -4,6 +4,10 @@ import (
 	characterservice "mpg/characters/gen/character_service"
 )
 
+type InventoryFields struct {
+	InventoryId string `bson:"inventoryid,omitempty"`
+}
+
 type UpdateFields struct {
 	Name        string `bson:"name,omitempty"`
 	Description string `bson:"description,omitempty"`

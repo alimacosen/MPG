@@ -6,6 +6,7 @@ import (
 	characterservice "mpg/characters/gen/character_service"
 	"mpg/characters/internal/injections"
 	"mpg/characters/internal/model"
+	inventoryservice "mpg/inventories/gen/inventory_service"
 )
 
 type CharacterHandler struct {
@@ -13,8 +14,15 @@ type CharacterHandler struct {
 	instances *injections.Instances
 }
 
+type CreateInventoryPayload struct {
+	UserId string `json:"user_id,omitempty"`
+}
+
+type CreateInventoryResult inventoryservice.Inventory
+
 func NewCharacterHandler(logger *log.Logger) *CharacterHandler {
-	return &CharacterHandler{logger: logger, instances: injections.NewInstances(logger)}
+	instances, _ := injections.NewInstances(logger)
+	return &CharacterHandler{logger: logger, instances: instances}
 }
 
 func (c *CharacterHandler) CreateCharacter(ctx context.Context, p *characterservice.CreateCharacterPayload) (res *characterservice.Character, err error) {
@@ -26,7 +34,6 @@ func (c *CharacterHandler) CreateCharacter(ctx context.Context, p *characterserv
 
 	svc := c.instances.GetSvc()
 
-	// TODO get inventory id
 	characterPreliminary := &model.Character{
 		ID:          "",
 		Name:        name,
@@ -36,8 +43,12 @@ func (c *CharacterHandler) CreateCharacter(ctx context.Context, p *characterserv
 		InventoryID: "",
 	}
 
-	//character.InventoryID = GetInventory().Id
 	cp, err := svc.Create(ctx, characterPreliminary)
+	if err != nil {
+		return nil, err
+	}
+
+	cp, err = c.createInventory(ctx, cp)
 	if err != nil {
 		return nil, err
 	}
@@ -45,6 +56,32 @@ func (c *CharacterHandler) CreateCharacter(ctx context.Context, p *characterserv
 	res = convert(cp)
 	return
 }
+
+func (c *CharacterHandler) createInventory(ctx context.Context, cp *model.Character) (*model.Character, error) {
+	inventoryClient := c.instances.GetInventoryClient()
+	createInventoryRpc := inventoryClient.CreateInventory()
+
+	createInventoryRes, err := createInventoryRpc(ctx, &inventoryservice.CreateInventoryPayload{UserID: cp.ID})
+	if err != nil {
+		return nil, err
+	}
+
+	InventoryId := createInventoryRes.(*inventoryservice.Inventory).ID
+
+	svc := c.instances.GetSvc()
+	cnt, err := svc.UpdateInventoryId(ctx, cp.ID, InventoryId)
+	if err != nil {
+		return nil, err
+	}
+
+	if cnt != 1 {
+
+	}
+	cp.InventoryID = InventoryId
+
+	return cp, nil
+}
+
 
 func (c *CharacterHandler) GetCharacter (ctx context.Context, p *characterservice.GetCharacterPayload) (res *characterservice.Character, err error) {
 	id := p.ID

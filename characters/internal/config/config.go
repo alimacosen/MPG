@@ -10,3 +10,12 @@ func NewDBConfig() *DBConfig {
 	}
 }
 
+type InventoryServiceConfig struct {
+	Url string
+}
+
+func NewInventoryServiceConfig() *InventoryServiceConfig {
+	return &InventoryServiceConfig{
+		Url: "grpc://localhost:8070",
+	}
+}

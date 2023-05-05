@@ -46,3 +46,11 @@ func (s *CharacterService) Delete(ctx context.Context, id string) (int, error) {
 	}
 	return result, nil
 }
+
+func (s *CharacterService) UpdateInventoryId(ctx context.Context, id string, inventoryId string) (int, error) {
+	result, err := s.repo.Update(ctx, id, &model.InventoryFields{InventoryId: inventoryId})
+	if err != nil {
+		return 0, err
+	}
+	return result, nil
+}

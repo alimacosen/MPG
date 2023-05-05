@@ -15,7 +15,7 @@ import (
 type CharacterRepository interface {
 	FindByID(ctx context.Context, id string) (*model.Character, error)
 	Create(ctx context.Context, character *model.Character) (*model.Character, error)
-	Update(ctx context.Context, id string, updateFields model.UpdateFields) (int, error)
+	Update(ctx context.Context, id string, updateFields interface{}) (int, error)
 	Delete(ctx context.Context, id string) (int, error)
 }
 
@@ -63,7 +63,7 @@ func (r *mongoCharacterRepository) FindByID(ctx context.Context, id string) (*mo
 	return &character, nil
 }
 
-func (r *mongoCharacterRepository) Update(ctx context.Context, id string, updateFields model.UpdateFields) (int, error) {
+func (r *mongoCharacterRepository) Update(ctx context.Context, id string, updateFields interface{}) (int, error) {
 	collection := r.db.Collection("charactersCollection")
 	objectID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
