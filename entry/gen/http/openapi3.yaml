@@ -1,0 +1,694 @@
+openapi: 3.0.3
+info:
+    title: Entry Service
+    description: HTTP service for a multiple players game
+    version: "1.0"
+servers:
+    - url: http://localhost:8050/mpg
+      description: EntryServer hosts the Character, Inventory, Item and swagger services.
+paths:
+    /character:
+        post:
+            tags:
+                - EntryCharacterService
+            summary: creatCharacter EntryCharacterService
+            operationId: EntryCharacterService#creatCharacter
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreatCharacterRequestBody'
+                        example:
+                            description: Quibusdam sunt vero quia tempora dolor repellat.
+                            name: Et est.
+            responses:
+                "200":
+                    description: OK response.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Character'
+                            example:
+                                description: Laboriosam sed.
+                                experience: 4959048932246710545
+                                health: 4293051552321681590
+                                id: Quasi omnis omnis eaque accusamus.
+                                inventoryId: Ipsa harum tempora eaque.
+                                name: Debitis fugit provident nobis alias et.
+                "400":
+                    description: 'create_invalid_args: Bad Request response.'
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example: Magnam eos quod facere vero.
+    /character/{id}:
+        delete:
+            tags:
+                - EntryCharacterService
+            summary: deleteCharacter EntryCharacterService
+            operationId: EntryCharacterService#deleteCharacter
+            parameters:
+                - name: id
+                  in: path
+                  description: UUId of the Character
+                  required: true
+                  schema:
+                    type: string
+                    description: UUId of the Character
+                    example: Provident et aut quia.
+                  example: Vero quisquam blanditiis.
+            responses:
+                "200":
+                    description: OK response.
+                    content:
+                        application/json:
+                            schema:
+                                type: integer
+                                example: 7391703652895214442
+                                format: int64
+                            example: 2785881251768718175
+                "400":
+                    description: 'no_criteria: Bad Request response.'
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example: Ullam sunt architecto dolor.
+                "404":
+                    description: 'delete_no_match: Not Found response.'
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example: Cumque molestiae ullam vitae.
+        get:
+            tags:
+                - EntryCharacterService
+            summary: getCharacter EntryCharacterService
+            operationId: EntryCharacterService#getCharacter
+            parameters:
+                - name: id
+                  in: path
+                  description: UUId of the Character
+                  required: true
+                  schema:
+                    type: string
+                    description: UUId of the Character
+                    example: Iusto cum dolorem.
+                  example: Quam explicabo numquam corporis deserunt fuga sit.
+            responses:
+                "200":
+                    description: OK response.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Character'
+                            example:
+                                description: Est sapiente.
+                                experience: 1664981986458278780
+                                health: 1169068876828509673
+                                id: Cupiditate aut commodi.
+                                inventoryId: Harum doloremque.
+                                name: Amet harum repellat.
+                "400":
+                    description: 'get_invalid_args: Bad Request response.'
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example: Maiores cupiditate repudiandae voluptatem sint.
+                "404":
+                    description: 'get_no_match: Not Found response.'
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example: Facere aut dolor.
+        patch:
+            tags:
+                - EntryCharacterService
+            summary: updateCharacter EntryCharacterService
+            operationId: EntryCharacterService#updateCharacter
+            parameters:
+                - name: id
+                  in: path
+                  description: UUId of the Character
+                  required: true
+                  schema:
+                    type: string
+                    description: UUId of the Character
+                    example: Molestiae ut autem alias autem suscipit.
+                  example: Qui ullam molestiae.
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateCharacterRequestBody'
+                        example:
+                            description: Et sit eligendi optio iure.
+                            experience: 7024460863717845377
+                            health: 6587466712592608632
+                            name: Ut velit vel impedit est et.
+            responses:
+                "200":
+                    description: OK response.
+                    content:
+                        application/json:
+                            schema:
+                                type: integer
+                                example: 2815211783346347725
+                                format: int64
+                            example: 4403932048489415778
+                "400":
+                    description: 'update_invalid_args: Bad Request response.'
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example: Fuga dolorem culpa quisquam.
+                "404":
+                    description: 'update_no_match: Not Found response.'
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example: Consequatur et iusto veritatis consequatur officia.
+    /inventory/{id}:
+        get:
+            tags:
+                - EntryInventoryService
+            summary: getInventory EntryInventoryService
+            operationId: EntryInventoryService#getInventory
+            parameters:
+                - name: id
+                  in: path
+                  description: UUId of the inventory
+                  required: true
+                  schema:
+                    type: string
+                    description: UUId of the inventory
+                    example: Velit qui veritatis error.
+                  example: Distinctio officia eaque culpa itaque.
+            responses:
+                "200":
+                    description: OK response.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Inventory'
+                            example:
+                                id: Ut sunt dolorum qui.
+                                itemsId:
+                                    - Tempora laudantium.
+                                    - Et maxime non ut eum.
+                                userId: Error error sit tempore modi sint provident.
+                "400":
+                    description: 'get_invalid_args: Bad Request response.'
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example: Unde aut architecto occaecati.
+                "404":
+                    description: 'get_no_match: Not Found response.'
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example: Eum libero nisi nisi iure dicta.
+        patch:
+            tags:
+                - EntryInventoryService
+            summary: updateInventory EntryInventoryService
+            operationId: EntryInventoryService#updateInventory
+            parameters:
+                - name: id
+                  in: path
+                  description: UUId of the Inventory
+                  required: true
+                  schema:
+                    type: string
+                    description: UUId of the Inventory
+                    example: Recusandae ut unde.
+                  example: Adipisci nam dolorem.
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateInventoryRequestBody'
+                        example:
+                            itemsId:
+                                - Quibusdam nobis natus a.
+                                - Tempore qui.
+            responses:
+                "200":
+                    description: OK response.
+                    content:
+                        application/json:
+                            schema:
+                                type: integer
+                                example: 1104236020780072704
+                                format: int64
+                            example: 3937865622683538481
+                "400":
+                    description: 'update_invalid_args: Bad Request response.'
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example: Eaque quidem aut quo quasi ut distinctio.
+                "404":
+                    description: 'update_no_match: Not Found response.'
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example: Ipsam officiis aut voluptatum.
+    /item:
+        post:
+            tags:
+                - EntryItemService
+            summary: creatItem EntryItemService
+            operationId: EntryItemService#creatItem
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreatItemRequestBody'
+                        example:
+                            damage: 1446501656436104991
+                            description: Porro excepturi quia tempore esse sapiente.
+                            healing: 8469736963636152442
+                            name: Pariatur repellendus consequatur.
+                            protection: 7091603181480834472
+            responses:
+                "200":
+                    description: OK response.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Item'
+                            example:
+                                damage: 3901165175170929783
+                                description: Voluptate consequatur omnis consequatur exercitationem soluta.
+                                healing: 5206756699392252429
+                                id: Eveniet velit quod accusamus natus non.
+                                name: Eum repudiandae.
+                                protection: 2569464386441326293
+                "400":
+                    description: 'create_duplicated_name: Bad Request response.'
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example: Dolor rem nesciunt qui iure.
+    /item/{id}:
+        delete:
+            tags:
+                - EntryItemService
+            summary: deleteItem EntryItemService
+            operationId: EntryItemService#deleteItem
+            parameters:
+                - name: id
+                  in: path
+                  description: UUId of the item
+                  required: true
+                  schema:
+                    type: string
+                    description: UUId of the item
+                    example: In sequi in.
+                  example: Id alias et libero velit accusantium.
+            responses:
+                "200":
+                    description: OK response.
+                    content:
+                        application/json:
+                            schema:
+                                type: integer
+                                example: 1734703267155603754
+                                format: int64
+                            example: 202970588911920033
+                "400":
+                    description: 'delete_no_criteria: Bad Request response.'
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example: Cumque dolorem voluptatem nisi.
+                "404":
+                    description: 'delete_no_match: Not Found response.'
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example: Expedita maxime cumque laborum perspiciatis inventore.
+        get:
+            tags:
+                - EntryItemService
+            summary: getItem EntryItemService
+            operationId: EntryItemService#getItem
+            parameters:
+                - name: id
+                  in: path
+                  description: UUId of the item
+                  required: true
+                  schema:
+                    type: string
+                    description: UUId of the item
+                    example: Quidem occaecati reiciendis.
+                  example: Nihil in omnis incidunt.
+            responses:
+                "200":
+                    description: OK response.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Item'
+                            example:
+                                damage: 8015377013558799617
+                                description: Nostrum unde sed enim.
+                                healing: 1363958195565086567
+                                id: Nesciunt maiores voluptas officia ullam debitis excepturi.
+                                name: Commodi soluta ea earum atque.
+                                protection: 9189508756765937748
+                "400":
+                    description: 'get_invalid_args: Bad Request response.'
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example: Est et consequatur.
+                "404":
+                    description: 'get_no_match: Not Found response.'
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example: Cum a in sint eos consequatur hic.
+        patch:
+            tags:
+                - EntryItemService
+            summary: updateItem EntryItemService
+            operationId: EntryItemService#updateItem
+            parameters:
+                - name: id
+                  in: path
+                  description: UUId of the item
+                  required: true
+                  schema:
+                    type: string
+                    description: UUId of the item
+                    example: Corporis illum rem minus.
+                  example: Nihil incidunt est sed qui dolorum non.
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateItemRequestBody'
+                        example:
+                            damage: 8211760277916845929
+                            description: Provident voluptas aspernatur.
+                            healing: 5410378431408351801
+                            protection: 1138281801445593390
+            responses:
+                "200":
+                    description: OK response.
+                    content:
+                        application/json:
+                            schema:
+                                type: integer
+                                example: 344182992620473022
+                                format: int64
+                            example: 477044541520580572
+                "400":
+                    description: 'update_invalid_args: Bad Request response.'
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example: Et qui.
+                "404":
+                    description: 'update_no_match: Not Found response.'
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example: Cum non sed quibusdam animi rerum praesentium.
+components:
+    schemas:
+        Character:
+            type: object
+            properties:
+                description:
+                    type: string
+                    description: Description of the character
+                    example: Quaerat quia porro porro fuga.
+                experience:
+                    type: integer
+                    description: The amount of experience value of the character
+                    example: 4958890072321800154
+                    format: int64
+                health:
+                    type: integer
+                    description: The amount of health value of the character
+                    example: 8862534188478463547
+                    format: int64
+                id:
+                    type: string
+                    description: UUId of the character
+                    example: Blanditiis saepe.
+                inventoryId:
+                    type: string
+                    description: UUId of the inventory record
+                    example: Consequatur repellendus aliquid et.
+                name:
+                    type: string
+                    description: Name of the character
+                    example: Dolorem animi minus.
+            example:
+                description: Doloribus voluptas aut possimus molestias accusamus earum.
+                experience: 6034619573735753876
+                health: 428843691560566976
+                id: Quisquam magnam occaecati.
+                inventoryId: Quaerat magnam assumenda.
+                name: Vel delectus placeat a et quidem quibusdam.
+            required:
+                - id
+                - name
+                - description
+                - health
+                - experience
+                - inventoryId
+        CreatCharacterRequestBody:
+            type: object
+            properties:
+                description:
+                    type: string
+                    description: Description of the Character
+                    example: Eaque quo quod.
+                name:
+                    type: string
+                    description: Name of the Character
+                    example: Ea ipsum dolores omnis.
+            example:
+                description: Aliquam dicta qui.
+                name: Praesentium iure omnis.
+            required:
+                - name
+        CreatItemRequestBody:
+            type: object
+            properties:
+                damage:
+                    type: integer
+                    description: The amount of damage the item can do
+                    example: 4648632336786821695
+                    format: int64
+                description:
+                    type: string
+                    description: Description of the item
+                    example: Qui eveniet beatae dolores laboriosam sed.
+                healing:
+                    type: integer
+                    description: The amount of healing the item can do
+                    example: 5476739672495686682
+                    format: int64
+                name:
+                    type: string
+                    description: name of the item
+                    example: Ut laboriosam qui quos.
+                protection:
+                    type: integer
+                    description: The amount of protection the item can do
+                    example: 6407140785228801521
+                    format: int64
+            example:
+                damage: 4723208021508182094
+                description: Cumque ea quo aut.
+                healing: 3324003565343799983
+                name: Qui perspiciatis.
+                protection: 2255336337640910560
+            required:
+                - name
+                - description
+                - damage
+                - healing
+                - protection
+        Inventory:
+            type: object
+            properties:
+                id:
+                    type: string
+                    description: UUId of the inventory
+                    example: Ducimus magni et officiis est voluptatem ut.
+                itemsId:
+                    type: array
+                    items:
+                        type: string
+                        example: Aut a facere.
+                    description: Array of uuid of items
+                    example:
+                        - Aliquam nostrum consectetur quidem.
+                        - Eum deleniti.
+                        - Qui ab et explicabo voluptatem.
+                userId:
+                    type: string
+                    description: UUId of the character that this inventory belongs to
+                    example: Ab tempora iure.
+            example:
+                id: Rerum eligendi quia et repellat ex dolore.
+                itemsId:
+                    - Quas maiores voluptates.
+                    - Ratione error molestias eum cupiditate.
+                userId: Molestiae et ad nostrum eum consectetur.
+            required:
+                - id
+                - userId
+        Item:
+            type: object
+            properties:
+                damage:
+                    type: integer
+                    description: The amount of damage the item can do
+                    example: 2646041842594261051
+                    format: int64
+                description:
+                    type: string
+                    description: Description of the item
+                    example: Et sed qui.
+                healing:
+                    type: integer
+                    description: The amount of healing the item can do
+                    example: 885852020221495776
+                    format: int64
+                id:
+                    type: string
+                    description: UUId of the item
+                    example: Commodi aut atque voluptates deserunt rem facere.
+                name:
+                    type: string
+                    description: name of the item
+                    example: Enim recusandae.
+                protection:
+                    type: integer
+                    description: The amount of protection the item can do
+                    example: 6155563284703613456
+                    format: int64
+            example:
+                damage: 1971465985589832306
+                description: Ut distinctio eaque velit ullam iste.
+                healing: 6003446792148825810
+                id: Ducimus consequatur fugiat temporibus.
+                name: Quibusdam at reiciendis maxime ut sit.
+                protection: 5790375836858094881
+            required:
+                - id
+                - name
+                - description
+                - damage
+                - healing
+                - protection
+        UpdateCharacterRequestBody:
+            type: object
+            properties:
+                description:
+                    type: string
+                    description: Description of the Character
+                    example: Aliquam aut repudiandae et.
+                experience:
+                    type: integer
+                    description: The amount of experience value of the Character
+                    example: 3280542176385847728
+                    format: int64
+                health:
+                    type: integer
+                    description: The amount of health value of the Character
+                    example: 7320803378756559932
+                    format: int64
+                name:
+                    type: string
+                    description: Name of the Character
+                    example: Qui sed nihil fugiat aut.
+            example:
+                description: Sunt esse impedit soluta temporibus.
+                experience: 4760179401470515818
+                health: 7299064601292499876
+                name: Est officia rerum.
+        UpdateInventoryRequestBody:
+            type: object
+            properties:
+                itemsId:
+                    type: array
+                    items:
+                        type: string
+                        example: Asperiores earum quisquam animi vero vel ut.
+                    description: Array of uuid of items
+                    example:
+                        - Nisi alias ab et.
+                        - Velit iusto velit.
+            example:
+                itemsId:
+                    - Eos ut.
+                    - Eos sit.
+                    - Autem quae maxime mollitia omnis enim.
+            required:
+                - itemsId
+        UpdateItemRequestBody:
+            type: object
+            properties:
+                damage:
+                    type: integer
+                    description: The amount of damage the item can do
+                    example: 1692060001976825606
+                    format: int64
+                description:
+                    type: string
+                    description: Description of the item
+                    example: Consequatur unde ipsam eum.
+                healing:
+                    type: integer
+                    description: The amount of healing the item can do
+                    example: 4633309457590523495
+                    format: int64
+                protection:
+                    type: integer
+                    description: The amount of protection the item can do
+                    example: 4118370620976858597
+                    format: int64
+            example:
+                damage: 8276620009322244692
+                description: Unde recusandae velit.
+                healing: 4988171159881159893
+                protection: 8768204006670002611
+tags:
+    - name: EntryCharacterService
+      description: The entry character service communicates with characters microservice.
+    - name: EntryInventoryService
+      description: The entry inventory service communicates with inventory microservice.
+    - name: EntryItemService
+      description: The entry item service communicates with items microservice.

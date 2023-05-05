@@ -1,0 +1,10 @@
+.DS_Store
+.idea/*
+characters/characters_server
+characters/characters_server-cli
+inventories/inventory_server
+inventories/inventory_server-cli
+items/item_server
+items/item_server-cli
+entry/entry_server
+entry/entry_server-cli
