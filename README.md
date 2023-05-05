@@ -56,3 +56,17 @@ go build ./cmd/item_server  && go build ./cmd/item_server-cli
 ./entry_server-cli --url="http://localhost:8050" entry-character-service update-character --id "64551f8c34b1c02c61a00c12" --body '{"id": "64551f8c34b1c02c61a00c12", "description": "trtr", "name": "E1E1E1", "health": 42}'
 
 ./entry_server-cli --url="http://localhost:8050" entry-character-service delete-character --id "64552546fad4971b156e2534"
+
+
+./entry_server-cli --url="http://localhost:8050" entry-inventory-service get-inventory --id "6454707f78df7t7203b2ybf7"
+
+./entry_server-cli --url="http://localhost:8050" entry-inventory-service update-inventory --id "6454b38f70ce8b433693251c" --body '{"itemsId": ["1234", "23456"]}'
+
+
+./entry_server-cli --url="http://localhost:8050" entry-item-service creat-item --body '{"name": "swordd", "description": "very sharp", "healing": 10, "damage": 50, "protection": 35}'
+
+./entry_server-cli --url="http://localhost:8050" entry-item-service get-item --id "6454e1b61416cb009192ae33"
+
+./entry_server-cli --url="http://localhost:8050" entry-item-service update-item --id "6454e31e83890c44515b2341" --body '{"name": "swordd", "description": "very 1 sharp", "healing": 11, "damage": 51, "protection": 31}'
+
+./entry_server-cli --url="http://localhost:8050" entry-item-service delete-item --id "6454ebbd1f80c4a34b0e4799"
