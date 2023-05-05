@@ -1,0 +1,98 @@
+// Code generated with goa v3.11.3, DO NOT EDIT.
+//
+// ItemService protocol buffer definition
+//
+// Command:
+// $ goa gen mpg/items/design
+
+syntax = "proto3";
+
+package item_service;
+
+option go_package = "/item_servicepb";
+
+// The item service performs CRUD operations for items
+service ItemService {
+	// CreateItem implements createItem.
+	rpc CreateItem (CreateItemRequest) returns (CreateItemResponse);
+	// GetItem implements getItem.
+	rpc GetItem (GetItemRequest) returns (GetItemResponse);
+	// UpdateItem implements updateItem.
+	rpc UpdateItem (UpdateItemRequest) returns (UpdateItemResponse);
+	// DeleteItem implements deleteItem.
+	rpc DeleteItem (DeleteItemRequest) returns (DeleteItemResponse);
+}
+
+message CreateItemRequest {
+	// name of the item
+	string name = 1;
+	// Description of the item
+	string description = 2;
+	// The amount of damage the item can do
+	sint32 damage = 3;
+	// The amount of healing the item can do
+	sint32 healing = 4;
+	// The amount of protection the item can do
+	sint32 protection = 5;
+}
+
+message CreateItemResponse {
+	// UUId of the item
+	string id = 1;
+	// name of the item
+	string name = 2;
+	// Description of the item
+	string description = 3;
+	// The amount of damage the item can do
+	sint32 damage = 4;
+	// The amount of healing the item can do
+	sint32 healing = 5;
+	// The amount of protection the item can do
+	sint32 protection = 6;
+}
+
+message GetItemRequest {
+	// UUId of the item
+	string id = 1;
+}
+
+message GetItemResponse {
+	// UUId of the item
+	string id = 1;
+	// name of the item
+	string name = 2;
+	// Description of the item
+	string description = 3;
+	// The amount of damage the item can do
+	sint32 damage = 4;
+	// The amount of healing the item can do
+	sint32 healing = 5;
+	// The amount of protection the item can do
+	sint32 protection = 6;
+}
+
+message UpdateItemRequest {
+	// UUId of the item
+	string id = 1;
+	// Description of the item
+	optional string description = 2;
+	// The amount of damage the item can do
+	optional sint32 damage = 3;
+	// The amount of healing the item can do
+	optional sint32 healing = 4;
+	// The amount of protection the item can do
+	optional sint32 protection = 5;
+}
+
+message UpdateItemResponse {
+	sint32 field = 1;
+}
+
+message DeleteItemRequest {
+	// UUId of the item
+	string id = 1;
+}
+
+message DeleteItemResponse {
+	sint32 field = 1;
+}

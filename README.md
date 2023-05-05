@@ -30,3 +30,6 @@ go build ./cmd/inventory_server  && go build ./cmd/inventory_server-cli
 ./inventory_server-cli  --url="grpc://localhost:8070" inventory-service update-inventory --message '{"id": "6454707f78df717203b20bf7", "items_Id": ["111", "322"]}'
 
 ./inventory_server-cli  --url="grpc://localhost:8070" inventory-service delete-inventory --message '{"id": "64548cfeba9ad5b9bb96a837"}'
+
+
+8080
