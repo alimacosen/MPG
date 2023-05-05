@@ -60,6 +60,7 @@ var _ = Service("ItemService", func() {
 		})
 		Result(Item)
 		Error("create_invalid_args", String, "Invalid arguments. Required: name, description, damage, healing, protection ")
+		Error("create_duplicated_name", String, "Duplicated name. This item name already exists ")
 		GRPC(func() {
 			Response(CodeOK)
 			Response("create_invalid_args", CodeInvalidArgument)
@@ -75,7 +76,7 @@ var _ = Service("ItemService", func() {
 		})
 		Result(Item)
 		Error("get_invalid_args", String, "Invalid arguments. Required: id ")
-		Error("get_no_match", String, "No inventory matched given criteria")
+		Error("get_no_match", String, "No item matched given criteria")
 		GRPC(func() {
 			Response(CodeOK)
 			Response("get_invalid_args", CodeInvalidArgument)
@@ -104,7 +105,7 @@ var _ = Service("ItemService", func() {
 		})
 		Result(Int)
 		Error("update_invalid_args", String, "Invalid arguments. Required: id, itemsId ")
-		Error("update_no_match", String, "No inventory matched given criteria")
+		Error("update_no_match", String, "No item matched given criteria")
 		GRPC(func() {
 			Response(CodeOK)
 			Response("update_invalid_args", CodeInvalidArgument)
@@ -121,7 +122,7 @@ var _ = Service("ItemService", func() {
 		})
 		Result(Int)
 		Error("delete_invalid_args", String, "Invalid arguments. Required: id ")
-		Error("delete_no_match", String, "No inventory matched given criteria")
+		Error("delete_no_match", String, "No item matched given criteria")
 		GRPC(func() {
 			Response(CodeOK)
 			Response("delete_invalid_args", CodeInvalidArgument)

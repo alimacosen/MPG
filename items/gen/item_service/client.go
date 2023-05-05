@@ -34,6 +34,7 @@ func NewClient(createItem, getItem, updateItem, deleteItem goa.Endpoint) *Client
 // CreateItem calls the "createItem" endpoint of the "ItemService" service.
 // CreateItem may return the following errors:
 //   - "create_invalid_args" (type CreateInvalidArgs)
+//   - "create_duplicated_name" (type CreateDuplicatedName)
 //   - error: internal error
 func (c *Client) CreateItem(ctx context.Context, p *CreateItemPayload) (res *Item, err error) {
 	var ires any

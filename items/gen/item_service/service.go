@@ -92,26 +92,46 @@ type UpdateItemPayload struct {
 	Protection *int
 }
 
+// Duplicated name. This item name already exists
+type CreateDuplicatedName string
+
 // Invalid arguments. Required: name, description, damage, healing, protection
 type CreateInvalidArgs string
 
 // Invalid arguments. Required: id
 type DeleteInvalidArgs string
 
-// No inventory matched given criteria
+// No item matched given criteria
 type DeleteNoMatch string
 
 // Invalid arguments. Required: id
 type GetInvalidArgs string
 
-// No inventory matched given criteria
+// No item matched given criteria
 type GetNoMatch string
 
 // Invalid arguments. Required: id, itemsId
 type UpdateInvalidArgs string
 
-// No inventory matched given criteria
+// No item matched given criteria
 type UpdateNoMatch string
+
+// Error returns an error description.
+func (e CreateDuplicatedName) Error() string {
+	return "Duplicated name. This item name already exists "
+}
+
+// ErrorName returns "create_duplicated_name".
+//
+// Deprecated: Use GoaErrorName - https://github.com/goadesign/goa/issues/3105
+func (e CreateDuplicatedName) ErrorName() string {
+	return e.GoaErrorName()
+}
+
+// GoaErrorName returns "create_duplicated_name".
+func (e CreateDuplicatedName) GoaErrorName() string {
+	return "create_duplicated_name"
+}
 
 // Error returns an error description.
 func (e CreateInvalidArgs) Error() string {
@@ -149,7 +169,7 @@ func (e DeleteInvalidArgs) GoaErrorName() string {
 
 // Error returns an error description.
 func (e DeleteNoMatch) Error() string {
-	return "No inventory matched given criteria"
+	return "No item matched given criteria"
 }
 
 // ErrorName returns "delete_no_match".
@@ -183,7 +203,7 @@ func (e GetInvalidArgs) GoaErrorName() string {
 
 // Error returns an error description.
 func (e GetNoMatch) Error() string {
-	return "No inventory matched given criteria"
+	return "No item matched given criteria"
 }
 
 // ErrorName returns "get_no_match".
@@ -217,7 +237,7 @@ func (e UpdateInvalidArgs) GoaErrorName() string {
 
 // Error returns an error description.
 func (e UpdateNoMatch) Error() string {
-	return "No inventory matched given criteria"
+	return "No item matched given criteria"
 }
 
 // ErrorName returns "update_no_match".

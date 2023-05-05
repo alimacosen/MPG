@@ -35,12 +35,28 @@ func NewItemRepository(logger *log.Logger, client *mongo.Client, dbName string) 
 
 func (r *mongoItemRepository) Create(ctx context.Context, item *model.Item) (*model.Item, error) {
 	collection := r.db.Collection("itemCollection")
+
+	ok := r.itemNameUniqueCheck(ctx, collection, item.Name)
+	if !ok {
+		return nil, itemservice.CreateDuplicatedName("item name" + item.Name + "already exists")
+	}
+
 	res, err := collection.InsertOne(ctx, item)
 	if err != nil {
 		return nil, err
 	}
 	item.ID = res.InsertedID.(primitive.ObjectID).Hex()
 	return item, err
+}
+
+func (r *mongoItemRepository) itemNameUniqueCheck(ctx context.Context, collection *mongo.Collection, name string) bool {
+	filter := bson.M{"name": name}
+	var item model.Item
+	_ = collection.FindOne(ctx, filter).Decode(&item)
+	if len(item.Name) == 0 {
+		return true
+	}
+	return false
 }
 
 func (r *mongoItemRepository) FindByID(ctx context.Context, id string) (*model.Item, error) {
