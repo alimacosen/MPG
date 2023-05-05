@@ -3,14 +3,14 @@
 // CharacterService gRPC client encoders and decoders
 //
 // Command:
-// $ goa gen characters/design
+// $ goa gen mpg/characters/design
 
 package client
 
 import (
-	characterservice "characters/gen/character_service"
-	character_servicepb "characters/gen/grpc/character_service/pb"
 	"context"
+	characterservice "mpg/characters/gen/character_service"
+	character_servicepb "mpg/characters/gen/grpc/character_service/pb"
 
 	goagrpc "goa.design/goa/v3/grpc"
 	"google.golang.org/grpc"

@@ -1,11 +1,11 @@
 package handler
 
 import (
-	characterservice "characters/gen/character_service"
-	"characters/internal/injections"
-	"characters/internal/model"
 	"context"
 	"log"
+	characterservice "mpg/characters/gen/character_service"
+	"mpg/characters/internal/injections"
+	"mpg/characters/internal/model"
 )
 
 type CharacterHandler struct {
@@ -65,11 +65,10 @@ func (c *CharacterHandler) GetCharacter (ctx context.Context, p *characterservic
 
 func (c *CharacterHandler) UpdateCharacter(ctx context.Context, p *characterservice.UpdateCharacterPayload) (res int, err error) {
 	id := p.ID
-	updateFields := assembleUpdateFields(p)
-
-	if len(updateFields.Name) == 0 {
+	if p.Name != nil && len(*p.Name) == 0 {
 		return 0, characterservice.UpdateInvalidArgs("Name can not be an empty string")
 	}
+	updateFields := assembleUpdateFields(p)
 
 	if updateFields.Health < 0 || updateFields.Experience < 0 {
 		return 0, characterservice.UpdateInvalidArgs("health and experience must be non-negative integers")

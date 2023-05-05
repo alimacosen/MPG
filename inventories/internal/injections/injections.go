@@ -2,12 +2,12 @@ package injections
 
 import (
 	"go.mongodb.org/mongo-driver/mongo"
-	"inventories/internal/config"
-	"inventories/internal/database"
-	_ "inventories/internal/database"
-	"inventories/internal/repository"
-	"inventories/internal/service"
 	"log"
+	"mpg/inventories/internal/config"
+	"mpg/inventories/internal/database"
+	_ "mpg/inventories/internal/database"
+	"mpg/inventories/internal/repository"
+	"mpg/inventories/internal/service"
 )
 
 type Instances struct {

@@ -1,12 +1,12 @@
 package main
 
 import (
-	charactersapi "characters"
-	characterservice "characters/gen/character_service"
 	"context"
 	"flag"
 	"fmt"
 	"log"
+	charactersapi "mpg/characters"
+	characterservice "mpg/characters/gen/character_service"
 	"net"
 	"net/url"
 	"os"

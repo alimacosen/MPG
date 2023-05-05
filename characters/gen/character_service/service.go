@@ -3,7 +3,7 @@
 // CharacterService service
 //
 // Command:
-// $ goa gen characters/design
+// $ goa gen mpg/characters/design
 
 package characterservice
 

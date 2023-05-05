@@ -1,10 +1,10 @@
 package charactersapi
 
 import (
-	characterservice "characters/gen/character_service"
-	"characters/internal/handler"
 	"context"
 	"log"
+	characterservice "mpg/characters/gen/character_service"
+	"mpg/characters/internal/handler"
 )
 
 // CharacterService service example implementation.

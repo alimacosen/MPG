@@ -1,9 +1,9 @@
 package service
 
 import (
-	model "characters/internal/model"
-	repo "characters/internal/repository"
 	"context"
+	model "mpg/characters/internal/model"
+	repo "mpg/characters/internal/repository"
 )
 
 type CharacterService struct {

@@ -1,7 +1,7 @@
 package model
 
 import (
-	inventoryservice "inventories/gen/inventory_service"
+	inventoryservice "mpg/inventories/gen/inventory_service"
 )
 
 type UpdateFields struct {

@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	cli "inventories/gen/grpc/cli/inventory_server"
+	cli "mpg/inventories/gen/grpc/cli/inventory_server"
 	"os"
 
 	goa "goa.design/goa/v3/pkg"

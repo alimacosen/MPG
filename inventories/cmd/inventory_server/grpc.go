@@ -2,10 +2,10 @@ package main
 
 import (
 	"context"
-	inventory_servicepb "inventories/gen/grpc/inventory_service/pb"
-	inventoryservicesvr "inventories/gen/grpc/inventory_service/server"
-	inventoryservice "inventories/gen/inventory_service"
 	"log"
+	inventory_servicepb "mpg/inventories/gen/grpc/inventory_service/pb"
+	inventoryservicesvr "mpg/inventories/gen/grpc/inventory_service/server"
+	inventoryservice "mpg/inventories/gen/inventory_service"
 	"net"
 	"net/url"
 	"sync"

@@ -3,14 +3,14 @@
 // InventoryService gRPC client encoders and decoders
 //
 // Command:
-// $ goa gen inventories/design
+// $ goa gen mpg/inventories/design
 
 package client
 
 import (
 	"context"
-	inventory_servicepb "inventories/gen/grpc/inventory_service/pb"
-	inventoryservice "inventories/gen/inventory_service"
+	inventory_servicepb "mpg/inventories/gen/grpc/inventory_service/pb"
+	inventoryservice "mpg/inventories/gen/inventory_service"
 
 	goagrpc "goa.design/goa/v3/grpc"
 	"google.golang.org/grpc"

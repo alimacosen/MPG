@@ -3,13 +3,13 @@
 // InventoryService gRPC client types
 //
 // Command:
-// $ goa gen inventories/design
+// $ goa gen mpg/inventories/design
 
 package client
 
 import (
-	inventory_servicepb "inventories/gen/grpc/inventory_service/pb"
-	inventoryservice "inventories/gen/inventory_service"
+	inventory_servicepb "mpg/inventories/gen/grpc/inventory_service/pb"
+	inventoryservice "mpg/inventories/gen/inventory_service"
 )
 
 // NewProtoCreateInventoryRequest builds the gRPC request type from the payload

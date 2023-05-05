@@ -3,15 +3,15 @@
 // CharacterService gRPC client CLI support package
 //
 // Command:
-// $ goa gen characters/design
+// $ goa gen mpg/characters/design
 
 package client
 
 import (
-	characterservice "characters/gen/character_service"
-	character_servicepb "characters/gen/grpc/character_service/pb"
 	"encoding/json"
 	"fmt"
+	characterservice "mpg/characters/gen/character_service"
+	character_servicepb "mpg/characters/gen/grpc/character_service/pb"
 )
 
 // BuildCreateCharacterPayload builds the payload for the CharacterService

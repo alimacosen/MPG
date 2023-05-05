@@ -3,7 +3,7 @@
 // InventoryService protocol buffer definition
 //
 // Command:
-// $ goa gen inventories/design
+// $ goa gen mpg/inventories/design
 
 syntax = "proto3";
 

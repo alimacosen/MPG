@@ -1,7 +1,7 @@
 package model
 
 import (
-	characterservice "characters/gen/character_service"
+	characterservice "mpg/characters/gen/character_service"
 )
 
 type UpdateFields struct {

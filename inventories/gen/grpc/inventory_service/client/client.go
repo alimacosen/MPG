@@ -3,13 +3,13 @@
 // InventoryService gRPC client
 //
 // Command:
-// $ goa gen inventories/design
+// $ goa gen mpg/inventories/design
 
 package client
 
 import (
 	"context"
-	inventory_servicepb "inventories/gen/grpc/inventory_service/pb"
+	inventory_servicepb "mpg/inventories/gen/grpc/inventory_service/pb"
 
 	goagrpc "goa.design/goa/v3/grpc"
 	goapb "goa.design/goa/v3/grpc/pb"

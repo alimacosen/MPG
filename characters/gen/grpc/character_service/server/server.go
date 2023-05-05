@@ -3,15 +3,15 @@
 // CharacterService gRPC server
 //
 // Command:
-// $ goa gen characters/design
+// $ goa gen mpg/characters/design
 
 package server
 
 import (
-	characterservice "characters/gen/character_service"
-	character_servicepb "characters/gen/grpc/character_service/pb"
 	"context"
 	"errors"
+	characterservice "mpg/characters/gen/character_service"
+	character_servicepb "mpg/characters/gen/grpc/character_service/pb"
 
 	goagrpc "goa.design/goa/v3/grpc"
 	goa "goa.design/goa/v3/pkg"

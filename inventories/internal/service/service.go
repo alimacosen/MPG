@@ -1,9 +1,9 @@
 package service
 
 import (
-	model "inventories/internal/model"
-	repo "inventories/internal/repository"
 	"context"
+	model "mpg/inventories/internal/model"
+	repo "mpg/inventories/internal/repository"
 )
 
 type InventoryService struct {

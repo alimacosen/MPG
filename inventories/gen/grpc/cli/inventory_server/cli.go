@@ -3,14 +3,14 @@
 // inventoryServer gRPC client CLI support package
 //
 // Command:
-// $ goa gen inventories/design
+// $ goa gen mpg/inventories/design
 
 package cli
 
 import (
 	"flag"
 	"fmt"
-	inventoryservicec "inventories/gen/grpc/inventory_service/client"
+	inventoryservicec "mpg/inventories/gen/grpc/inventory_service/client"
 	"os"
 
 	goa "goa.design/goa/v3/pkg"

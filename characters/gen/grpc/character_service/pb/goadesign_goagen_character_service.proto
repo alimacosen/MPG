@@ -3,7 +3,7 @@
 // CharacterService protocol buffer definition
 //
 // Command:
-// $ goa gen characters/design
+// $ goa gen mpg/characters/design
 
 syntax = "proto3";
 

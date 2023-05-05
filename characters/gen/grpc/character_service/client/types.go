@@ -3,13 +3,13 @@
 // CharacterService gRPC client types
 //
 // Command:
-// $ goa gen characters/design
+// $ goa gen mpg/characters/design
 
 package client
 
 import (
-	characterservice "characters/gen/character_service"
-	character_servicepb "characters/gen/grpc/character_service/pb"
+	characterservice "mpg/characters/gen/character_service"
+	character_servicepb "mpg/characters/gen/grpc/character_service/pb"
 )
 
 // NewProtoCreateCharacterRequest builds the gRPC request type from the payload

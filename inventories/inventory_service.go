@@ -2,9 +2,9 @@ package inventoriesapi
 
 import (
 	"context"
-	inventoryservice "inventories/gen/inventory_service"
-	"inventories/internal/handler"
 	"log"
+	inventoryservice "mpg/inventories/gen/inventory_service"
+	"mpg/inventories/internal/handler"
 )
 
 // InventoryService service example implementation.

@@ -3,7 +3,7 @@
 // InventoryService endpoints
 //
 // Command:
-// $ goa gen inventories/design
+// $ goa gen mpg/inventories/design
 
 package inventoryservice
 

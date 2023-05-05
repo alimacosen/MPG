@@ -1,13 +1,13 @@
 package injections
 
 import (
-	"characters/internal/config"
-	"characters/internal/database"
-	_ "characters/internal/database"
-	"characters/internal/repository"
-	"characters/internal/service"
 	"go.mongodb.org/mongo-driver/mongo"
 	"log"
+	"mpg/characters/internal/config"
+	"mpg/characters/internal/database"
+	_ "mpg/characters/internal/database"
+	"mpg/characters/internal/repository"
+	"mpg/characters/internal/service"
 )
 
 type Instances struct {

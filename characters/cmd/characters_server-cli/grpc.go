@@ -1,8 +1,8 @@
 package main
 
 import (
-	cli "characters/gen/grpc/cli/characters_server"
 	"fmt"
+	cli "mpg/characters/gen/grpc/cli/characters_server"
 	"os"
 
 	goa "goa.design/goa/v3/pkg"

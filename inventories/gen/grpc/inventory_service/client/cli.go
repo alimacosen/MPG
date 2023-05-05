@@ -3,15 +3,15 @@
 // InventoryService gRPC client CLI support package
 //
 // Command:
-// $ goa gen inventories/design
+// $ goa gen mpg/inventories/design
 
 package client
 
 import (
 	"encoding/json"
 	"fmt"
-	inventory_servicepb "inventories/gen/grpc/inventory_service/pb"
-	inventoryservice "inventories/gen/inventory_service"
+	inventory_servicepb "mpg/inventories/gen/grpc/inventory_service/pb"
+	inventoryservice "mpg/inventories/gen/inventory_service"
 )
 
 // BuildCreateInventoryPayload builds the payload for the InventoryService

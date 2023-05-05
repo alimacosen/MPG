@@ -3,14 +3,14 @@
 // charactersServer gRPC client CLI support package
 //
 // Command:
-// $ goa gen characters/design
+// $ goa gen mpg/characters/design
 
 package cli
 
 import (
-	characterservicec "characters/gen/grpc/character_service/client"
 	"flag"
 	"fmt"
+	characterservicec "mpg/characters/gen/grpc/character_service/client"
 	"os"
 
 	goa "goa.design/goa/v3/pkg"

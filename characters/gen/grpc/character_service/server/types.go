@@ -3,13 +3,13 @@
 // CharacterService gRPC server types
 //
 // Command:
-// $ goa gen characters/design
+// $ goa gen mpg/characters/design
 
 package server
 
 import (
-	characterservice "characters/gen/character_service"
-	character_servicepb "characters/gen/grpc/character_service/pb"
+	characterservice "mpg/characters/gen/character_service"
+	character_servicepb "mpg/characters/gen/grpc/character_service/pb"
 )
 
 // NewCreateCharacterPayload builds the payload of the "createCharacter"

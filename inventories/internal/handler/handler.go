@@ -2,10 +2,10 @@ package handler
 
 import (
 	"context"
-	inventoryservice "inventories/gen/inventory_service"
-	"inventories/internal/injections"
-	"inventories/internal/model"
 	"log"
+	inventoryservice "mpg/inventories/gen/inventory_service"
+	"mpg/inventories/internal/injections"
+	"mpg/inventories/internal/model"
 )
 
 type InventoryHandler struct {

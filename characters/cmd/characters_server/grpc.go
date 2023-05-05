@@ -1,11 +1,11 @@
 package main
 
 import (
-	characterservice "characters/gen/character_service"
-	character_servicepb "characters/gen/grpc/character_service/pb"
-	characterservicesvr "characters/gen/grpc/character_service/server"
 	"context"
 	"log"
+	characterservice "mpg/characters/gen/character_service"
+	character_servicepb "mpg/characters/gen/grpc/character_service/pb"
+	characterservicesvr "mpg/characters/gen/grpc/character_service/server"
 	"net"
 	"net/url"
 	"sync"

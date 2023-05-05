@@ -7,9 +7,9 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	_ "go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-	inventoryservice "inventories/gen/inventory_service"
-	model "inventories/internal/model"
 	"log"
+	inventoryservice "mpg/inventories/gen/inventory_service"
+	model "mpg/inventories/internal/model"
 )
 
 type InventoryRepository interface {

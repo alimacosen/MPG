@@ -1,8 +1,6 @@
 package repository
 
 import (
-	characterservice "characters/gen/character_service"
-	model "characters/internal/model"
 	"context"
 	"go.mongodb.org/mongo-driver/bson"
 	_ "go.mongodb.org/mongo-driver/bson"
@@ -10,6 +8,8 @@ import (
 	_ "go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"log"
+	characterservice "mpg/characters/gen/character_service"
+	model "mpg/characters/internal/model"
 )
 
 type CharacterRepository interface {
