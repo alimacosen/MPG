@@ -43,45 +43,14 @@ func (c *CharacterHandler) CreateCharacter(ctx context.Context, p *characterserv
 		InventoryID: "",
 	}
 
-	cp, err := svc.Create(ctx, characterPreliminary)
+	characterPreliminary, err = svc.Create(ctx, characterPreliminary, c.instances.GetInventoryClient())
 	if err != nil {
 		return nil, err
 	}
 
-	cp, err = c.createInventory(ctx, cp)
-	if err != nil {
-		return nil, err
-	}
-
-	res = convert(cp)
+	res = convert(characterPreliminary)
 	return
 }
-
-func (c *CharacterHandler) createInventory(ctx context.Context, cp *model.Character) (*model.Character, error) {
-	inventoryClient := c.instances.GetInventoryClient()
-	createInventoryRpc := inventoryClient.CreateInventory()
-
-	createInventoryRes, err := createInventoryRpc(ctx, &inventoryservice.CreateInventoryPayload{UserID: cp.ID})
-	if err != nil {
-		return nil, err
-	}
-
-	InventoryId := createInventoryRes.(*inventoryservice.Inventory).ID
-
-	svc := c.instances.GetSvc()
-	cnt, err := svc.UpdateInventoryId(ctx, cp.ID, InventoryId)
-	if err != nil {
-		return nil, err
-	}
-
-	if cnt != 1 {
-
-	}
-	cp.InventoryID = InventoryId
-
-	return cp, nil
-}
-
 
 func (c *CharacterHandler) GetCharacter (ctx context.Context, p *characterservice.GetCharacterPayload) (res *characterservice.Character, err error) {
 	id := p.ID
@@ -130,7 +99,7 @@ func (c *CharacterHandler) DeleteCharacter (ctx context.Context, p *characterser
 
 	svc := c.instances.GetSvc()
 
-	deletedCnt, err := svc.Delete(ctx, id)
+	deletedCnt, err := svc.Delete(ctx, id, c.instances.GetInventoryClient())
 	if err != nil {
 		return 0, err
 	}
