@@ -17,6 +17,8 @@ type Service interface {
 	CreateItem(context.Context, *CreateItemPayload) (res *Item, err error)
 	// GetItem implements getItem.
 	GetItem(context.Context, *GetItemPayload) (res *Item, err error)
+	// GetAllItems implements getAllItems.
+	GetAllItems(context.Context) (res []*Item, err error)
 	// UpdateItem implements updateItem.
 	UpdateItem(context.Context, *UpdateItemPayload) (res int, err error)
 	// DeleteItem implements deleteItem.
@@ -31,7 +33,7 @@ const ServiceName = "ItemService"
 // MethodNames lists the service method names as defined in the design. These
 // are the same values that are set in the endpoint request contexts under the
 // MethodKey key.
-var MethodNames = [4]string{"createItem", "getItem", "updateItem", "deleteItem"}
+var MethodNames = [5]string{"createItem", "getItem", "getAllItems", "updateItem", "deleteItem"}
 
 // CreateItemPayload is the payload type of the ItemService service createItem
 // method.

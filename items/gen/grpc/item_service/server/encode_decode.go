@@ -76,6 +76,17 @@ func DecodeGetItemRequest(ctx context.Context, v any, md metadata.MD) (any, erro
 	return payload, nil
 }
 
+// EncodeGetAllItemsResponse encodes responses from the "ItemService" service
+// "getAllItems" endpoint.
+func EncodeGetAllItemsResponse(ctx context.Context, v any, hdr, trlr *metadata.MD) (any, error) {
+	result, ok := v.([]*itemservice.Item)
+	if !ok {
+		return nil, goagrpc.ErrInvalidType("ItemService", "getAllItems", "[]*itemservice.Item", v)
+	}
+	resp := NewProtoGetAllItemsResponse(result)
+	return resp, nil
+}
+
 // EncodeUpdateItemResponse encodes responses from the "ItemService" service
 // "updateItem" endpoint.
 func EncodeUpdateItemResponse(ctx context.Context, v any, hdr, trlr *metadata.MD) (any, error) {

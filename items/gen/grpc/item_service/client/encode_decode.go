@@ -86,6 +86,31 @@ func DecodeGetItemResponse(ctx context.Context, v any, hdr, trlr metadata.MD) (a
 	return res, nil
 }
 
+// BuildGetAllItemsFunc builds the remote method to invoke for "ItemService"
+// service "getAllItems" endpoint.
+func BuildGetAllItemsFunc(grpccli item_servicepb.ItemServiceClient, cliopts ...grpc.CallOption) goagrpc.RemoteFunc {
+	return func(ctx context.Context, reqpb any, opts ...grpc.CallOption) (any, error) {
+		for _, opt := range cliopts {
+			opts = append(opts, opt)
+		}
+		if reqpb != nil {
+			return grpccli.GetAllItems(ctx, reqpb.(*item_servicepb.GetAllItemsRequest), opts...)
+		}
+		return grpccli.GetAllItems(ctx, &item_servicepb.GetAllItemsRequest{}, opts...)
+	}
+}
+
+// DecodeGetAllItemsResponse decodes responses from the ItemService getAllItems
+// endpoint.
+func DecodeGetAllItemsResponse(ctx context.Context, v any, hdr, trlr metadata.MD) (any, error) {
+	message, ok := v.(*item_servicepb.GetAllItemsResponse)
+	if !ok {
+		return nil, goagrpc.ErrInvalidType("ItemService", "getAllItems", "*item_servicepb.GetAllItemsResponse", v)
+	}
+	res := NewGetAllItemsResult(message)
+	return res, nil
+}
+
 // BuildUpdateItemFunc builds the remote method to invoke for "ItemService"
 // service "updateItem" endpoint.
 func BuildUpdateItemFunc(grpccli item_servicepb.ItemServiceClient, cliopts ...grpc.CallOption) goagrpc.RemoteFunc {

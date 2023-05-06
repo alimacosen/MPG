@@ -31,7 +31,15 @@ func (s *InventoryService) GetById(ctx context.Context, id string) (*model.Item,
 	return result, nil
 }
 
-func (s *InventoryService) Update(ctx context.Context, id string, updateFields *model.UpdateFields) (int, error) {
+func (s *InventoryService) GetAll(ctx context.Context) ([]*model.Item, error) {
+	result, err := s.repo.FindAll(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
+func (s *InventoryService) Update(ctx context.Context, id string, updateFields *model.Item) (int, error) {
 	result, err := s.repo.Update(ctx, id, *updateFields)
 	if err != nil {
 		return 0, err

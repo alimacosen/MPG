@@ -14,8 +14,9 @@ import (
 
 type ItemRepository interface {
 	FindByID(ctx context.Context, id string) (*model.Item, error)
+	FindAll(ctx context.Context) ([]*model.Item, error)
 	Create(ctx context.Context, character *model.Item) (*model.Item, error)
-	Update(ctx context.Context, id string, updateFields model.UpdateFields) (int, error)
+	Update(ctx context.Context, id string, updateFields model.Item) (int, error)
 	Delete(ctx context.Context, id string) (int, error)
 }
 
@@ -75,11 +76,36 @@ func (r *mongoItemRepository) FindByID(ctx context.Context, id string) (*model.I
 		}
 		return nil, err
 	}
-	item.ID = id
+
 	return &item, nil
 }
 
-func (r *mongoItemRepository) Update(ctx context.Context, id string, updateFields model.UpdateFields) (int, error) {
+func (r *mongoItemRepository) FindAll(ctx context.Context) ([]*model.Item, error) {
+	collection := r.db.Collection("itemCollection")
+	items := make([]*model.Item, 0)
+	cur, err := collection.Find(ctx, bson.M{})
+	if err != nil {
+		return nil, err
+	}
+	defer cur.Close(ctx)
+
+	for cur.Next(ctx) {
+		var item model.Item
+		err := cur.Decode(&item)
+		if err != nil {
+			r.logger.Println(err)
+			continue
+		}
+		items = append(items, &item)
+	}
+	if err := cur.Err(); err != nil {
+		return nil, err
+	}
+
+	return items, nil
+}
+
+func (r *mongoItemRepository) Update(ctx context.Context, id string, updateFields model.Item) (int, error) {
 	collection := r.db.Collection("itemCollection")
 	objectID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {

@@ -15,19 +15,21 @@ import (
 
 // Endpoints wraps the "ItemService" service endpoints.
 type Endpoints struct {
-	CreateItem goa.Endpoint
-	GetItem    goa.Endpoint
-	UpdateItem goa.Endpoint
-	DeleteItem goa.Endpoint
+	CreateItem  goa.Endpoint
+	GetItem     goa.Endpoint
+	GetAllItems goa.Endpoint
+	UpdateItem  goa.Endpoint
+	DeleteItem  goa.Endpoint
 }
 
 // NewEndpoints wraps the methods of the "ItemService" service with endpoints.
 func NewEndpoints(s Service) *Endpoints {
 	return &Endpoints{
-		CreateItem: NewCreateItemEndpoint(s),
-		GetItem:    NewGetItemEndpoint(s),
-		UpdateItem: NewUpdateItemEndpoint(s),
-		DeleteItem: NewDeleteItemEndpoint(s),
+		CreateItem:  NewCreateItemEndpoint(s),
+		GetItem:     NewGetItemEndpoint(s),
+		GetAllItems: NewGetAllItemsEndpoint(s),
+		UpdateItem:  NewUpdateItemEndpoint(s),
+		DeleteItem:  NewDeleteItemEndpoint(s),
 	}
 }
 
@@ -35,6 +37,7 @@ func NewEndpoints(s Service) *Endpoints {
 func (e *Endpoints) Use(m func(goa.Endpoint) goa.Endpoint) {
 	e.CreateItem = m(e.CreateItem)
 	e.GetItem = m(e.GetItem)
+	e.GetAllItems = m(e.GetAllItems)
 	e.UpdateItem = m(e.UpdateItem)
 	e.DeleteItem = m(e.DeleteItem)
 }
@@ -54,6 +57,14 @@ func NewGetItemEndpoint(s Service) goa.Endpoint {
 	return func(ctx context.Context, req any) (any, error) {
 		p := req.(*GetItemPayload)
 		return s.GetItem(ctx, p)
+	}
+}
+
+// NewGetAllItemsEndpoint returns an endpoint function that calls the method
+// "getAllItems" of service "ItemService".
+func NewGetAllItemsEndpoint(s Service) goa.Endpoint {
+	return func(ctx context.Context, req any) (any, error) {
+		return s.GetAllItems(ctx)
 	}
 }
 

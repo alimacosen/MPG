@@ -75,6 +75,28 @@ func (c *Client) GetItem() goa.Endpoint {
 	}
 }
 
+// GetAllItems calls the "GetAllItems" function in
+// item_servicepb.ItemServiceClient interface.
+func (c *Client) GetAllItems() goa.Endpoint {
+	return func(ctx context.Context, v any) (any, error) {
+		inv := goagrpc.NewInvoker(
+			BuildGetAllItemsFunc(c.grpccli, c.opts...),
+			nil,
+			DecodeGetAllItemsResponse)
+		res, err := inv.Invoke(ctx, v)
+		if err != nil {
+			resp := goagrpc.DecodeError(err)
+			switch message := resp.(type) {
+			case *goapb.ErrorResponse:
+				return nil, goagrpc.NewServiceError(message)
+			default:
+				return nil, goa.Fault(err.Error())
+			}
+		}
+		return res, nil
+	}
+}
+
 // UpdateItem calls the "UpdateItem" function in
 // item_servicepb.ItemServiceClient interface.
 func (c *Client) UpdateItem() goa.Endpoint {

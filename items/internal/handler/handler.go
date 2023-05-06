@@ -30,7 +30,7 @@ func (i *ItemHandler) CreateItem(ctx context.Context, p *itemservice.CreateItemP
 		return nil, err
 	}
 
-	res = convert(itemRes)
+	res = convertOne(itemRes)
 	return
 }
 
@@ -57,13 +57,22 @@ func (i *ItemHandler) GetItem (ctx context.Context, p *itemservice.GetItemPayloa
 
 	svc := i.instances.GetSvc()
 
-	cp, err := svc.GetById(ctx, id)
+	item, err := svc.GetById(ctx, id)
 	if err != nil {
 		return nil, err
 	}
 
-	res = convert(cp)
-	i.logger.Println("res converted: ", res)
+	res = convertOne(item)
+	return
+}
+
+func (i *ItemHandler) GetAllItems (ctx context.Context) (res []*itemservice.Item, err error) {
+	svc := i.instances.GetSvc()
+	items, err := svc.GetAll(ctx)
+	if err != nil {
+		return nil, err
+	}
+	res = convertAll(items)
 	return
 }
 
@@ -98,7 +107,15 @@ func (i *ItemHandler) DeleteItem (ctx context.Context, p *itemservice.DeleteItem
 	return deletedCnt, nil
 }
 
-func convert(i *model.Item) *itemservice.Item {
+func convertAll(items []*model.Item) []*itemservice.Item {
+	convertedItems := make([]*itemservice.Item, 0)
+	for i := 0; i < len(items); i++ {
+		convertedItems = append(convertedItems, convertOne(items[i]))
+	}
+	return convertedItems
+}
+
+func convertOne(i *model.Item) *itemservice.Item {
 	return &itemservice.Item{
 		ID:          i.ID,
 		Name:        i.Name,
@@ -109,8 +126,8 @@ func convert(i *model.Item) *itemservice.Item {
 	}
 }
 
-func assembleUpdateFields (p *itemservice.UpdateItemPayload) *model.UpdateFields {
-	updateFields := &model.UpdateFields{}
+func assembleUpdateFields (p *itemservice.UpdateItemPayload) *model.Item {
+	updateFields := &model.Item{}
 
 	if p.Description != nil && len(*p.Description) != 0{
 		updateFields.Description = *p.Description

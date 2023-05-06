@@ -84,6 +84,17 @@ var _ = Service("ItemService", func() {
 		})
 	})
 
+	Method("getAllItems", func() {
+		Result(ArrayOf(Item))
+		Error("get_invalid_args", String, "Invalid arguments. Required: id ")
+		Error("get_no_match", String, "No item matched given criteria")
+		GRPC(func() {
+			Response(CodeOK)
+			Response("get_invalid_args", CodeInvalidArgument)
+			Response("get_no_match", CodeNotFound)
+		})
+	})
+
 	Method("updateItem", func() {
 		Payload(func() {
 			Field(1, "id", String, "UUId of the item", func() {
