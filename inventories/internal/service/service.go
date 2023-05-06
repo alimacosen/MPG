@@ -15,8 +15,9 @@ func NewInventoryService(repo repo.InventoryRepository) *InventoryService {
 	return &InventoryService{repo: repo}
 }
 
-func (s *InventoryService) Create(ctx context.Context, character *model.Inventory) (*model.Inventory, error) {
-	result, err := s.repo.Create(ctx, character)
+func (s *InventoryService) Create(ctx context.Context, inventoryPreliminary *model.Inventory) (*model.Inventory, error) {
+	inventoryPreliminary.ItemsID = make([]string, 0)
+	result, err := s.repo.Create(ctx, inventoryPreliminary)
 	if err != nil {
 		return nil, err
 	}
