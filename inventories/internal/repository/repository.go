@@ -15,7 +15,7 @@ import (
 type InventoryRepository interface {
 	FindByID(ctx context.Context, id string) (*model.Inventory, error)
 	Create(ctx context.Context, character *model.Inventory) (*model.Inventory, error)
-	Update(ctx context.Context, id string, updateFields model.UpdateFields) (int, error)
+	Update(ctx context.Context, id string, updateFields model.Inventory) (int, error)
 	Delete(ctx context.Context, id string) (int, error)
 }
 
@@ -59,11 +59,10 @@ func (r *mongoInventoryRepository) FindByID(ctx context.Context, id string) (*mo
 		}
 		return nil, err
 	}
-	inventory.ID = id
 	return &inventory, nil
 }
 
-func (r *mongoInventoryRepository) Update(ctx context.Context, id string, updateFields model.UpdateFields) (int, error) {
+func (r *mongoInventoryRepository) Update(ctx context.Context, id string, updateFields model.Inventory) (int, error) {
 	collection := r.db.Collection("inventoryCollection")
 	objectID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {

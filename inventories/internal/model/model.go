@@ -1,11 +1,7 @@
 package model
 
-import (
-	inventoryservice "mpg/inventories/gen/inventory_service"
-)
-
-type UpdateFields struct {
-	ItemsId   []string `bson:"itemsId,omitempty"`
+type Inventory struct {
+	ID      string   `bson:"_id,omitempty"`
+	UserID  string   `bson:"userId,omitempty"`
+	ItemsID []string `bson:"itemsId,omitempty"`
 }
-
-type Inventory inventoryservice.Inventory
