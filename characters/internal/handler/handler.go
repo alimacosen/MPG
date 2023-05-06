@@ -30,25 +30,20 @@ func (c *CharacterHandler) CreateCharacter(ctx context.Context, p *characterserv
 	if len(name) == 0 {
 		return nil, characterservice.CreateInvalidArgs("Name can not be an empty string")
 	}
-	description := *p.Description
 
 	svc := c.instances.GetSvc()
 
 	characterPreliminary := &model.Character{
-		ID:          "",
-		Name:        name,
-		Description: description,
-		Health:      100,
-		Experience:  0,
-		InventoryID: "",
+		Name:        &name,
+		Description: p.Description,
 	}
 
-	characterPreliminary, err = svc.Create(ctx, characterPreliminary, c.instances.GetInventoryClient())
+	character, err := svc.Create(ctx, characterPreliminary, c.instances.GetInventoryClient())
 	if err != nil {
 		return nil, err
 	}
 
-	res = convert(characterPreliminary)
+	res = convert(character)
 	return
 }
 
@@ -71,12 +66,21 @@ func (c *CharacterHandler) GetCharacter (ctx context.Context, p *characterservic
 
 func (c *CharacterHandler) UpdateCharacter(ctx context.Context, p *characterservice.UpdateCharacterPayload) (res int, err error) {
 	id := p.ID
+	if len(id) == 0 {
+		return 0, characterservice.UpdateInvalidArgs("Need id to update one")
+	}
+
 	if p.Name != nil && len(*p.Name) == 0 {
 		return 0, characterservice.UpdateInvalidArgs("Name can not be an empty string")
 	}
-	updateFields := assembleUpdateFields(p)
+	updateFields := &model.Character{
+		Name        :p.Name,
+		Description :p.Description,
+		Health      :p.Health,
+		Experience  :p.Experience,
+	}
 
-	if updateFields.Health < 0 || updateFields.Experience < 0 {
+	if (updateFields.Health != nil && *updateFields.Health < 0) || (updateFields.Experience != nil && *updateFields.Experience < 0) {
 		return 0, characterservice.UpdateInvalidArgs("health and experience must be non-negative integers")
 	}
 
@@ -110,32 +114,10 @@ func (c *CharacterHandler) DeleteCharacter (ctx context.Context, p *characterser
 func convert(c *model.Character) *characterservice.Character {
 	return &characterservice.Character{
 		ID: c.ID,
-		Name: c.Name,
-		Description: c.Description,
-		Health: c.Health,
-		Experience: c.Experience,
-		InventoryID: c.InventoryID,
+		Name: *c.Name,
+		Description: *c.Description,
+		Health: *c.Health,
+		Experience: *c.Experience,
+		InventoryID: *c.InventoryID,
 	}
-}
-
-func assembleUpdateFields (p *characterservice.UpdateCharacterPayload) *model.UpdateFields {
-	updateFields := &model.UpdateFields{}
-
-	if p.Name != nil {
-		updateFields.Name = *p.Name
-	}
-
-	if p.Description != nil {
-		updateFields.Description = *p.Description
-	}
-
-	if p.Health != nil {
-		updateFields.Health = *p.Health
-	}
-
-	if p.Experience != nil {
-		updateFields.Experience = *p.Experience
-	}
-
-	return updateFields
 }

@@ -18,6 +18,10 @@ func NewCharacterService(repo repo.CharacterRepository) *CharacterService {
 }
 
 func (s *CharacterService) Create(ctx context.Context, character *model.Character, inventoryClient *inventoryservicec.Client) (*model.Character, error) {
+	defaultHealth := 100
+	defaultExp := 0
+	character.Health = &defaultHealth
+	character.Experience = &defaultExp
 	result, err := s.repo.Create(ctx, character)
 	if err != nil {
 		return nil, err
@@ -42,14 +46,11 @@ func (s *CharacterService) createInventory(ctx context.Context, characterPrelimi
 	InventoryId := createInventoryRes.(*inventoryservice.Inventory).ID
 
 	cnt, err := s.UpdateInventoryId(ctx, characterPreliminary.ID, InventoryId)
-	if err != nil {
+	if err != nil || cnt != 1 {
 		return nil, err
 	}
 
-	if cnt != 1 {
-		// TODO
-	}
-	characterPreliminary.InventoryID = InventoryId
+	characterPreliminary.InventoryID = &InventoryId
 
 	return characterPreliminary, nil
 }
@@ -62,7 +63,7 @@ func (s *CharacterService) GetById(ctx context.Context, id string) (*model.Chara
 	return result, nil
 }
 
-func (s *CharacterService) Update(ctx context.Context, id string, updateFields *model.UpdateFields) (int, error) {
+func (s *CharacterService) Update(ctx context.Context, id string, updateFields *model.Character) (int, error) {
 	result, err := s.repo.Update(ctx, id, *updateFields)
 	if err != nil {
 		return 0, err
@@ -75,13 +76,10 @@ func (s *CharacterService) Delete(ctx context.Context, id string, inventoryClien
 	if err != nil {
 		return 0, err
 	}
-	inventoryId := character.InventoryID
+	inventoryId := *character.InventoryID
 	cnt, err := s.deleteInventory(ctx, inventoryId, inventoryClient)
-	if err != nil {
+	if err != nil || cnt != 1 {
 		return 0, err
-	}
-	if cnt != 1 {
-		// TODO
 	}
 
 	result, err := s.repo.Delete(ctx, id)
@@ -103,7 +101,7 @@ func (s *CharacterService) deleteInventory(ctx context.Context, inventoryId stri
 }
 
 func (s *CharacterService) UpdateInventoryId(ctx context.Context, id string, inventoryId string) (int, error) {
-	result, err := s.repo.Update(ctx, id, &model.InventoryFields{InventoryId: inventoryId})
+	result, err := s.repo.Update(ctx, id, &model.Character{InventoryID: &inventoryId})
 	if err != nil {
 		return 0, err
 	}
