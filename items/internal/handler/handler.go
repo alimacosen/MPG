@@ -54,12 +54,18 @@ func (i *ItemHandler) GetItems(ctx context.Context, p *itemservice.GetItemsPaylo
 	idList := p.ID
 	svc := i.instances.GetSvc()
 
-	item, err := svc.GetById(ctx, idList)
+	var items []*model.Item
+	if len(idList) ==0 {
+		items, err = svc.GetAll(ctx)
+	} else {
+		items, err = svc.GetById(ctx, idList)
+	}
+
 	if err != nil {
 		return nil, err
 	}
 
-	res = convertAll(item)
+	res = convertAll(items)
 	return
 }
 

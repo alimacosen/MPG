@@ -35,7 +35,7 @@ func NewItemRepository(logger *log.Logger, client *mongo.Client, dbName string) 
 func (r *mongoItemRepository) Create(ctx context.Context, item *model.Item) (*model.Item, error) {
 	collection := r.db.Collection("itemCollection")
 
-	ok := r.itemNameUniqueCheck(ctx, collection, *item.Name)
+	ok := r.itemNameUniqueCheck(ctx, collection, item.Name)
 	if !ok {
 		return nil, itemservice.CreateDuplicatedName("item name" + *item.Name + "already exists")
 	}
@@ -48,7 +48,10 @@ func (r *mongoItemRepository) Create(ctx context.Context, item *model.Item) (*mo
 	return item, err
 }
 
-func (r *mongoItemRepository) itemNameUniqueCheck(ctx context.Context, collection *mongo.Collection, name string) bool {
+func (r *mongoItemRepository) itemNameUniqueCheck(ctx context.Context, collection *mongo.Collection, name *string) bool {
+	if name == nil {
+		return true
+	}
 	filter := bson.M{"name": name}
 	var item model.Item
 	_ = collection.FindOne(ctx, filter).Decode(&item)
@@ -110,7 +113,7 @@ func (r *mongoItemRepository) Update(ctx context.Context, id string, updateField
 		r.logger.Println(err)
 	}
 
-	ok := r.itemNameUniqueCheck(ctx, collection, *updateFields.Name)
+	ok := r.itemNameUniqueCheck(ctx, collection, updateFields.Name)
 	if !ok {
 		return 0, itemservice.CreateDuplicatedName("item name" + *updateFields.Name + "already exists")
 	}
