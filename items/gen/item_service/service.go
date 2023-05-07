@@ -38,7 +38,7 @@ var MethodNames = [5]string{"createItem", "getItem", "getAllItems", "updateItem"
 // CreateItemPayload is the payload type of the ItemService service createItem
 // method.
 type CreateItemPayload struct {
-	// name of the item
+	// Name of the item
 	Name string
 	// Description of the item
 	Description string
@@ -84,6 +84,8 @@ type Item struct {
 type UpdateItemPayload struct {
 	// UUId of the item
 	ID string
+	// Name of the item
+	Name *string
 	// Description of the item
 	Description *string
 	// The amount of damage the item can do

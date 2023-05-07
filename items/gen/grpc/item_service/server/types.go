@@ -85,6 +85,7 @@ func NewProtoGetAllItemsResponse(result []*itemservice.Item) *item_servicepb.Get
 func NewUpdateItemPayload(message *item_servicepb.UpdateItemRequest) *itemservice.UpdateItemPayload {
 	v := &itemservice.UpdateItemPayload{
 		ID:          message.Id,
+		Name:        message.Name,
 		Description: message.Description,
 	}
 	if message.Damage != nil {

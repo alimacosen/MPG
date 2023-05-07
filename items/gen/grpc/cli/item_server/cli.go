@@ -28,11 +28,11 @@ func UsageCommands() string {
 // UsageExamples produces an example of a valid invocation of the CLI tool.
 func UsageExamples() string {
 	return os.Args[0] + ` item-service create-item --message '{
-      "damage": 5496475948197560084,
-      "description": "Cupiditate et non ipsam blanditiis dolores.",
-      "healing": 2130137277969925607,
-      "name": "Neque saepe sed velit laboriosam dolorem.",
-      "protection": 6970409012914527909
+      "damage": 6656640518575154227,
+      "description": "Sit aliquid harum iure qui quos.",
+      "healing": 6018419887003017801,
+      "name": "Asperiores cupiditate et non ipsam blanditiis dolores.",
+      "protection": 1946787761586667757
    }'` + "\n" +
 		""
 }
@@ -189,11 +189,11 @@ CreateItem implements createItem.
 
 Example:
     %[1]s item-service create-item --message '{
-      "damage": 5496475948197560084,
-      "description": "Cupiditate et non ipsam blanditiis dolores.",
-      "healing": 2130137277969925607,
-      "name": "Neque saepe sed velit laboriosam dolorem.",
-      "protection": 6970409012914527909
+      "damage": 6656640518575154227,
+      "description": "Sit aliquid harum iure qui quos.",
+      "healing": 6018419887003017801,
+      "name": "Asperiores cupiditate et non ipsam blanditiis dolores.",
+      "protection": 1946787761586667757
    }'
 `, os.Args[0])
 }
@@ -206,7 +206,7 @@ GetItem implements getItem.
 
 Example:
     %[1]s item-service get-item --message '{
-      "id": "Temporibus sed voluptates occaecati est."
+      "id": "Ut eos fuga laborum."
    }'
 `, os.Args[0])
 }
@@ -229,11 +229,12 @@ UpdateItem implements updateItem.
 
 Example:
     %[1]s item-service update-item --message '{
-      "damage": 1560793895885502624,
-      "description": "Earum magnam sequi.",
-      "healing": 5206333268185226675,
-      "id": "Et quis aperiam harum rerum.",
-      "protection": 273878408864270749
+      "damage": 3012358727598942804,
+      "description": "Quod dolor.",
+      "healing": 8553807324101554941,
+      "id": "Dolorum earum magnam sequi aliquid optio.",
+      "name": "Sint mollitia.",
+      "protection": 8197344049870397300
    }'
 `, os.Args[0])
 }
@@ -246,7 +247,7 @@ DeleteItem implements deleteItem.
 
 Example:
     %[1]s item-service delete-item --message '{
-      "id": "Quod dolor."
+      "id": "Eaque debitis aut aut autem quia nesciunt."
    }'
 `, os.Args[0])
 }

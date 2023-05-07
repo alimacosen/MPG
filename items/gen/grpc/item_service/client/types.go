@@ -91,6 +91,7 @@ func NewGetAllItemsResult(message *item_servicepb.GetAllItemsResponse) []*itemse
 func NewProtoUpdateItemRequest(payload *itemservice.UpdateItemPayload) *item_servicepb.UpdateItemRequest {
 	message := &item_servicepb.UpdateItemRequest{
 		Id:          payload.ID,
+		Name:        payload.Name,
 		Description: payload.Description,
 	}
 	if payload.Damage != nil {

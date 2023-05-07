@@ -23,7 +23,7 @@ func BuildCreateItemPayload(itemServiceCreateItemMessage string) (*itemservice.C
 		if itemServiceCreateItemMessage != "" {
 			err = json.Unmarshal([]byte(itemServiceCreateItemMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"damage\": 5496475948197560084,\n      \"description\": \"Cupiditate et non ipsam blanditiis dolores.\",\n      \"healing\": 2130137277969925607,\n      \"name\": \"Neque saepe sed velit laboriosam dolorem.\",\n      \"protection\": 6970409012914527909\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"damage\": 6656640518575154227,\n      \"description\": \"Sit aliquid harum iure qui quos.\",\n      \"healing\": 6018419887003017801,\n      \"name\": \"Asperiores cupiditate et non ipsam blanditiis dolores.\",\n      \"protection\": 1946787761586667757\n   }'")
 			}
 		}
 	}
@@ -47,7 +47,7 @@ func BuildGetItemPayload(itemServiceGetItemMessage string) (*itemservice.GetItem
 		if itemServiceGetItemMessage != "" {
 			err = json.Unmarshal([]byte(itemServiceGetItemMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": \"Temporibus sed voluptates occaecati est.\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": \"Ut eos fuga laborum.\"\n   }'")
 			}
 		}
 	}
@@ -67,12 +67,13 @@ func BuildUpdateItemPayload(itemServiceUpdateItemMessage string) (*itemservice.U
 		if itemServiceUpdateItemMessage != "" {
 			err = json.Unmarshal([]byte(itemServiceUpdateItemMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"damage\": 1560793895885502624,\n      \"description\": \"Earum magnam sequi.\",\n      \"healing\": 5206333268185226675,\n      \"id\": \"Et quis aperiam harum rerum.\",\n      \"protection\": 273878408864270749\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"damage\": 3012358727598942804,\n      \"description\": \"Quod dolor.\",\n      \"healing\": 8553807324101554941,\n      \"id\": \"Dolorum earum magnam sequi aliquid optio.\",\n      \"name\": \"Sint mollitia.\",\n      \"protection\": 8197344049870397300\n   }'")
 			}
 		}
 	}
 	v := &itemservice.UpdateItemPayload{
 		ID:          message.Id,
+		Name:        message.Name,
 		Description: message.Description,
 	}
 	if message.Damage != nil {
@@ -100,7 +101,7 @@ func BuildDeleteItemPayload(itemServiceDeleteItemMessage string) (*itemservice.D
 		if itemServiceDeleteItemMessage != "" {
 			err = json.Unmarshal([]byte(itemServiceDeleteItemMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": \"Quod dolor.\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": \"Eaque debitis aut aut autem quia nesciunt.\"\n   }'")
 			}
 		}
 	}
