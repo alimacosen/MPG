@@ -17,13 +17,13 @@ import (
 
 // Client lists the EntryItemService service endpoint HTTP clients.
 type Client struct {
-	// CreateItem Doer is the HTTP client used to make requests to the createItem
+	// CreatItem Doer is the HTTP client used to make requests to the creatItem
 	// endpoint.
-	CreateItemDoer goahttp.Doer
+	CreatItemDoer goahttp.Doer
 
-	// GetItem Doer is the HTTP client used to make requests to the getItem
+	// GetItems Doer is the HTTP client used to make requests to the getItems
 	// endpoint.
-	GetItemDoer goahttp.Doer
+	GetItemsDoer goahttp.Doer
 
 	// UpdateItem Doer is the HTTP client used to make requests to the updateItem
 	// endpoint.
@@ -54,8 +54,8 @@ func NewClient(
 	restoreBody bool,
 ) *Client {
 	return &Client{
-		CreateItemDoer:      doer,
-		GetItemDoer:         doer,
+		CreatItemDoer:       doer,
+		GetItemsDoer:        doer,
 		UpdateItemDoer:      doer,
 		DeleteItemDoer:      doer,
 		RestoreResponseBody: restoreBody,
@@ -66,15 +66,15 @@ func NewClient(
 	}
 }
 
-// CreateItem returns an endpoint that makes HTTP requests to the
-// EntryItemService service createItem server.
-func (c *Client) CreateItem() goa.Endpoint {
+// CreatItem returns an endpoint that makes HTTP requests to the
+// EntryItemService service creatItem server.
+func (c *Client) CreatItem() goa.Endpoint {
 	var (
-		encodeRequest  = EncodeCreateItemRequest(c.encoder)
-		decodeResponse = DecodeCreateItemResponse(c.decoder, c.RestoreResponseBody)
+		encodeRequest  = EncodeCreatItemRequest(c.encoder)
+		decodeResponse = DecodeCreatItemResponse(c.decoder, c.RestoreResponseBody)
 	)
 	return func(ctx context.Context, v any) (any, error) {
-		req, err := c.BuildCreateItemRequest(ctx, v)
+		req, err := c.BuildCreatItemRequest(ctx, v)
 		if err != nil {
 			return nil, err
 		}
@@ -82,28 +82,33 @@ func (c *Client) CreateItem() goa.Endpoint {
 		if err != nil {
 			return nil, err
 		}
-		resp, err := c.CreateItemDoer.Do(req)
+		resp, err := c.CreatItemDoer.Do(req)
 		if err != nil {
-			return nil, goahttp.ErrRequestError("EntryItemService", "createItem", err)
+			return nil, goahttp.ErrRequestError("EntryItemService", "creatItem", err)
 		}
 		return decodeResponse(resp)
 	}
 }
 
-// GetItem returns an endpoint that makes HTTP requests to the EntryItemService
-// service getItem server.
-func (c *Client) GetItem() goa.Endpoint {
+// GetItems returns an endpoint that makes HTTP requests to the
+// EntryItemService service getItems server.
+func (c *Client) GetItems() goa.Endpoint {
 	var (
-		decodeResponse = DecodeGetItemResponse(c.decoder, c.RestoreResponseBody)
+		encodeRequest  = EncodeGetItemsRequest(c.encoder)
+		decodeResponse = DecodeGetItemsResponse(c.decoder, c.RestoreResponseBody)
 	)
 	return func(ctx context.Context, v any) (any, error) {
-		req, err := c.BuildGetItemRequest(ctx, v)
+		req, err := c.BuildGetItemsRequest(ctx, v)
 		if err != nil {
 			return nil, err
 		}
-		resp, err := c.GetItemDoer.Do(req)
+		err = encodeRequest(req, v)
 		if err != nil {
-			return nil, goahttp.ErrRequestError("EntryItemService", "getItem", err)
+			return nil, err
+		}
+		resp, err := c.GetItemsDoer.Do(req)
+		if err != nil {
+			return nil, goahttp.ErrRequestError("EntryItemService", "getItems", err)
 		}
 		return decodeResponse(resp)
 	}

@@ -53,14 +53,14 @@ func (c *Client) CreateItem() goa.Endpoint {
 	}
 }
 
-// GetItem calls the "GetItem" function in item_servicepb.ItemServiceClient
+// GetItems calls the "GetItems" function in item_servicepb.ItemServiceClient
 // interface.
-func (c *Client) GetItem() goa.Endpoint {
+func (c *Client) GetItems() goa.Endpoint {
 	return func(ctx context.Context, v any) (any, error) {
 		inv := goagrpc.NewInvoker(
-			BuildGetItemFunc(c.grpccli, c.opts...),
-			EncodeGetItemRequest,
-			DecodeGetItemResponse)
+			BuildGetItemsFunc(c.grpccli, c.opts...),
+			EncodeGetItemsRequest,
+			DecodeGetItemsResponse)
 		res, err := inv.Invoke(ctx, v)
 		if err != nil {
 			resp := goagrpc.DecodeError(err)

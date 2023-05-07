@@ -40,20 +40,23 @@ var _ = Service("EntryItemService", func() {
 		})
 	})
 
-	Method("getItem", func() {
+	Method("getItems", func() {
 		Payload(func() {
-			Field(1, "id", String, "UUId of the item", func() {
-				Meta("rpc:tag", "1")
+			Field(1, "ids", ArrayOf(String), "A List of UUIds of the items (will get all if not provided)", func() {
+				Example([]string{"id1", "id2", "id3"})
 			})
-			Required("id")
 		})
 
-		Result(Item)
+		Result(ArrayOf(Item))
 		Error("get_no_criteria", String, "Missing criteria ")
 		Error("get_invalid_args", String, "Invalid arguments. Required: id ")
 		Error("get_no_match", String, "No item matched given criteria")
 		HTTP(func() {
-			GET("/{id}")
+			GET("/")
+			Param("ids", ArrayOf(String), "List of item IDs separated by commas", func() {
+				Example([]string{"id1", "id2", "id3"})
+
+			})
 			Response(StatusOK)
 			Response("get_no_criteria", StatusBadRequest)
 			Response("get_invalid_args", StatusBadRequest)

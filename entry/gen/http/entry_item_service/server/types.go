@@ -58,9 +58,12 @@ type CreateItemResponseBody struct {
 	Protection int `form:"protection" json:"protection" xml:"protection"`
 }
 
-// GetItemResponseBody is the type of the "EntryItemService" service "getItem"
-// endpoint HTTP response body.
-type GetItemResponseBody struct {
+// GetItemsResponseBody is the type of the "EntryItemService" service
+// "getItems" endpoint HTTP response body.
+type GetItemsResponseBody []*ItemResponse
+
+// ItemResponse is used to define fields on response body types.
+type ItemResponse struct {
 	// UUId of the item
 	ID string `form:"id" json:"id" xml:"id"`
 	// name of the item
@@ -89,16 +92,12 @@ func NewCreateItemResponseBody(res *entryitemservice.Item) *CreateItemResponseBo
 	return body
 }
 
-// NewGetItemResponseBody builds the HTTP response body from the result of the
-// "getItem" endpoint of the "EntryItemService" service.
-func NewGetItemResponseBody(res *entryitemservice.Item) *GetItemResponseBody {
-	body := &GetItemResponseBody{
-		ID:          res.ID,
-		Name:        res.Name,
-		Description: res.Description,
-		Damage:      res.Damage,
-		Healing:     res.Healing,
-		Protection:  res.Protection,
+// NewGetItemsResponseBody builds the HTTP response body from the result of the
+// "getItems" endpoint of the "EntryItemService" service.
+func NewGetItemsResponseBody(res []*entryitemservice.Item) GetItemsResponseBody {
+	body := make([]*ItemResponse, len(res))
+	for i, val := range res {
+		body[i] = marshalEntryitemserviceItemToItemResponse(val)
 	}
 	return body
 }
@@ -117,10 +116,11 @@ func NewCreateItemPayload(body *CreateItemRequestBody) *entryitemservice.CreateI
 	return v
 }
 
-// NewGetItemPayload builds a EntryItemService service getItem endpoint payload.
-func NewGetItemPayload(id string) *entryitemservice.GetItemPayload {
-	v := &entryitemservice.GetItemPayload{}
-	v.ID = id
+// NewGetItemsPayload builds a EntryItemService service getItems endpoint
+// payload.
+func NewGetItemsPayload(ids []string) *entryitemservice.GetItemsPayload {
+	v := &entryitemservice.GetItemsPayload{}
+	v.Ids = ids
 
 	return v
 }

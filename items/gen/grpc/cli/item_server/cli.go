@@ -21,18 +21,18 @@ import (
 //
 //	command (subcommand1|subcommand2|...)
 func UsageCommands() string {
-	return `item-service (create-item|get-item|get-all-items|update-item|delete-item)
+	return `item-service (create-item|get-items|get-all-items|update-item|delete-item)
 `
 }
 
 // UsageExamples produces an example of a valid invocation of the CLI tool.
 func UsageExamples() string {
 	return os.Args[0] + ` item-service create-item --message '{
-      "damage": 6656640518575154227,
-      "description": "Sit aliquid harum iure qui quos.",
-      "healing": 6018419887003017801,
-      "name": "Asperiores cupiditate et non ipsam blanditiis dolores.",
-      "protection": 1946787761586667757
+      "damage": 9130759664473784082,
+      "description": "Quod et unde quidem temporibus architecto.",
+      "healing": 1398113917470051483,
+      "name": "Impedit et quasi qui.",
+      "protection": 5568558875973245467
    }'` + "\n" +
 		""
 }
@@ -46,8 +46,8 @@ func ParseEndpoint(cc *grpc.ClientConn, opts ...grpc.CallOption) (goa.Endpoint, 
 		itemServiceCreateItemFlags       = flag.NewFlagSet("create-item", flag.ExitOnError)
 		itemServiceCreateItemMessageFlag = itemServiceCreateItemFlags.String("message", "", "")
 
-		itemServiceGetItemFlags       = flag.NewFlagSet("get-item", flag.ExitOnError)
-		itemServiceGetItemMessageFlag = itemServiceGetItemFlags.String("message", "", "")
+		itemServiceGetItemsFlags       = flag.NewFlagSet("get-items", flag.ExitOnError)
+		itemServiceGetItemsMessageFlag = itemServiceGetItemsFlags.String("message", "", "")
 
 		itemServiceGetAllItemsFlags = flag.NewFlagSet("get-all-items", flag.ExitOnError)
 
@@ -59,7 +59,7 @@ func ParseEndpoint(cc *grpc.ClientConn, opts ...grpc.CallOption) (goa.Endpoint, 
 	)
 	itemServiceFlags.Usage = itemServiceUsage
 	itemServiceCreateItemFlags.Usage = itemServiceCreateItemUsage
-	itemServiceGetItemFlags.Usage = itemServiceGetItemUsage
+	itemServiceGetItemsFlags.Usage = itemServiceGetItemsUsage
 	itemServiceGetAllItemsFlags.Usage = itemServiceGetAllItemsUsage
 	itemServiceUpdateItemFlags.Usage = itemServiceUpdateItemUsage
 	itemServiceDeleteItemFlags.Usage = itemServiceDeleteItemUsage
@@ -101,8 +101,8 @@ func ParseEndpoint(cc *grpc.ClientConn, opts ...grpc.CallOption) (goa.Endpoint, 
 			case "create-item":
 				epf = itemServiceCreateItemFlags
 
-			case "get-item":
-				epf = itemServiceGetItemFlags
+			case "get-items":
+				epf = itemServiceGetItemsFlags
 
 			case "get-all-items":
 				epf = itemServiceGetAllItemsFlags
@@ -141,9 +141,9 @@ func ParseEndpoint(cc *grpc.ClientConn, opts ...grpc.CallOption) (goa.Endpoint, 
 			case "create-item":
 				endpoint = c.CreateItem()
 				data, err = itemservicec.BuildCreateItemPayload(*itemServiceCreateItemMessageFlag)
-			case "get-item":
-				endpoint = c.GetItem()
-				data, err = itemservicec.BuildGetItemPayload(*itemServiceGetItemMessageFlag)
+			case "get-items":
+				endpoint = c.GetItems()
+				data, err = itemservicec.BuildGetItemsPayload(*itemServiceGetItemsMessageFlag)
 			case "get-all-items":
 				endpoint = c.GetAllItems()
 				data = nil
@@ -172,7 +172,7 @@ Usage:
 
 COMMAND:
     create-item: CreateItem implements createItem.
-    get-item: GetItem implements getItem.
+    get-items: GetItems implements getItems.
     get-all-items: GetAllItems implements getAllItems.
     update-item: UpdateItem implements updateItem.
     delete-item: DeleteItem implements deleteItem.
@@ -189,24 +189,27 @@ CreateItem implements createItem.
 
 Example:
     %[1]s item-service create-item --message '{
-      "damage": 6656640518575154227,
-      "description": "Sit aliquid harum iure qui quos.",
-      "healing": 6018419887003017801,
-      "name": "Asperiores cupiditate et non ipsam blanditiis dolores.",
-      "protection": 1946787761586667757
+      "damage": 9130759664473784082,
+      "description": "Quod et unde quidem temporibus architecto.",
+      "healing": 1398113917470051483,
+      "name": "Impedit et quasi qui.",
+      "protection": 5568558875973245467
    }'
 `, os.Args[0])
 }
 
-func itemServiceGetItemUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] item-service get-item -message JSON
+func itemServiceGetItemsUsage() {
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] item-service get-items -message JSON
 
-GetItem implements getItem.
+GetItems implements getItems.
     -message JSON: 
 
 Example:
-    %[1]s item-service get-item --message '{
-      "id": "Ut eos fuga laborum."
+    %[1]s item-service get-items --message '{
+      "id": [
+         "Et facere ab dolores.",
+         "Voluptas exercitationem et."
+      ]
    }'
 `, os.Args[0])
 }
@@ -229,12 +232,12 @@ UpdateItem implements updateItem.
 
 Example:
     %[1]s item-service update-item --message '{
-      "damage": 3012358727598942804,
-      "description": "Quod dolor.",
-      "healing": 8553807324101554941,
-      "id": "Dolorum earum magnam sequi aliquid optio.",
-      "name": "Sint mollitia.",
-      "protection": 8197344049870397300
+      "damage": 77559218004444832,
+      "description": "Optio occaecati sint mollitia aspernatur.",
+      "healing": 8195123972751783688,
+      "id": "Et et quis aperiam harum rerum dolorum.",
+      "name": "Magnam sequi.",
+      "protection": 3012358727598942804
    }'
 `, os.Args[0])
 }
@@ -247,7 +250,7 @@ DeleteItem implements deleteItem.
 
 Example:
     %[1]s item-service delete-item --message '{
-      "id": "Eaque debitis aut aut autem quia nesciunt."
+      "id": "Nemo ut eaque debitis."
    }'
 `, os.Args[0])
 }

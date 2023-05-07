@@ -15,8 +15,8 @@ import (
 
 // Endpoints wraps the "EntryItemService" service endpoints.
 type Endpoints struct {
-	CreateItem goa.Endpoint
-	GetItem    goa.Endpoint
+	CreatItem  goa.Endpoint
+	GetItems   goa.Endpoint
 	UpdateItem goa.Endpoint
 	DeleteItem goa.Endpoint
 }
@@ -25,8 +25,8 @@ type Endpoints struct {
 // endpoints.
 func NewEndpoints(s Service) *Endpoints {
 	return &Endpoints{
-		CreateItem: NewCreateItemEndpoint(s),
-		GetItem:    NewGetItemEndpoint(s),
+		CreatItem:  NewCreatItemEndpoint(s),
+		GetItems:   NewGetItemsEndpoint(s),
 		UpdateItem: NewUpdateItemEndpoint(s),
 		DeleteItem: NewDeleteItemEndpoint(s),
 	}
@@ -35,27 +35,27 @@ func NewEndpoints(s Service) *Endpoints {
 // Use applies the given middleware to all the "EntryItemService" service
 // endpoints.
 func (e *Endpoints) Use(m func(goa.Endpoint) goa.Endpoint) {
-	e.CreateItem = m(e.CreateItem)
-	e.GetItem = m(e.GetItem)
+	e.CreatItem = m(e.CreatItem)
+	e.GetItems = m(e.GetItems)
 	e.UpdateItem = m(e.UpdateItem)
 	e.DeleteItem = m(e.DeleteItem)
 }
 
-// NewCreateItemEndpoint returns an endpoint function that calls the method
-// "createItem" of service "EntryItemService".
-func NewCreateItemEndpoint(s Service) goa.Endpoint {
+// NewCreatItemEndpoint returns an endpoint function that calls the method
+// "creatItem" of service "EntryItemService".
+func NewCreatItemEndpoint(s Service) goa.Endpoint {
 	return func(ctx context.Context, req any) (any, error) {
-		p := req.(*CreateItemPayload)
-		return s.CreateItem(ctx, p)
+		p := req.(*CreatItemPayload)
+		return s.CreatItem(ctx, p)
 	}
 }
 
-// NewGetItemEndpoint returns an endpoint function that calls the method
-// "getItem" of service "EntryItemService".
-func NewGetItemEndpoint(s Service) goa.Endpoint {
+// NewGetItemsEndpoint returns an endpoint function that calls the method
+// "getItems" of service "EntryItemService".
+func NewGetItemsEndpoint(s Service) goa.Endpoint {
 	return func(ctx context.Context, req any) (any, error) {
-		p := req.(*GetItemPayload)
-		return s.GetItem(ctx, p)
+		p := req.(*GetItemsPayload)
+		return s.GetItems(ctx, p)
 	}
 }
 

@@ -15,8 +15,8 @@ option go_package = "/item_servicepb";
 service ItemService {
 	// CreateItem implements createItem.
 	rpc CreateItem (CreateItemRequest) returns (CreateItemResponse);
-	// GetItem implements getItem.
-	rpc GetItem (GetItemRequest) returns (GetItemResponse);
+	// GetItems implements getItems.
+	rpc GetItems (GetItemsRequest) returns (GetItemsResponse);
 	// GetAllItems implements getAllItems.
 	rpc GetAllItems (GetAllItemsRequest) returns (GetAllItemsResponse);
 	// UpdateItem implements updateItem.
@@ -53,12 +53,16 @@ message CreateItemResponse {
 	sint32 protection = 6;
 }
 
-message GetItemRequest {
-	// UUId of the item
-	string id = 1;
+message GetItemsRequest {
+	// UUId of the items
+	repeated string id = 1;
 }
 
-message GetItemResponse {
+message GetItemsResponse {
+	repeated Item field = 1;
+}
+
+message Item {
 	// UUId of the item
 	string id = 1;
 	// name of the item
@@ -78,21 +82,6 @@ message GetAllItemsRequest {
 
 message GetAllItemsResponse {
 	repeated Item field = 1;
-}
-
-message Item {
-	// UUId of the item
-	string id = 1;
-	// name of the item
-	string name = 2;
-	// Description of the item
-	string description = 3;
-	// The amount of damage the item can do
-	sint32 damage = 4;
-	// The amount of healing the item can do
-	sint32 healing = 5;
-	// The amount of protection the item can do
-	sint32 protection = 6;
 }
 
 message UpdateItemRequest {
