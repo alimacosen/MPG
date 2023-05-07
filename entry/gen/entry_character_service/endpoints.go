@@ -15,7 +15,7 @@ import (
 
 // Endpoints wraps the "EntryCharacterService" service endpoints.
 type Endpoints struct {
-	CreatCharacter  goa.Endpoint
+	CreateCharacter goa.Endpoint
 	GetCharacter    goa.Endpoint
 	UpdateCharacter goa.Endpoint
 	DeleteCharacter goa.Endpoint
@@ -25,7 +25,7 @@ type Endpoints struct {
 // endpoints.
 func NewEndpoints(s Service) *Endpoints {
 	return &Endpoints{
-		CreatCharacter:  NewCreatCharacterEndpoint(s),
+		CreateCharacter: NewCreateCharacterEndpoint(s),
 		GetCharacter:    NewGetCharacterEndpoint(s),
 		UpdateCharacter: NewUpdateCharacterEndpoint(s),
 		DeleteCharacter: NewDeleteCharacterEndpoint(s),
@@ -35,18 +35,18 @@ func NewEndpoints(s Service) *Endpoints {
 // Use applies the given middleware to all the "EntryCharacterService" service
 // endpoints.
 func (e *Endpoints) Use(m func(goa.Endpoint) goa.Endpoint) {
-	e.CreatCharacter = m(e.CreatCharacter)
+	e.CreateCharacter = m(e.CreateCharacter)
 	e.GetCharacter = m(e.GetCharacter)
 	e.UpdateCharacter = m(e.UpdateCharacter)
 	e.DeleteCharacter = m(e.DeleteCharacter)
 }
 
-// NewCreatCharacterEndpoint returns an endpoint function that calls the method
-// "creatCharacter" of service "EntryCharacterService".
-func NewCreatCharacterEndpoint(s Service) goa.Endpoint {
+// NewCreateCharacterEndpoint returns an endpoint function that calls the
+// method "createCharacter" of service "EntryCharacterService".
+func NewCreateCharacterEndpoint(s Service) goa.Endpoint {
 	return func(ctx context.Context, req any) (any, error) {
-		p := req.(*CreatCharacterPayload)
-		return s.CreatCharacter(ctx, p)
+		p := req.(*CreateCharacterPayload)
+		return s.CreateCharacter(ctx, p)
 	}
 }
 

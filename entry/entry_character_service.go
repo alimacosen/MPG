@@ -21,8 +21,8 @@ func NewEntryCharacterService(logger *log.Logger) entrycharacterservice.Service 
 	return &entryCharacterServicesrvc{logger, handler.GetEntryHandler(logger)}
 }
 
-// CreatCharacter implements creatCharacter.
-func (s *entryCharacterServicesrvc) CreatCharacter(ctx context.Context, p *entrycharacterservice.CreatCharacterPayload) (res *entrycharacterservice.Character, err error) {
+// CreateCharacter implements creatCharacter.
+func (s *entryCharacterServicesrvc) CreateCharacter(ctx context.Context, p *entrycharacterservice.CreateCharacterPayload) (res *entrycharacterservice.Character, err error) {
 	createCharacter := s.entryHandler.GetInstance().GetCharacterClient().CreateCharacter()
 	payload := &characterservice.CreateCharacterPayload{
 		Name:        p.Name,

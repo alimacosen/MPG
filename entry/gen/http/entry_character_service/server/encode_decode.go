@@ -18,24 +18,24 @@ import (
 	goa "goa.design/goa/v3/pkg"
 )
 
-// EncodeCreatCharacterResponse returns an encoder for responses returned by
-// the EntryCharacterService creatCharacter endpoint.
-func EncodeCreatCharacterResponse(encoder func(context.Context, http.ResponseWriter) goahttp.Encoder) func(context.Context, http.ResponseWriter, any) error {
+// EncodeCreateCharacterResponse returns an encoder for responses returned by
+// the EntryCharacterService createCharacter endpoint.
+func EncodeCreateCharacterResponse(encoder func(context.Context, http.ResponseWriter) goahttp.Encoder) func(context.Context, http.ResponseWriter, any) error {
 	return func(ctx context.Context, w http.ResponseWriter, v any) error {
 		res, _ := v.(*entrycharacterservice.Character)
 		enc := encoder(ctx, w)
-		body := NewCreatCharacterResponseBody(res)
+		body := NewCreateCharacterResponseBody(res)
 		w.WriteHeader(http.StatusOK)
 		return enc.Encode(body)
 	}
 }
 
-// DecodeCreatCharacterRequest returns a decoder for requests sent to the
-// EntryCharacterService creatCharacter endpoint.
-func DecodeCreatCharacterRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.Decoder) func(*http.Request) (any, error) {
+// DecodeCreateCharacterRequest returns a decoder for requests sent to the
+// EntryCharacterService createCharacter endpoint.
+func DecodeCreateCharacterRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.Decoder) func(*http.Request) (any, error) {
 	return func(r *http.Request) (any, error) {
 		var (
-			body CreatCharacterRequestBody
+			body CreateCharacterRequestBody
 			err  error
 		)
 		err = decoder(r).Decode(&body)
@@ -45,19 +45,19 @@ func DecodeCreatCharacterRequest(mux goahttp.Muxer, decoder func(*http.Request) 
 			}
 			return nil, goa.DecodePayloadError(err.Error())
 		}
-		err = ValidateCreatCharacterRequestBody(&body)
+		err = ValidateCreateCharacterRequestBody(&body)
 		if err != nil {
 			return nil, err
 		}
-		payload := NewCreatCharacterPayload(&body)
+		payload := NewCreateCharacterPayload(&body)
 
 		return payload, nil
 	}
 }
 
-// EncodeCreatCharacterError returns an encoder for errors returned by the
-// creatCharacter EntryCharacterService endpoint.
-func EncodeCreatCharacterError(encoder func(context.Context, http.ResponseWriter) goahttp.Encoder, formatter func(ctx context.Context, err error) goahttp.Statuser) func(context.Context, http.ResponseWriter, error) error {
+// EncodeCreateCharacterError returns an encoder for errors returned by the
+// createCharacter EntryCharacterService endpoint.
+func EncodeCreateCharacterError(encoder func(context.Context, http.ResponseWriter) goahttp.Encoder, formatter func(ctx context.Context, err error) goahttp.Statuser) func(context.Context, http.ResponseWriter, error) error {
 	encodeError := goahttp.ErrorEncoder(encoder, formatter)
 	return func(ctx context.Context, w http.ResponseWriter, v error) error {
 		var en goa.GoaErrorNamer

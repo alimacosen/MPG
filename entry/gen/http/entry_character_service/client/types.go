@@ -13,9 +13,9 @@ import (
 	goa "goa.design/goa/v3/pkg"
 )
 
-// CreatCharacterRequestBody is the type of the "EntryCharacterService" service
-// "creatCharacter" endpoint HTTP request body.
-type CreatCharacterRequestBody struct {
+// CreateCharacterRequestBody is the type of the "EntryCharacterService"
+// service "createCharacter" endpoint HTTP request body.
+type CreateCharacterRequestBody struct {
 	// Name of the Character
 	Name string `form:"name" json:"name" xml:"name"`
 	// Description of the Character
@@ -35,9 +35,9 @@ type UpdateCharacterRequestBody struct {
 	Experience *int `form:"experience,omitempty" json:"experience,omitempty" xml:"experience,omitempty"`
 }
 
-// CreatCharacterResponseBody is the type of the "EntryCharacterService"
-// service "creatCharacter" endpoint HTTP response body.
-type CreatCharacterResponseBody struct {
+// CreateCharacterResponseBody is the type of the "EntryCharacterService"
+// service "createCharacter" endpoint HTTP response body.
+type CreateCharacterResponseBody struct {
 	// UUId of the character
 	ID *string `form:"id,omitempty" json:"id,omitempty" xml:"id,omitempty"`
 	// Name of the character
@@ -69,10 +69,10 @@ type GetCharacterResponseBody struct {
 	InventoryID *string `form:"inventoryId,omitempty" json:"inventoryId,omitempty" xml:"inventoryId,omitempty"`
 }
 
-// NewCreatCharacterRequestBody builds the HTTP request body from the payload
-// of the "creatCharacter" endpoint of the "EntryCharacterService" service.
-func NewCreatCharacterRequestBody(p *entrycharacterservice.CreatCharacterPayload) *CreatCharacterRequestBody {
-	body := &CreatCharacterRequestBody{
+// NewCreateCharacterRequestBody builds the HTTP request body from the payload
+// of the "createCharacter" endpoint of the "EntryCharacterService" service.
+func NewCreateCharacterRequestBody(p *entrycharacterservice.CreateCharacterPayload) *CreateCharacterRequestBody {
+	body := &CreateCharacterRequestBody{
 		Name:        p.Name,
 		Description: p.Description,
 	}
@@ -91,9 +91,9 @@ func NewUpdateCharacterRequestBody(p *entrycharacterservice.UpdateCharacterPaylo
 	return body
 }
 
-// NewCreatCharacterCharacterOK builds a "EntryCharacterService" service
-// "creatCharacter" endpoint result from a HTTP "OK" response.
-func NewCreatCharacterCharacterOK(body *CreatCharacterResponseBody) *entrycharacterservice.Character {
+// NewCreateCharacterCharacterOK builds a "EntryCharacterService" service
+// "createCharacter" endpoint result from a HTTP "OK" response.
+func NewCreateCharacterCharacterOK(body *CreateCharacterResponseBody) *entrycharacterservice.Character {
 	v := &entrycharacterservice.Character{
 		ID:          *body.ID,
 		Name:        *body.Name,
@@ -106,17 +106,17 @@ func NewCreatCharacterCharacterOK(body *CreatCharacterResponseBody) *entrycharac
 	return v
 }
 
-// NewCreatCharacterCreateInvalidArgs builds a EntryCharacterService service
-// creatCharacter endpoint create_invalid_args error.
-func NewCreatCharacterCreateInvalidArgs(body string) entrycharacterservice.CreateInvalidArgs {
+// NewCreateCharacterCreateInvalidArgs builds a EntryCharacterService service
+// createCharacter endpoint create_invalid_args error.
+func NewCreateCharacterCreateInvalidArgs(body string) entrycharacterservice.CreateInvalidArgs {
 	v := entrycharacterservice.CreateInvalidArgs(body)
 
 	return v
 }
 
-// NewCreatCharacterCreateNoCriteria builds a EntryCharacterService service
-// creatCharacter endpoint create_no_criteria error.
-func NewCreatCharacterCreateNoCriteria(body string) entrycharacterservice.CreateNoCriteria {
+// NewCreateCharacterCreateNoCriteria builds a EntryCharacterService service
+// createCharacter endpoint create_no_criteria error.
+func NewCreateCharacterCreateNoCriteria(body string) entrycharacterservice.CreateNoCriteria {
 	v := entrycharacterservice.CreateNoCriteria(body)
 
 	return v
@@ -209,9 +209,9 @@ func NewDeleteCharacterDeleteNoMatch(body string) entrycharacterservice.DeleteNo
 	return v
 }
 
-// ValidateCreatCharacterResponseBody runs the validations defined on
-// CreatCharacterResponseBody
-func ValidateCreatCharacterResponseBody(body *CreatCharacterResponseBody) (err error) {
+// ValidateCreateCharacterResponseBody runs the validations defined on
+// CreateCharacterResponseBody
+func ValidateCreateCharacterResponseBody(body *CreateCharacterResponseBody) (err error) {
 	if body.ID == nil {
 		err = goa.MergeErrors(err, goa.MissingFieldError("id", "body"))
 	}

@@ -15,7 +15,7 @@ go build ./cmd/characters_server  && go build ./cmd/characters_server-cli
 
 ./characters_server
 
-./characters_server-cli --url="grpc://localhost:8060" character-service create-character --message '{"name": "caifanglei", "description": "newuser"}'
+./character_cli --url="grpc://localhost:8060" character-service create-character --message '{"name": "caifanglei", "description": "newuser"}'
 
 ./characters_server-cli --url="grpc://localhost:8060" character-service get-character --message '{"id": "645311b1f04abf6cd260b1cf"}'
 
@@ -53,8 +53,9 @@ go build ./cmd/item_server  && go build ./cmd/item_server-cli
 ./item_server-cli  --url="grpc://localhost:8080" item-service delete-item --message '{"id": "6454e1af1416cb009192ae32"}'
 
 
+# entry
 
-./entry_server-cli --url="http://localhost:8050" entry-character-service creat-character --body '{"description": "rrrr", "name": "EEE"}'
+./entry_server-cli --url="http://localhost:8050" entry-character-service creat-character --body '{"description": "user desc 1", "name": "user1"}'
 
 ./entry_server-cli --url="http://localhost:8050" entry-character-service get-character --id "6454b38fe5ffb9fa6b99f893"
 

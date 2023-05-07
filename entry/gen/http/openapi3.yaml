@@ -11,14 +11,14 @@ paths:
         post:
             tags:
                 - EntryCharacterService
-            summary: creatCharacter EntryCharacterService
-            operationId: EntryCharacterService#creatCharacter
+            summary: createCharacter EntryCharacterService
+            operationId: EntryCharacterService#createCharacter
             requestBody:
                 required: true
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/CreatCharacterRequestBody'
+                            $ref: '#/components/schemas/CreateCharacterRequestBody'
                         example:
                             description: Quibusdam sunt vero quia tempora dolor repellat.
                             name: Et est.
@@ -272,14 +272,14 @@ paths:
         post:
             tags:
                 - EntryItemService
-            summary: creatItem EntryItemService
-            operationId: EntryItemService#creatItem
+            summary: createItem EntryItemService
+            operationId: EntryItemService#createItem
             requestBody:
                 required: true
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/CreatItemRequestBody'
+                            $ref: '#/components/schemas/CreateItemRequestBody'
                         example:
                             damage: 1446501656436104991
                             description: Porro excepturi quia tempore esse sapiente.
@@ -485,7 +485,7 @@ components:
                 - health
                 - experience
                 - inventoryId
-        CreatCharacterRequestBody:
+        CreateCharacterRequestBody:
             type: object
             properties:
                 description:
@@ -501,7 +501,7 @@ components:
                 name: Praesentium iure omnis.
             required:
                 - name
-        CreatItemRequestBody:
+        CreateItemRequestBody:
             type: object
             properties:
                 damage:

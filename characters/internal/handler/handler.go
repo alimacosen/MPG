@@ -31,13 +31,12 @@ func (c *CharacterHandler) CreateCharacter(ctx context.Context, p *characterserv
 		return nil, characterservice.CreateInvalidArgs("Name can not be an empty string")
 	}
 
-	svc := c.instances.GetSvc()
-
 	characterPreliminary := &model.Character{
 		Name:        &name,
 		Description: p.Description,
 	}
 
+	svc := c.instances.GetSvc()
 	character, err := svc.Create(ctx, characterPreliminary, c.instances.GetInventoryClient())
 	if err != nil {
 		return nil, err
@@ -112,12 +111,19 @@ func (c *CharacterHandler) DeleteCharacter (ctx context.Context, p *characterser
 }
 
 func convert(c *model.Character) *characterservice.Character {
-	return &characterservice.Character{
+	character := &characterservice.Character{
 		ID: c.ID,
 		Name: *c.Name,
-		Description: *c.Description,
 		Health: *c.Health,
 		Experience: *c.Experience,
 		InventoryID: *c.InventoryID,
 	}
+
+	if c.Description == nil {
+		character.Description = ""
+	} else {
+		character.Description = *c.Description
+	}
+
+	return character
 }

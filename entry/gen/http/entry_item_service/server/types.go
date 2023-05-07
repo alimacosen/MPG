@@ -13,9 +13,9 @@ import (
 	goa "goa.design/goa/v3/pkg"
 )
 
-// CreatItemRequestBody is the type of the "EntryItemService" service
-// "creatItem" endpoint HTTP request body.
-type CreatItemRequestBody struct {
+// CreateItemRequestBody is the type of the "EntryItemService" service
+// "createItem" endpoint HTTP request body.
+type CreateItemRequestBody struct {
 	// name of the item
 	Name *string `form:"name,omitempty" json:"name,omitempty" xml:"name,omitempty"`
 	// Description of the item
@@ -41,9 +41,9 @@ type UpdateItemRequestBody struct {
 	Protection *int `form:"protection,omitempty" json:"protection,omitempty" xml:"protection,omitempty"`
 }
 
-// CreatItemResponseBody is the type of the "EntryItemService" service
-// "creatItem" endpoint HTTP response body.
-type CreatItemResponseBody struct {
+// CreateItemResponseBody is the type of the "EntryItemService" service
+// "createItem" endpoint HTTP response body.
+type CreateItemResponseBody struct {
 	// UUId of the item
 	ID string `form:"id" json:"id" xml:"id"`
 	// name of the item
@@ -75,10 +75,10 @@ type GetItemResponseBody struct {
 	Protection int `form:"protection" json:"protection" xml:"protection"`
 }
 
-// NewCreatItemResponseBody builds the HTTP response body from the result of
-// the "creatItem" endpoint of the "EntryItemService" service.
-func NewCreatItemResponseBody(res *entryitemservice.Item) *CreatItemResponseBody {
-	body := &CreatItemResponseBody{
+// NewCreateItemResponseBody builds the HTTP response body from the result of
+// the "createItem" endpoint of the "EntryItemService" service.
+func NewCreateItemResponseBody(res *entryitemservice.Item) *CreateItemResponseBody {
+	body := &CreateItemResponseBody{
 		ID:          res.ID,
 		Name:        res.Name,
 		Description: res.Description,
@@ -103,10 +103,10 @@ func NewGetItemResponseBody(res *entryitemservice.Item) *GetItemResponseBody {
 	return body
 }
 
-// NewCreatItemPayload builds a EntryItemService service creatItem endpoint
+// NewCreateItemPayload builds a EntryItemService service createItem endpoint
 // payload.
-func NewCreatItemPayload(body *CreatItemRequestBody) *entryitemservice.CreatItemPayload {
-	v := &entryitemservice.CreatItemPayload{
+func NewCreateItemPayload(body *CreateItemRequestBody) *entryitemservice.CreateItemPayload {
+	v := &entryitemservice.CreateItemPayload{
 		Name:        *body.Name,
 		Description: *body.Description,
 		Damage:      *body.Damage,
@@ -148,9 +148,9 @@ func NewDeleteItemPayload(id string) *entryitemservice.DeleteItemPayload {
 	return v
 }
 
-// ValidateCreatItemRequestBody runs the validations defined on
-// CreatItemRequestBody
-func ValidateCreatItemRequestBody(body *CreatItemRequestBody) (err error) {
+// ValidateCreateItemRequestBody runs the validations defined on
+// CreateItemRequestBody
+func ValidateCreateItemRequestBody(body *CreateItemRequestBody) (err error) {
 	if body.Name == nil {
 		err = goa.MergeErrors(err, goa.MissingFieldError("name", "body"))
 	}

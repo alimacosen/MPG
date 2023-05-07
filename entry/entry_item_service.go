@@ -20,8 +20,8 @@ func NewEntryItemService(logger *log.Logger) entryitemservice.Service {
 	return &entryItemServicesrvc{logger, handler.GetEntryHandler(logger)}
 }
 
-// CreatItem implements creatItem.
-func (s *entryItemServicesrvc) CreatItem(ctx context.Context, p *entryitemservice.CreatItemPayload) (res *entryitemservice.Item, err error) {
+// CreateItem implements creatItem.
+func (s *entryItemServicesrvc) CreateItem(ctx context.Context, p *entryitemservice.CreateItemPayload) (res *entryitemservice.Item, err error) {
 	createItem := s.entryHandler.GetInstance().GetItemClient().CreateItem()
 	payload := &itemservice.CreateItemPayload{
 		Name:        p.Name,

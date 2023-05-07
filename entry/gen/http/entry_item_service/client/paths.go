@@ -11,8 +11,8 @@ import (
 	"fmt"
 )
 
-// CreatItemEntryItemServicePath returns the URL path to the EntryItemService service creatItem HTTP endpoint.
-func CreatItemEntryItemServicePath() string {
+// CreateItemEntryItemServicePath returns the URL path to the EntryItemService service createItem HTTP endpoint.
+func CreateItemEntryItemServicePath() string {
 	return "/item"
 }
 

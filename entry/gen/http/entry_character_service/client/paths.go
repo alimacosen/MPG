@@ -11,8 +11,8 @@ import (
 	"fmt"
 )
 
-// CreatCharacterEntryCharacterServicePath returns the URL path to the EntryCharacterService service creatCharacter HTTP endpoint.
-func CreatCharacterEntryCharacterServicePath() string {
+// CreateCharacterEntryCharacterServicePath returns the URL path to the EntryCharacterService service createCharacter HTTP endpoint.
+func CreateCharacterEntryCharacterServicePath() string {
 	return "/character"
 }
 
