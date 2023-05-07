@@ -62,11 +62,30 @@ func NewProtoGetItemResponse(result *itemservice.Item) *item_servicepb.GetItemRe
 	return message
 }
 
+// NewProtoGetAllItemsResponse builds the gRPC response type from the result of
+// the "getAllItems" endpoint of the "ItemService" service.
+func NewProtoGetAllItemsResponse(result []*itemservice.Item) *item_servicepb.GetAllItemsResponse {
+	message := &item_servicepb.GetAllItemsResponse{}
+	message.Field = make([]*item_servicepb.Item, len(result))
+	for i, val := range result {
+		message.Field[i] = &item_servicepb.Item{
+			Id:          val.ID,
+			Name:        val.Name,
+			Description: val.Description,
+			Damage:      int32(val.Damage),
+			Healing:     int32(val.Healing),
+			Protection:  int32(val.Protection),
+		}
+	}
+	return message
+}
+
 // NewUpdateItemPayload builds the payload of the "updateItem" endpoint of the
 // "ItemService" service from the gRPC request type.
 func NewUpdateItemPayload(message *item_servicepb.UpdateItemRequest) *itemservice.UpdateItemPayload {
 	v := &itemservice.UpdateItemPayload{
 		ID:          message.Id,
+		Name:        message.Name,
 		Description: message.Description,
 	}
 	if message.Damage != nil {

@@ -19,7 +19,7 @@ import (
 // Server lists the EntryItemService service endpoint HTTP handlers.
 type Server struct {
 	Mounts     []*MountPoint
-	CreatItem  http.Handler
+	CreateItem http.Handler
 	GetItem    http.Handler
 	UpdateItem http.Handler
 	DeleteItem http.Handler
@@ -52,12 +52,12 @@ func New(
 ) *Server {
 	return &Server{
 		Mounts: []*MountPoint{
-			{"CreatItem", "POST", "/item"},
+			{"CreateItem", "POST", "/item"},
 			{"GetItem", "GET", "/item/{id}"},
 			{"UpdateItem", "PATCH", "/item/{id}"},
 			{"DeleteItem", "DELETE", "/item/{id}"},
 		},
-		CreatItem:  NewCreatItemHandler(e.CreatItem, mux, decoder, encoder, errhandler, formatter),
+		CreateItem: NewCreateItemHandler(e.CreateItem, mux, decoder, encoder, errhandler, formatter),
 		GetItem:    NewGetItemHandler(e.GetItem, mux, decoder, encoder, errhandler, formatter),
 		UpdateItem: NewUpdateItemHandler(e.UpdateItem, mux, decoder, encoder, errhandler, formatter),
 		DeleteItem: NewDeleteItemHandler(e.DeleteItem, mux, decoder, encoder, errhandler, formatter),
@@ -69,7 +69,7 @@ func (s *Server) Service() string { return "EntryItemService" }
 
 // Use wraps the server handlers with the given middleware.
 func (s *Server) Use(m func(http.Handler) http.Handler) {
-	s.CreatItem = m(s.CreatItem)
+	s.CreateItem = m(s.CreateItem)
 	s.GetItem = m(s.GetItem)
 	s.UpdateItem = m(s.UpdateItem)
 	s.DeleteItem = m(s.DeleteItem)
@@ -80,7 +80,7 @@ func (s *Server) MethodNames() []string { return entryitemservice.MethodNames[:]
 
 // Mount configures the mux to serve the EntryItemService endpoints.
 func Mount(mux goahttp.Muxer, h *Server) {
-	MountCreatItemHandler(mux, h.CreatItem)
+	MountCreateItemHandler(mux, h.CreateItem)
 	MountGetItemHandler(mux, h.GetItem)
 	MountUpdateItemHandler(mux, h.UpdateItem)
 	MountDeleteItemHandler(mux, h.DeleteItem)
@@ -91,9 +91,9 @@ func (s *Server) Mount(mux goahttp.Muxer) {
 	Mount(mux, s)
 }
 
-// MountCreatItemHandler configures the mux to serve the "EntryItemService"
-// service "creatItem" endpoint.
-func MountCreatItemHandler(mux goahttp.Muxer, h http.Handler) {
+// MountCreateItemHandler configures the mux to serve the "EntryItemService"
+// service "createItem" endpoint.
+func MountCreateItemHandler(mux goahttp.Muxer, h http.Handler) {
 	f, ok := h.(http.HandlerFunc)
 	if !ok {
 		f = func(w http.ResponseWriter, r *http.Request) {
@@ -103,9 +103,9 @@ func MountCreatItemHandler(mux goahttp.Muxer, h http.Handler) {
 	mux.Handle("POST", "/item", f)
 }
 
-// NewCreatItemHandler creates a HTTP handler which loads the HTTP request and
-// calls the "EntryItemService" service "creatItem" endpoint.
-func NewCreatItemHandler(
+// NewCreateItemHandler creates a HTTP handler which loads the HTTP request and
+// calls the "EntryItemService" service "createItem" endpoint.
+func NewCreateItemHandler(
 	endpoint goa.Endpoint,
 	mux goahttp.Muxer,
 	decoder func(*http.Request) goahttp.Decoder,
@@ -114,13 +114,13 @@ func NewCreatItemHandler(
 	formatter func(ctx context.Context, err error) goahttp.Statuser,
 ) http.Handler {
 	var (
-		decodeRequest  = DecodeCreatItemRequest(mux, decoder)
-		encodeResponse = EncodeCreatItemResponse(encoder)
-		encodeError    = EncodeCreatItemError(encoder, formatter)
+		decodeRequest  = DecodeCreateItemRequest(mux, decoder)
+		encodeResponse = EncodeCreateItemResponse(encoder)
+		encodeError    = EncodeCreateItemError(encoder, formatter)
 	)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.WithValue(r.Context(), goahttp.AcceptTypeKey, r.Header.Get("Accept"))
-		ctx = context.WithValue(ctx, goa.MethodKey, "creatItem")
+		ctx = context.WithValue(ctx, goa.MethodKey, "createItem")
 		ctx = context.WithValue(ctx, goa.ServiceKey, "EntryItemService")
 		payload, err := decodeRequest(r)
 		if err != nil {

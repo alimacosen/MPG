@@ -26,9 +26,7 @@ func (i *InventoryHandler) CreateInventory(ctx context.Context, p *inventoryserv
 	svc := i.instances.GetSvc()
 
 	inventoryPreliminary := &model.Inventory{
-		ID: "",
 		UserID: userId,
-		ItemsID: make([]string, 0),
 	}
 
 	ipr, err := svc.Create(ctx, inventoryPreliminary)
@@ -61,9 +59,12 @@ func (i *InventoryHandler) GetInventory (ctx context.Context, p *inventoryservic
 
 func (i *InventoryHandler) UpdateInventory(ctx context.Context, p *inventoryservice.UpdateInventoryPayload) (res int, err error) {
 	id := p.ID
-	updateFields := assembleUpdateFields(p)
 
-	if len(updateFields.ItemsId) == 0 {
+	updateFields := &model.Inventory{
+		ItemsID : p.ItemsID,
+	}
+
+	if len(updateFields.ItemsID) == 0 {
 		return 0, inventoryservice.UpdateInvalidArgs("ItemsId can not be an empty array")
 	}
 
@@ -100,14 +101,4 @@ func convert(i *model.Inventory) *inventoryservice.Inventory {
 		UserID: i.UserID,
 		ItemsID: i.ItemsID,
 	}
-}
-
-func assembleUpdateFields (p *inventoryservice.UpdateInventoryPayload) *model.UpdateFields {
-	updateFields := &model.UpdateFields{}
-
-	if p.ItemsID != nil {
-		updateFields.ItemsId = p.ItemsID
-	}
-
-	return updateFields
 }

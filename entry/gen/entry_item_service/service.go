@@ -13,8 +13,8 @@ import (
 
 // The entry item service communicates with items microservice.
 type Service interface {
-	// CreatItem implements creatItem.
-	CreatItem(context.Context, *CreatItemPayload) (res *Item, err error)
+	// CreateItem implements createItem.
+	CreateItem(context.Context, *CreateItemPayload) (res *Item, err error)
 	// GetItem implements getItem.
 	GetItem(context.Context, *GetItemPayload) (res *Item, err error)
 	// UpdateItem implements updateItem.
@@ -31,11 +31,11 @@ const ServiceName = "EntryItemService"
 // MethodNames lists the service method names as defined in the design. These
 // are the same values that are set in the endpoint request contexts under the
 // MethodKey key.
-var MethodNames = [4]string{"creatItem", "getItem", "updateItem", "deleteItem"}
+var MethodNames = [4]string{"createItem", "getItem", "updateItem", "deleteItem"}
 
-// CreatItemPayload is the payload type of the EntryItemService service
-// creatItem method.
-type CreatItemPayload struct {
+// CreateItemPayload is the payload type of the EntryItemService service
+// createItem method.
+type CreateItemPayload struct {
 	// name of the item
 	Name string
 	// Description of the item
@@ -62,7 +62,7 @@ type GetItemPayload struct {
 	ID string
 }
 
-// Item is the result type of the EntryItemService service creatItem method.
+// Item is the result type of the EntryItemService service createItem method.
 type Item struct {
 	// UUId of the item
 	ID string

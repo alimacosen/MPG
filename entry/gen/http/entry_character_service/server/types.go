@@ -13,9 +13,9 @@ import (
 	goa "goa.design/goa/v3/pkg"
 )
 
-// CreatCharacterRequestBody is the type of the "EntryCharacterService" service
-// "creatCharacter" endpoint HTTP request body.
-type CreatCharacterRequestBody struct {
+// CreateCharacterRequestBody is the type of the "EntryCharacterService"
+// service "createCharacter" endpoint HTTP request body.
+type CreateCharacterRequestBody struct {
 	// Name of the Character
 	Name *string `form:"name,omitempty" json:"name,omitempty" xml:"name,omitempty"`
 	// Description of the Character
@@ -35,9 +35,9 @@ type UpdateCharacterRequestBody struct {
 	Experience *int `form:"experience,omitempty" json:"experience,omitempty" xml:"experience,omitempty"`
 }
 
-// CreatCharacterResponseBody is the type of the "EntryCharacterService"
-// service "creatCharacter" endpoint HTTP response body.
-type CreatCharacterResponseBody struct {
+// CreateCharacterResponseBody is the type of the "EntryCharacterService"
+// service "createCharacter" endpoint HTTP response body.
+type CreateCharacterResponseBody struct {
 	// UUId of the character
 	ID string `form:"id" json:"id" xml:"id"`
 	// Name of the character
@@ -69,10 +69,10 @@ type GetCharacterResponseBody struct {
 	InventoryID string `form:"inventoryId" json:"inventoryId" xml:"inventoryId"`
 }
 
-// NewCreatCharacterResponseBody builds the HTTP response body from the result
-// of the "creatCharacter" endpoint of the "EntryCharacterService" service.
-func NewCreatCharacterResponseBody(res *entrycharacterservice.Character) *CreatCharacterResponseBody {
-	body := &CreatCharacterResponseBody{
+// NewCreateCharacterResponseBody builds the HTTP response body from the result
+// of the "createCharacter" endpoint of the "EntryCharacterService" service.
+func NewCreateCharacterResponseBody(res *entrycharacterservice.Character) *CreateCharacterResponseBody {
+	body := &CreateCharacterResponseBody{
 		ID:          res.ID,
 		Name:        res.Name,
 		Description: res.Description,
@@ -97,10 +97,10 @@ func NewGetCharacterResponseBody(res *entrycharacterservice.Character) *GetChara
 	return body
 }
 
-// NewCreatCharacterPayload builds a EntryCharacterService service
-// creatCharacter endpoint payload.
-func NewCreatCharacterPayload(body *CreatCharacterRequestBody) *entrycharacterservice.CreatCharacterPayload {
-	v := &entrycharacterservice.CreatCharacterPayload{
+// NewCreateCharacterPayload builds a EntryCharacterService service
+// createCharacter endpoint payload.
+func NewCreateCharacterPayload(body *CreateCharacterRequestBody) *entrycharacterservice.CreateCharacterPayload {
+	v := &entrycharacterservice.CreateCharacterPayload{
 		Name:        *body.Name,
 		Description: body.Description,
 	}
@@ -140,9 +140,9 @@ func NewDeleteCharacterPayload(id string) *entrycharacterservice.DeleteCharacter
 	return v
 }
 
-// ValidateCreatCharacterRequestBody runs the validations defined on
-// CreatCharacterRequestBody
-func ValidateCreatCharacterRequestBody(body *CreatCharacterRequestBody) (err error) {
+// ValidateCreateCharacterRequestBody runs the validations defined on
+// CreateCharacterRequestBody
+func ValidateCreateCharacterRequestBody(body *CreateCharacterRequestBody) (err error) {
 	if body.Name == nil {
 		err = goa.MergeErrors(err, goa.MissingFieldError("name", "body"))
 	}

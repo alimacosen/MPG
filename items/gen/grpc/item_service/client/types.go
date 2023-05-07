@@ -62,11 +62,36 @@ func NewGetItemResult(message *item_servicepb.GetItemResponse) *itemservice.Item
 	return result
 }
 
+// NewProtoGetAllItemsRequest builds the gRPC request type from the payload of
+// the "getAllItems" endpoint of the "ItemService" service.
+func NewProtoGetAllItemsRequest() *item_servicepb.GetAllItemsRequest {
+	message := &item_servicepb.GetAllItemsRequest{}
+	return message
+}
+
+// NewGetAllItemsResult builds the result type of the "getAllItems" endpoint of
+// the "ItemService" service from the gRPC response type.
+func NewGetAllItemsResult(message *item_servicepb.GetAllItemsResponse) []*itemservice.Item {
+	result := make([]*itemservice.Item, len(message.Field))
+	for i, val := range message.Field {
+		result[i] = &itemservice.Item{
+			ID:          val.Id,
+			Name:        val.Name,
+			Description: val.Description,
+			Damage:      int(val.Damage),
+			Healing:     int(val.Healing),
+			Protection:  int(val.Protection),
+		}
+	}
+	return result
+}
+
 // NewProtoUpdateItemRequest builds the gRPC request type from the payload of
 // the "updateItem" endpoint of the "ItemService" service.
 func NewProtoUpdateItemRequest(payload *itemservice.UpdateItemPayload) *item_servicepb.UpdateItemRequest {
 	message := &item_servicepb.UpdateItemRequest{
 		Id:          payload.ID,
+		Name:        payload.Name,
 		Description: payload.Description,
 	}
 	if payload.Damage != nil {

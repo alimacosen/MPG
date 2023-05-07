@@ -18,14 +18,14 @@ import (
 	goahttp "goa.design/goa/v3/http"
 )
 
-// BuildCreatCharacterRequest instantiates a HTTP request object with method
-// and path set to call the "EntryCharacterService" service "creatCharacter"
+// BuildCreateCharacterRequest instantiates a HTTP request object with method
+// and path set to call the "EntryCharacterService" service "createCharacter"
 // endpoint
-func (c *Client) BuildCreatCharacterRequest(ctx context.Context, v any) (*http.Request, error) {
-	u := &url.URL{Scheme: c.scheme, Host: c.host, Path: CreatCharacterEntryCharacterServicePath()}
+func (c *Client) BuildCreateCharacterRequest(ctx context.Context, v any) (*http.Request, error) {
+	u := &url.URL{Scheme: c.scheme, Host: c.host, Path: CreateCharacterEntryCharacterServicePath()}
 	req, err := http.NewRequest("POST", u.String(), nil)
 	if err != nil {
-		return nil, goahttp.ErrInvalidURL("EntryCharacterService", "creatCharacter", u.String(), err)
+		return nil, goahttp.ErrInvalidURL("EntryCharacterService", "createCharacter", u.String(), err)
 	}
 	if ctx != nil {
 		req = req.WithContext(ctx)
@@ -34,30 +34,30 @@ func (c *Client) BuildCreatCharacterRequest(ctx context.Context, v any) (*http.R
 	return req, nil
 }
 
-// EncodeCreatCharacterRequest returns an encoder for requests sent to the
-// EntryCharacterService creatCharacter server.
-func EncodeCreatCharacterRequest(encoder func(*http.Request) goahttp.Encoder) func(*http.Request, any) error {
+// EncodeCreateCharacterRequest returns an encoder for requests sent to the
+// EntryCharacterService createCharacter server.
+func EncodeCreateCharacterRequest(encoder func(*http.Request) goahttp.Encoder) func(*http.Request, any) error {
 	return func(req *http.Request, v any) error {
-		p, ok := v.(*entrycharacterservice.CreatCharacterPayload)
+		p, ok := v.(*entrycharacterservice.CreateCharacterPayload)
 		if !ok {
-			return goahttp.ErrInvalidType("EntryCharacterService", "creatCharacter", "*entrycharacterservice.CreatCharacterPayload", v)
+			return goahttp.ErrInvalidType("EntryCharacterService", "createCharacter", "*entrycharacterservice.CreateCharacterPayload", v)
 		}
-		body := NewCreatCharacterRequestBody(p)
+		body := NewCreateCharacterRequestBody(p)
 		if err := encoder(req).Encode(&body); err != nil {
-			return goahttp.ErrEncodingError("EntryCharacterService", "creatCharacter", err)
+			return goahttp.ErrEncodingError("EntryCharacterService", "createCharacter", err)
 		}
 		return nil
 	}
 }
 
-// DecodeCreatCharacterResponse returns a decoder for responses returned by the
-// EntryCharacterService creatCharacter endpoint. restoreBody controls whether
-// the response body should be restored after having been read.
-// DecodeCreatCharacterResponse may return the following errors:
+// DecodeCreateCharacterResponse returns a decoder for responses returned by
+// the EntryCharacterService createCharacter endpoint. restoreBody controls
+// whether the response body should be restored after having been read.
+// DecodeCreateCharacterResponse may return the following errors:
 //   - "create_invalid_args" (type entrycharacterservice.CreateInvalidArgs): http.StatusBadRequest
 //   - "create_no_criteria" (type entrycharacterservice.CreateNoCriteria): http.StatusBadRequest
 //   - error: internal error
-func DecodeCreatCharacterResponse(decoder func(*http.Response) goahttp.Decoder, restoreBody bool) func(*http.Response) (any, error) {
+func DecodeCreateCharacterResponse(decoder func(*http.Response) goahttp.Decoder, restoreBody bool) func(*http.Response) (any, error) {
 	return func(resp *http.Response) (any, error) {
 		if restoreBody {
 			b, err := io.ReadAll(resp.Body)
@@ -74,18 +74,18 @@ func DecodeCreatCharacterResponse(decoder func(*http.Response) goahttp.Decoder, 
 		switch resp.StatusCode {
 		case http.StatusOK:
 			var (
-				body CreatCharacterResponseBody
+				body CreateCharacterResponseBody
 				err  error
 			)
 			err = decoder(resp).Decode(&body)
 			if err != nil {
-				return nil, goahttp.ErrDecodingError("EntryCharacterService", "creatCharacter", err)
+				return nil, goahttp.ErrDecodingError("EntryCharacterService", "createCharacter", err)
 			}
-			err = ValidateCreatCharacterResponseBody(&body)
+			err = ValidateCreateCharacterResponseBody(&body)
 			if err != nil {
-				return nil, goahttp.ErrValidationError("EntryCharacterService", "creatCharacter", err)
+				return nil, goahttp.ErrValidationError("EntryCharacterService", "createCharacter", err)
 			}
-			res := NewCreatCharacterCharacterOK(&body)
+			res := NewCreateCharacterCharacterOK(&body)
 			return res, nil
 		case http.StatusBadRequest:
 			en := resp.Header.Get("goa-error")
@@ -97,9 +97,9 @@ func DecodeCreatCharacterResponse(decoder func(*http.Response) goahttp.Decoder, 
 				)
 				err = decoder(resp).Decode(&body)
 				if err != nil {
-					return nil, goahttp.ErrDecodingError("EntryCharacterService", "creatCharacter", err)
+					return nil, goahttp.ErrDecodingError("EntryCharacterService", "createCharacter", err)
 				}
-				return nil, NewCreatCharacterCreateInvalidArgs(body)
+				return nil, NewCreateCharacterCreateInvalidArgs(body)
 			case "create_no_criteria":
 				var (
 					body string
@@ -107,16 +107,16 @@ func DecodeCreatCharacterResponse(decoder func(*http.Response) goahttp.Decoder, 
 				)
 				err = decoder(resp).Decode(&body)
 				if err != nil {
-					return nil, goahttp.ErrDecodingError("EntryCharacterService", "creatCharacter", err)
+					return nil, goahttp.ErrDecodingError("EntryCharacterService", "createCharacter", err)
 				}
-				return nil, NewCreatCharacterCreateNoCriteria(body)
+				return nil, NewCreateCharacterCreateNoCriteria(body)
 			default:
 				body, _ := io.ReadAll(resp.Body)
-				return nil, goahttp.ErrInvalidResponse("EntryCharacterService", "creatCharacter", resp.StatusCode, string(body))
+				return nil, goahttp.ErrInvalidResponse("EntryCharacterService", "createCharacter", resp.StatusCode, string(body))
 			}
 		default:
 			body, _ := io.ReadAll(resp.Body)
-			return nil, goahttp.ErrInvalidResponse("EntryCharacterService", "creatCharacter", resp.StatusCode, string(body))
+			return nil, goahttp.ErrInvalidResponse("EntryCharacterService", "createCharacter", resp.StatusCode, string(body))
 		}
 	}
 }

@@ -13,18 +13,18 @@ import (
 	entryitemservice "mpg/entry/gen/entry_item_service"
 )
 
-// BuildCreatItemPayload builds the payload for the EntryItemService creatItem
-// endpoint from CLI flags.
-func BuildCreatItemPayload(entryItemServiceCreatItemBody string) (*entryitemservice.CreatItemPayload, error) {
+// BuildCreateItemPayload builds the payload for the EntryItemService
+// createItem endpoint from CLI flags.
+func BuildCreateItemPayload(entryItemServiceCreateItemBody string) (*entryitemservice.CreateItemPayload, error) {
 	var err error
-	var body CreatItemRequestBody
+	var body CreateItemRequestBody
 	{
-		err = json.Unmarshal([]byte(entryItemServiceCreatItemBody), &body)
+		err = json.Unmarshal([]byte(entryItemServiceCreateItemBody), &body)
 		if err != nil {
 			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"damage\": 1446501656436104991,\n      \"description\": \"Porro excepturi quia tempore esse sapiente.\",\n      \"healing\": 8469736963636152442,\n      \"name\": \"Pariatur repellendus consequatur.\",\n      \"protection\": 7091603181480834472\n   }'")
 		}
 	}
-	v := &entryitemservice.CreatItemPayload{
+	v := &entryitemservice.CreateItemPayload{
 		Name:        body.Name,
 		Description: body.Description,
 		Damage:      body.Damage,

@@ -15,7 +15,7 @@ import (
 
 // Client is the "EntryCharacterService" service client.
 type Client struct {
-	CreatCharacterEndpoint  goa.Endpoint
+	CreateCharacterEndpoint goa.Endpoint
 	GetCharacterEndpoint    goa.Endpoint
 	UpdateCharacterEndpoint goa.Endpoint
 	DeleteCharacterEndpoint goa.Endpoint
@@ -23,24 +23,24 @@ type Client struct {
 
 // NewClient initializes a "EntryCharacterService" service client given the
 // endpoints.
-func NewClient(creatCharacter, getCharacter, updateCharacter, deleteCharacter goa.Endpoint) *Client {
+func NewClient(createCharacter, getCharacter, updateCharacter, deleteCharacter goa.Endpoint) *Client {
 	return &Client{
-		CreatCharacterEndpoint:  creatCharacter,
+		CreateCharacterEndpoint: createCharacter,
 		GetCharacterEndpoint:    getCharacter,
 		UpdateCharacterEndpoint: updateCharacter,
 		DeleteCharacterEndpoint: deleteCharacter,
 	}
 }
 
-// CreatCharacter calls the "creatCharacter" endpoint of the
+// CreateCharacter calls the "createCharacter" endpoint of the
 // "EntryCharacterService" service.
-// CreatCharacter may return the following errors:
+// CreateCharacter may return the following errors:
 //   - "create_no_criteria" (type CreateNoCriteria)
 //   - "create_invalid_args" (type CreateInvalidArgs)
 //   - error: internal error
-func (c *Client) CreatCharacter(ctx context.Context, p *CreatCharacterPayload) (res *Character, err error) {
+func (c *Client) CreateCharacter(ctx context.Context, p *CreateCharacterPayload) (res *Character, err error) {
 	var ires any
-	ires, err = c.CreatCharacterEndpoint(ctx, p)
+	ires, err = c.CreateCharacterEndpoint(ctx, p)
 	if err != nil {
 		return
 	}

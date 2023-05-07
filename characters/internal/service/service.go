@@ -8,16 +8,28 @@ import (
 	inventoryservice "mpg/inventories/gen/inventory_service"
 )
 
-type CharacterService struct {
+type CharacterSvcInterface interface {
+	Create(ctx context.Context, character *model.Character, inventoryClient *inventoryservicec.Client) (*model.Character, error)
+	GetById(ctx context.Context, id string) (*model.Character, error)
+	Update(ctx context.Context, id string, updateFields *model.Character) (int, error)
+	Delete(ctx context.Context, id string, inventoryClient *inventoryservicec.Client) (int, error)
+}
+
+type characterService struct {
 	repo repo.CharacterRepository
 }
 
 
-func NewCharacterService(repo repo.CharacterRepository) *CharacterService {
-	return &CharacterService{repo: repo}
+func NewCharacterService(repo repo.CharacterRepository) CharacterSvcInterface {
+	return &characterService{repo: repo}
 }
 
-func (s *CharacterService) Create(ctx context.Context, character *model.Character, inventoryClient *inventoryservicec.Client) (*model.Character, error) {
+func (s *characterService) Create(ctx context.Context, character *model.Character, inventoryClient *inventoryservicec.Client) (*model.Character, error) {
+	defaultHealth := 100
+	defaultExp := 0
+	character.Health = &defaultHealth
+	character.Experience = &defaultExp
+
 	result, err := s.repo.Create(ctx, character)
 	if err != nil {
 		return nil, err
@@ -31,7 +43,7 @@ func (s *CharacterService) Create(ctx context.Context, character *model.Characte
 	return characterPreliminary, nil
 }
 
-func (s *CharacterService) createInventory(ctx context.Context, characterPreliminary *model.Character, inventoryClient *inventoryservicec.Client) (*model.Character, error) {
+func (s *characterService) createInventory(ctx context.Context, characterPreliminary *model.Character, inventoryClient *inventoryservicec.Client) (*model.Character, error) {
 	createInventoryRpc := inventoryClient.CreateInventory()
 
 	createInventoryRes, err := createInventoryRpc(ctx, &inventoryservice.CreateInventoryPayload{UserID: characterPreliminary.ID})
@@ -41,20 +53,17 @@ func (s *CharacterService) createInventory(ctx context.Context, characterPrelimi
 
 	InventoryId := createInventoryRes.(*inventoryservice.Inventory).ID
 
-	cnt, err := s.UpdateInventoryId(ctx, characterPreliminary.ID, InventoryId)
-	if err != nil {
+	cnt, err := s.updateInventoryId(ctx, characterPreliminary.ID, InventoryId)
+	if err != nil || cnt != 1 {
 		return nil, err
 	}
 
-	if cnt != 1 {
-		// TODO
-	}
-	characterPreliminary.InventoryID = InventoryId
+	characterPreliminary.InventoryID = &InventoryId
 
 	return characterPreliminary, nil
 }
 
-func (s *CharacterService) GetById(ctx context.Context, id string) (*model.Character, error) {
+func (s *characterService) GetById(ctx context.Context, id string) (*model.Character, error) {
 	result, err := s.repo.FindByID(ctx, id)
 	if err != nil {
 		return nil, err
@@ -62,7 +71,7 @@ func (s *CharacterService) GetById(ctx context.Context, id string) (*model.Chara
 	return result, nil
 }
 
-func (s *CharacterService) Update(ctx context.Context, id string, updateFields *model.UpdateFields) (int, error) {
+func (s *characterService) Update(ctx context.Context, id string, updateFields *model.Character) (int, error) {
 	result, err := s.repo.Update(ctx, id, *updateFields)
 	if err != nil {
 		return 0, err
@@ -70,18 +79,15 @@ func (s *CharacterService) Update(ctx context.Context, id string, updateFields *
 	return result, nil
 }
 
-func (s *CharacterService) Delete(ctx context.Context, id string, inventoryClient *inventoryservicec.Client) (int, error) {
+func (s *characterService) Delete(ctx context.Context, id string, inventoryClient *inventoryservicec.Client) (int, error) {
 	character, err := s.GetById(ctx, id)
 	if err != nil {
 		return 0, err
 	}
-	inventoryId := character.InventoryID
+	inventoryId := *character.InventoryID
 	cnt, err := s.deleteInventory(ctx, inventoryId, inventoryClient)
-	if err != nil {
+	if err != nil || cnt != 1 {
 		return 0, err
-	}
-	if cnt != 1 {
-		// TODO
 	}
 
 	result, err := s.repo.Delete(ctx, id)
@@ -91,7 +97,7 @@ func (s *CharacterService) Delete(ctx context.Context, id string, inventoryClien
 	return result, nil
 }
 
-func (s *CharacterService) deleteInventory(ctx context.Context, inventoryId string, inventoryClient *inventoryservicec.Client) (int, error) {
+func (s *characterService) deleteInventory(ctx context.Context, inventoryId string, inventoryClient *inventoryservicec.Client) (int, error) {
 	deleteInventoryRpc := inventoryClient.DeleteInventory()
 
 	deleteInventoryRes, err := deleteInventoryRpc(ctx, &inventoryservice.DeleteInventoryPayload{ID: inventoryId})
@@ -102,8 +108,8 @@ func (s *CharacterService) deleteInventory(ctx context.Context, inventoryId stri
 	return deleteCnt, nil
 }
 
-func (s *CharacterService) UpdateInventoryId(ctx context.Context, id string, inventoryId string) (int, error) {
-	result, err := s.repo.Update(ctx, id, &model.InventoryFields{InventoryId: inventoryId})
+func (s *characterService) updateInventoryId(ctx context.Context, id string, inventoryId string) (int, error) {
+	result, err := s.repo.Update(ctx, id, &model.Character{InventoryID: &inventoryId})
 	if err != nil {
 		return 0, err
 	}

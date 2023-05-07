@@ -19,7 +19,7 @@ import (
 // Server lists the EntryCharacterService service endpoint HTTP handlers.
 type Server struct {
 	Mounts          []*MountPoint
-	CreatCharacter  http.Handler
+	CreateCharacter http.Handler
 	GetCharacter    http.Handler
 	UpdateCharacter http.Handler
 	DeleteCharacter http.Handler
@@ -52,12 +52,12 @@ func New(
 ) *Server {
 	return &Server{
 		Mounts: []*MountPoint{
-			{"CreatCharacter", "POST", "/character"},
+			{"CreateCharacter", "POST", "/character"},
 			{"GetCharacter", "GET", "/character/{id}"},
 			{"UpdateCharacter", "PATCH", "/character/{id}"},
 			{"DeleteCharacter", "DELETE", "/character/{id}"},
 		},
-		CreatCharacter:  NewCreatCharacterHandler(e.CreatCharacter, mux, decoder, encoder, errhandler, formatter),
+		CreateCharacter: NewCreateCharacterHandler(e.CreateCharacter, mux, decoder, encoder, errhandler, formatter),
 		GetCharacter:    NewGetCharacterHandler(e.GetCharacter, mux, decoder, encoder, errhandler, formatter),
 		UpdateCharacter: NewUpdateCharacterHandler(e.UpdateCharacter, mux, decoder, encoder, errhandler, formatter),
 		DeleteCharacter: NewDeleteCharacterHandler(e.DeleteCharacter, mux, decoder, encoder, errhandler, formatter),
@@ -69,7 +69,7 @@ func (s *Server) Service() string { return "EntryCharacterService" }
 
 // Use wraps the server handlers with the given middleware.
 func (s *Server) Use(m func(http.Handler) http.Handler) {
-	s.CreatCharacter = m(s.CreatCharacter)
+	s.CreateCharacter = m(s.CreateCharacter)
 	s.GetCharacter = m(s.GetCharacter)
 	s.UpdateCharacter = m(s.UpdateCharacter)
 	s.DeleteCharacter = m(s.DeleteCharacter)
@@ -80,7 +80,7 @@ func (s *Server) MethodNames() []string { return entrycharacterservice.MethodNam
 
 // Mount configures the mux to serve the EntryCharacterService endpoints.
 func Mount(mux goahttp.Muxer, h *Server) {
-	MountCreatCharacterHandler(mux, h.CreatCharacter)
+	MountCreateCharacterHandler(mux, h.CreateCharacter)
 	MountGetCharacterHandler(mux, h.GetCharacter)
 	MountUpdateCharacterHandler(mux, h.UpdateCharacter)
 	MountDeleteCharacterHandler(mux, h.DeleteCharacter)
@@ -91,9 +91,9 @@ func (s *Server) Mount(mux goahttp.Muxer) {
 	Mount(mux, s)
 }
 
-// MountCreatCharacterHandler configures the mux to serve the
-// "EntryCharacterService" service "creatCharacter" endpoint.
-func MountCreatCharacterHandler(mux goahttp.Muxer, h http.Handler) {
+// MountCreateCharacterHandler configures the mux to serve the
+// "EntryCharacterService" service "createCharacter" endpoint.
+func MountCreateCharacterHandler(mux goahttp.Muxer, h http.Handler) {
 	f, ok := h.(http.HandlerFunc)
 	if !ok {
 		f = func(w http.ResponseWriter, r *http.Request) {
@@ -103,9 +103,10 @@ func MountCreatCharacterHandler(mux goahttp.Muxer, h http.Handler) {
 	mux.Handle("POST", "/character", f)
 }
 
-// NewCreatCharacterHandler creates a HTTP handler which loads the HTTP request
-// and calls the "EntryCharacterService" service "creatCharacter" endpoint.
-func NewCreatCharacterHandler(
+// NewCreateCharacterHandler creates a HTTP handler which loads the HTTP
+// request and calls the "EntryCharacterService" service "createCharacter"
+// endpoint.
+func NewCreateCharacterHandler(
 	endpoint goa.Endpoint,
 	mux goahttp.Muxer,
 	decoder func(*http.Request) goahttp.Decoder,
@@ -114,13 +115,13 @@ func NewCreatCharacterHandler(
 	formatter func(ctx context.Context, err error) goahttp.Statuser,
 ) http.Handler {
 	var (
-		decodeRequest  = DecodeCreatCharacterRequest(mux, decoder)
-		encodeResponse = EncodeCreatCharacterResponse(encoder)
-		encodeError    = EncodeCreatCharacterError(encoder, formatter)
+		decodeRequest  = DecodeCreateCharacterRequest(mux, decoder)
+		encodeResponse = EncodeCreateCharacterResponse(encoder)
+		encodeError    = EncodeCreateCharacterError(encoder, formatter)
 	)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.WithValue(r.Context(), goahttp.AcceptTypeKey, r.Header.Get("Accept"))
-		ctx = context.WithValue(ctx, goa.MethodKey, "creatCharacter")
+		ctx = context.WithValue(ctx, goa.MethodKey, "createCharacter")
 		ctx = context.WithValue(ctx, goa.ServiceKey, "EntryCharacterService")
 		payload, err := decodeRequest(r)
 		if err != nil {

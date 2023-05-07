@@ -15,7 +15,7 @@ import (
 
 // Client is the "EntryItemService" service client.
 type Client struct {
-	CreatItemEndpoint  goa.Endpoint
+	CreateItemEndpoint goa.Endpoint
 	GetItemEndpoint    goa.Endpoint
 	UpdateItemEndpoint goa.Endpoint
 	DeleteItemEndpoint goa.Endpoint
@@ -23,24 +23,24 @@ type Client struct {
 
 // NewClient initializes a "EntryItemService" service client given the
 // endpoints.
-func NewClient(creatItem, getItem, updateItem, deleteItem goa.Endpoint) *Client {
+func NewClient(createItem, getItem, updateItem, deleteItem goa.Endpoint) *Client {
 	return &Client{
-		CreatItemEndpoint:  creatItem,
+		CreateItemEndpoint: createItem,
 		GetItemEndpoint:    getItem,
 		UpdateItemEndpoint: updateItem,
 		DeleteItemEndpoint: deleteItem,
 	}
 }
 
-// CreatItem calls the "creatItem" endpoint of the "EntryItemService" service.
-// CreatItem may return the following errors:
+// CreateItem calls the "createItem" endpoint of the "EntryItemService" service.
+// CreateItem may return the following errors:
 //   - "create_no_criteria" (type CreateNoCriteria)
 //   - "create_invalid_args" (type CreateInvalidArgs)
 //   - "create_duplicated_name" (type CreateDuplicatedName)
 //   - error: internal error
-func (c *Client) CreatItem(ctx context.Context, p *CreatItemPayload) (res *Item, err error) {
+func (c *Client) CreateItem(ctx context.Context, p *CreateItemPayload) (res *Item, err error) {
 	var ires any
-	ires, err = c.CreatItemEndpoint(ctx, p)
+	ires, err = c.CreateItemEndpoint(ctx, p)
 	if err != nil {
 		return
 	}

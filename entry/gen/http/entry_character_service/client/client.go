@@ -17,9 +17,9 @@ import (
 
 // Client lists the EntryCharacterService service endpoint HTTP clients.
 type Client struct {
-	// CreatCharacter Doer is the HTTP client used to make requests to the
-	// creatCharacter endpoint.
-	CreatCharacterDoer goahttp.Doer
+	// CreateCharacter Doer is the HTTP client used to make requests to the
+	// createCharacter endpoint.
+	CreateCharacterDoer goahttp.Doer
 
 	// GetCharacter Doer is the HTTP client used to make requests to the
 	// getCharacter endpoint.
@@ -54,7 +54,7 @@ func NewClient(
 	restoreBody bool,
 ) *Client {
 	return &Client{
-		CreatCharacterDoer:  doer,
+		CreateCharacterDoer: doer,
 		GetCharacterDoer:    doer,
 		UpdateCharacterDoer: doer,
 		DeleteCharacterDoer: doer,
@@ -66,15 +66,15 @@ func NewClient(
 	}
 }
 
-// CreatCharacter returns an endpoint that makes HTTP requests to the
-// EntryCharacterService service creatCharacter server.
-func (c *Client) CreatCharacter() goa.Endpoint {
+// CreateCharacter returns an endpoint that makes HTTP requests to the
+// EntryCharacterService service createCharacter server.
+func (c *Client) CreateCharacter() goa.Endpoint {
 	var (
-		encodeRequest  = EncodeCreatCharacterRequest(c.encoder)
-		decodeResponse = DecodeCreatCharacterResponse(c.decoder, c.RestoreResponseBody)
+		encodeRequest  = EncodeCreateCharacterRequest(c.encoder)
+		decodeResponse = DecodeCreateCharacterResponse(c.decoder, c.RestoreResponseBody)
 	)
 	return func(ctx context.Context, v any) (any, error) {
-		req, err := c.BuildCreatCharacterRequest(ctx, v)
+		req, err := c.BuildCreateCharacterRequest(ctx, v)
 		if err != nil {
 			return nil, err
 		}
@@ -82,9 +82,9 @@ func (c *Client) CreatCharacter() goa.Endpoint {
 		if err != nil {
 			return nil, err
 		}
-		resp, err := c.CreatCharacterDoer.Do(req)
+		resp, err := c.CreateCharacterDoer.Do(req)
 		if err != nil {
-			return nil, goahttp.ErrRequestError("EntryCharacterService", "creatCharacter", err)
+			return nil, goahttp.ErrRequestError("EntryCharacterService", "createCharacter", err)
 		}
 		return decodeResponse(resp)
 	}

@@ -15,19 +15,21 @@ import (
 
 // Client is the "ItemService" service client.
 type Client struct {
-	CreateItemEndpoint goa.Endpoint
-	GetItemEndpoint    goa.Endpoint
-	UpdateItemEndpoint goa.Endpoint
-	DeleteItemEndpoint goa.Endpoint
+	CreateItemEndpoint  goa.Endpoint
+	GetItemEndpoint     goa.Endpoint
+	GetAllItemsEndpoint goa.Endpoint
+	UpdateItemEndpoint  goa.Endpoint
+	DeleteItemEndpoint  goa.Endpoint
 }
 
 // NewClient initializes a "ItemService" service client given the endpoints.
-func NewClient(createItem, getItem, updateItem, deleteItem goa.Endpoint) *Client {
+func NewClient(createItem, getItem, getAllItems, updateItem, deleteItem goa.Endpoint) *Client {
 	return &Client{
-		CreateItemEndpoint: createItem,
-		GetItemEndpoint:    getItem,
-		UpdateItemEndpoint: updateItem,
-		DeleteItemEndpoint: deleteItem,
+		CreateItemEndpoint:  createItem,
+		GetItemEndpoint:     getItem,
+		GetAllItemsEndpoint: getAllItems,
+		UpdateItemEndpoint:  updateItem,
+		DeleteItemEndpoint:  deleteItem,
 	}
 }
 
@@ -57,6 +59,20 @@ func (c *Client) GetItem(ctx context.Context, p *GetItemPayload) (res *Item, err
 		return
 	}
 	return ires.(*Item), nil
+}
+
+// GetAllItems calls the "getAllItems" endpoint of the "ItemService" service.
+// GetAllItems may return the following errors:
+//   - "get_invalid_args" (type GetInvalidArgs)
+//   - "get_no_match" (type GetNoMatch)
+//   - error: internal error
+func (c *Client) GetAllItems(ctx context.Context) (res []*Item, err error) {
+	var ires any
+	ires, err = c.GetAllItemsEndpoint(ctx, nil)
+	if err != nil {
+		return
+	}
+	return ires.([]*Item), nil
 }
 
 // UpdateItem calls the "updateItem" endpoint of the "ItemService" service.

@@ -17,21 +17,21 @@ paths:
         post:
             tags:
                 - EntryCharacterService
-            summary: creatCharacter EntryCharacterService
-            operationId: EntryCharacterService#creatCharacter
+            summary: createCharacter EntryCharacterService
+            operationId: EntryCharacterService#createCharacter
             parameters:
-                - name: CreatCharacterRequestBody
+                - name: CreateCharacterRequestBody
                   in: body
                   required: true
                   schema:
-                    $ref: '#/definitions/EntryCharacterServiceCreatCharacterRequestBody'
+                    $ref: '#/definitions/EntryCharacterServiceCreateCharacterRequestBody'
                     required:
                         - name
             responses:
                 "200":
                     description: OK response.
                     schema:
-                        $ref: '#/definitions/EntryCharacterServiceCreatCharacterResponseBody'
+                        $ref: '#/definitions/EntryCharacterServiceCreateCharacterResponseBody'
                         required:
                             - id
                             - name
@@ -206,14 +206,14 @@ paths:
         post:
             tags:
                 - EntryItemService
-            summary: creatItem EntryItemService
-            operationId: EntryItemService#creatItem
+            summary: createItem EntryItemService
+            operationId: EntryItemService#createItem
             parameters:
-                - name: CreatItemRequestBody
+                - name: CreateItemRequestBody
                   in: body
                   required: true
                   schema:
-                    $ref: '#/definitions/EntryItemServiceCreatItemRequestBody'
+                    $ref: '#/definitions/EntryItemServiceCreateItemRequestBody'
                     required:
                         - name
                         - description
@@ -224,7 +224,7 @@ paths:
                 "200":
                     description: OK response.
                     schema:
-                        $ref: '#/definitions/EntryItemServiceCreatItemResponseBody'
+                        $ref: '#/definitions/EntryItemServiceCreateItemResponseBody'
                         required:
                             - id
                             - name
@@ -332,8 +332,8 @@ paths:
             schemes:
                 - http
 definitions:
-    EntryCharacterServiceCreatCharacterRequestBody:
-        title: EntryCharacterServiceCreatCharacterRequestBody
+    EntryCharacterServiceCreateCharacterRequestBody:
+        title: EntryCharacterServiceCreateCharacterRequestBody
         type: object
         properties:
             description:
@@ -349,8 +349,8 @@ definitions:
             name: Omnis accusantium dolores suscipit.
         required:
             - name
-    EntryCharacterServiceCreatCharacterResponseBody:
-        title: EntryCharacterServiceCreatCharacterResponseBody
+    EntryCharacterServiceCreateCharacterResponseBody:
+        title: EntryCharacterServiceCreateCharacterResponseBody
         type: object
         properties:
             description:
@@ -518,8 +518,8 @@ definitions:
                 - Aperiam at rem voluptatem corporis hic.
         required:
             - itemsId
-    EntryItemServiceCreatItemRequestBody:
-        title: EntryItemServiceCreatItemRequestBody
+    EntryItemServiceCreateItemRequestBody:
+        title: EntryItemServiceCreateItemRequestBody
         type: object
         properties:
             damage:
@@ -557,8 +557,8 @@ definitions:
             - damage
             - healing
             - protection
-    EntryItemServiceCreatItemResponseBody:
-        title: EntryItemServiceCreatItemResponseBody
+    EntryItemServiceCreateItemResponseBody:
+        title: EntryItemServiceCreateItemResponseBody
         type: object
         properties:
             damage:

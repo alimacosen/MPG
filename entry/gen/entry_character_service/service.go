@@ -13,8 +13,8 @@ import (
 
 // The entry character service communicates with characters microservice.
 type Service interface {
-	// CreatCharacter implements creatCharacter.
-	CreatCharacter(context.Context, *CreatCharacterPayload) (res *Character, err error)
+	// CreateCharacter implements createCharacter.
+	CreateCharacter(context.Context, *CreateCharacterPayload) (res *Character, err error)
 	// GetCharacter implements getCharacter.
 	GetCharacter(context.Context, *GetCharacterPayload) (res *Character, err error)
 	// UpdateCharacter implements updateCharacter.
@@ -31,10 +31,10 @@ const ServiceName = "EntryCharacterService"
 // MethodNames lists the service method names as defined in the design. These
 // are the same values that are set in the endpoint request contexts under the
 // MethodKey key.
-var MethodNames = [4]string{"creatCharacter", "getCharacter", "updateCharacter", "deleteCharacter"}
+var MethodNames = [4]string{"createCharacter", "getCharacter", "updateCharacter", "deleteCharacter"}
 
 // Character is the result type of the EntryCharacterService service
-// creatCharacter method.
+// createCharacter method.
 type Character struct {
 	// UUId of the character
 	ID string
@@ -50,9 +50,9 @@ type Character struct {
 	InventoryID string
 }
 
-// CreatCharacterPayload is the payload type of the EntryCharacterService
-// service creatCharacter method.
-type CreatCharacterPayload struct {
+// CreateCharacterPayload is the payload type of the EntryCharacterService
+// service createCharacter method.
+type CreateCharacterPayload struct {
 	// Name of the Character
 	Name string
 	// Description of the Character

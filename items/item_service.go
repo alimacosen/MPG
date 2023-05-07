@@ -31,6 +31,11 @@ func (s *itemServicesrvc) GetItem(ctx context.Context, p *itemservice.GetItemPay
 	return
 }
 
+func (s *itemServicesrvc) GetAllItems(ctx context.Context) (res []*itemservice.Item, err error) {
+	res, err = s.itemHandler.GetAllItems(ctx)
+	return
+}
+
 // UpdateItem implements updateItem.
 func (s *itemServicesrvc) UpdateItem(ctx context.Context, p *itemservice.UpdateItemPayload) (res int, err error) {
 	res, err = s.itemHandler.UpdateItem(ctx, p)

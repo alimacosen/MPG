@@ -18,24 +18,24 @@ import (
 	goa "goa.design/goa/v3/pkg"
 )
 
-// EncodeCreatItemResponse returns an encoder for responses returned by the
-// EntryItemService creatItem endpoint.
-func EncodeCreatItemResponse(encoder func(context.Context, http.ResponseWriter) goahttp.Encoder) func(context.Context, http.ResponseWriter, any) error {
+// EncodeCreateItemResponse returns an encoder for responses returned by the
+// EntryItemService createItem endpoint.
+func EncodeCreateItemResponse(encoder func(context.Context, http.ResponseWriter) goahttp.Encoder) func(context.Context, http.ResponseWriter, any) error {
 	return func(ctx context.Context, w http.ResponseWriter, v any) error {
 		res, _ := v.(*entryitemservice.Item)
 		enc := encoder(ctx, w)
-		body := NewCreatItemResponseBody(res)
+		body := NewCreateItemResponseBody(res)
 		w.WriteHeader(http.StatusOK)
 		return enc.Encode(body)
 	}
 }
 
-// DecodeCreatItemRequest returns a decoder for requests sent to the
-// EntryItemService creatItem endpoint.
-func DecodeCreatItemRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.Decoder) func(*http.Request) (any, error) {
+// DecodeCreateItemRequest returns a decoder for requests sent to the
+// EntryItemService createItem endpoint.
+func DecodeCreateItemRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.Decoder) func(*http.Request) (any, error) {
 	return func(r *http.Request) (any, error) {
 		var (
-			body CreatItemRequestBody
+			body CreateItemRequestBody
 			err  error
 		)
 		err = decoder(r).Decode(&body)
@@ -45,19 +45,19 @@ func DecodeCreatItemRequest(mux goahttp.Muxer, decoder func(*http.Request) goaht
 			}
 			return nil, goa.DecodePayloadError(err.Error())
 		}
-		err = ValidateCreatItemRequestBody(&body)
+		err = ValidateCreateItemRequestBody(&body)
 		if err != nil {
 			return nil, err
 		}
-		payload := NewCreatItemPayload(&body)
+		payload := NewCreateItemPayload(&body)
 
 		return payload, nil
 	}
 }
 
-// EncodeCreatItemError returns an encoder for errors returned by the creatItem
-// EntryItemService endpoint.
-func EncodeCreatItemError(encoder func(context.Context, http.ResponseWriter) goahttp.Encoder, formatter func(ctx context.Context, err error) goahttp.Statuser) func(context.Context, http.ResponseWriter, error) error {
+// EncodeCreateItemError returns an encoder for errors returned by the
+// createItem EntryItemService endpoint.
+func EncodeCreateItemError(encoder func(context.Context, http.ResponseWriter) goahttp.Encoder, formatter func(ctx context.Context, err error) goahttp.Statuser) func(context.Context, http.ResponseWriter, error) error {
 	encodeError := goahttp.ErrorEncoder(encoder, formatter)
 	return func(ctx context.Context, w http.ResponseWriter, v error) error {
 		var en goa.GoaErrorNamer

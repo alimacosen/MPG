@@ -7,7 +7,7 @@ var _ = Service("EntryItemService", func() {
 	HTTP(func() {
 		Path("/item")
 	})
-	Method("creatItem", func() {
+	Method("createItem", func() {
 		Payload(func() {
 			Field(1, "name", String, "name of the item", func() {
 				Meta("rpc:tag", "1")

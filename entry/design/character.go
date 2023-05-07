@@ -7,7 +7,7 @@ var _ = Service("EntryCharacterService", func() {
 	HTTP(func() {
 		Path("/character")
 	})
-	Method("creatCharacter", func() {
+	Method("createCharacter", func() {
 		Payload(func() {
 			Field(1, "name", String, "Name of the Character", func() {
 				Meta("rpc:tag", "1")

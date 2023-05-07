@@ -13,9 +13,9 @@ import (
 	goa "goa.design/goa/v3/pkg"
 )
 
-// CreatItemRequestBody is the type of the "EntryItemService" service
-// "creatItem" endpoint HTTP request body.
-type CreatItemRequestBody struct {
+// CreateItemRequestBody is the type of the "EntryItemService" service
+// "createItem" endpoint HTTP request body.
+type CreateItemRequestBody struct {
 	// name of the item
 	Name string `form:"name" json:"name" xml:"name"`
 	// Description of the item
@@ -41,9 +41,9 @@ type UpdateItemRequestBody struct {
 	Protection *int `form:"protection,omitempty" json:"protection,omitempty" xml:"protection,omitempty"`
 }
 
-// CreatItemResponseBody is the type of the "EntryItemService" service
-// "creatItem" endpoint HTTP response body.
-type CreatItemResponseBody struct {
+// CreateItemResponseBody is the type of the "EntryItemService" service
+// "createItem" endpoint HTTP response body.
+type CreateItemResponseBody struct {
 	// UUId of the item
 	ID *string `form:"id,omitempty" json:"id,omitempty" xml:"id,omitempty"`
 	// name of the item
@@ -75,10 +75,10 @@ type GetItemResponseBody struct {
 	Protection *int `form:"protection,omitempty" json:"protection,omitempty" xml:"protection,omitempty"`
 }
 
-// NewCreatItemRequestBody builds the HTTP request body from the payload of the
-// "creatItem" endpoint of the "EntryItemService" service.
-func NewCreatItemRequestBody(p *entryitemservice.CreatItemPayload) *CreatItemRequestBody {
-	body := &CreatItemRequestBody{
+// NewCreateItemRequestBody builds the HTTP request body from the payload of
+// the "createItem" endpoint of the "EntryItemService" service.
+func NewCreateItemRequestBody(p *entryitemservice.CreateItemPayload) *CreateItemRequestBody {
+	body := &CreateItemRequestBody{
 		Name:        p.Name,
 		Description: p.Description,
 		Damage:      p.Damage,
@@ -100,9 +100,9 @@ func NewUpdateItemRequestBody(p *entryitemservice.UpdateItemPayload) *UpdateItem
 	return body
 }
 
-// NewCreatItemItemOK builds a "EntryItemService" service "creatItem" endpoint
-// result from a HTTP "OK" response.
-func NewCreatItemItemOK(body *CreatItemResponseBody) *entryitemservice.Item {
+// NewCreateItemItemOK builds a "EntryItemService" service "createItem"
+// endpoint result from a HTTP "OK" response.
+func NewCreateItemItemOK(body *CreateItemResponseBody) *entryitemservice.Item {
 	v := &entryitemservice.Item{
 		ID:          *body.ID,
 		Name:        *body.Name,
@@ -115,25 +115,25 @@ func NewCreatItemItemOK(body *CreatItemResponseBody) *entryitemservice.Item {
 	return v
 }
 
-// NewCreatItemCreateDuplicatedName builds a EntryItemService service creatItem
-// endpoint create_duplicated_name error.
-func NewCreatItemCreateDuplicatedName(body string) entryitemservice.CreateDuplicatedName {
+// NewCreateItemCreateDuplicatedName builds a EntryItemService service
+// createItem endpoint create_duplicated_name error.
+func NewCreateItemCreateDuplicatedName(body string) entryitemservice.CreateDuplicatedName {
 	v := entryitemservice.CreateDuplicatedName(body)
 
 	return v
 }
 
-// NewCreatItemCreateInvalidArgs builds a EntryItemService service creatItem
+// NewCreateItemCreateInvalidArgs builds a EntryItemService service createItem
 // endpoint create_invalid_args error.
-func NewCreatItemCreateInvalidArgs(body string) entryitemservice.CreateInvalidArgs {
+func NewCreateItemCreateInvalidArgs(body string) entryitemservice.CreateInvalidArgs {
 	v := entryitemservice.CreateInvalidArgs(body)
 
 	return v
 }
 
-// NewCreatItemCreateNoCriteria builds a EntryItemService service creatItem
+// NewCreateItemCreateNoCriteria builds a EntryItemService service createItem
 // endpoint create_no_criteria error.
-func NewCreatItemCreateNoCriteria(body string) entryitemservice.CreateNoCriteria {
+func NewCreateItemCreateNoCriteria(body string) entryitemservice.CreateNoCriteria {
 	v := entryitemservice.CreateNoCriteria(body)
 
 	return v
@@ -226,9 +226,9 @@ func NewDeleteItemDeleteNoMatch(body string) entryitemservice.DeleteNoMatch {
 	return v
 }
 
-// ValidateCreatItemResponseBody runs the validations defined on
-// CreatItemResponseBody
-func ValidateCreatItemResponseBody(body *CreatItemResponseBody) (err error) {
+// ValidateCreateItemResponseBody runs the validations defined on
+// CreateItemResponseBody
+func ValidateCreateItemResponseBody(body *CreateItemResponseBody) (err error) {
 	if body.ID == nil {
 		err = goa.MergeErrors(err, goa.MissingFieldError("id", "body"))
 	}

@@ -13,18 +13,18 @@ import (
 	entrycharacterservice "mpg/entry/gen/entry_character_service"
 )
 
-// BuildCreatCharacterPayload builds the payload for the EntryCharacterService
-// creatCharacter endpoint from CLI flags.
-func BuildCreatCharacterPayload(entryCharacterServiceCreatCharacterBody string) (*entrycharacterservice.CreatCharacterPayload, error) {
+// BuildCreateCharacterPayload builds the payload for the EntryCharacterService
+// createCharacter endpoint from CLI flags.
+func BuildCreateCharacterPayload(entryCharacterServiceCreateCharacterBody string) (*entrycharacterservice.CreateCharacterPayload, error) {
 	var err error
-	var body CreatCharacterRequestBody
+	var body CreateCharacterRequestBody
 	{
-		err = json.Unmarshal([]byte(entryCharacterServiceCreatCharacterBody), &body)
+		err = json.Unmarshal([]byte(entryCharacterServiceCreateCharacterBody), &body)
 		if err != nil {
 			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"description\": \"Quibusdam sunt vero quia tempora dolor repellat.\",\n      \"name\": \"Et est.\"\n   }'")
 		}
 	}
-	v := &entrycharacterservice.CreatCharacterPayload{
+	v := &entrycharacterservice.CreateCharacterPayload{
 		Name:        body.Name,
 		Description: body.Description,
 	}

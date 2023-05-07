@@ -17,7 +17,7 @@ type Instances struct {
 	cfg *config.DBConfig
 	mongoClient *mongo.Client
 	repo repository.CharacterRepository
-	svc *service.CharacterService
+	svc service.CharacterSvcInterface
 	inventoryClient *inventoryservicec.Client
 }
 
@@ -44,7 +44,7 @@ func NewInstances(logger *log.Logger) (*Instances, error) {
 	return &Instances{cfg: dbCfg, mongoClient: mongoClient, repo: repo, svc: svc, inventoryClient: inventoryClient}, nil
 }
 
-func (i *Instances) GetSvc() *service.CharacterService {
+func (i *Instances) GetSvc() service.CharacterSvcInterface {
 	return i.svc
 }
 

@@ -21,18 +21,18 @@ import (
 //
 //	command (subcommand1|subcommand2|...)
 func UsageCommands() string {
-	return `item-service (create-item|get-item|update-item|delete-item)
+	return `item-service (create-item|get-item|get-all-items|update-item|delete-item)
 `
 }
 
 // UsageExamples produces an example of a valid invocation of the CLI tool.
 func UsageExamples() string {
 	return os.Args[0] + ` item-service create-item --message '{
-      "damage": 5341029838629388614,
-      "description": "Et non ipsam.",
-      "healing": 207277126385969691,
-      "name": "Saepe sed velit laboriosam dolorem asperiores.",
-      "protection": 5496475948197560084
+      "damage": 6656640518575154227,
+      "description": "Sit aliquid harum iure qui quos.",
+      "healing": 6018419887003017801,
+      "name": "Asperiores cupiditate et non ipsam blanditiis dolores.",
+      "protection": 1946787761586667757
    }'` + "\n" +
 		""
 }
@@ -49,6 +49,8 @@ func ParseEndpoint(cc *grpc.ClientConn, opts ...grpc.CallOption) (goa.Endpoint, 
 		itemServiceGetItemFlags       = flag.NewFlagSet("get-item", flag.ExitOnError)
 		itemServiceGetItemMessageFlag = itemServiceGetItemFlags.String("message", "", "")
 
+		itemServiceGetAllItemsFlags = flag.NewFlagSet("get-all-items", flag.ExitOnError)
+
 		itemServiceUpdateItemFlags       = flag.NewFlagSet("update-item", flag.ExitOnError)
 		itemServiceUpdateItemMessageFlag = itemServiceUpdateItemFlags.String("message", "", "")
 
@@ -58,6 +60,7 @@ func ParseEndpoint(cc *grpc.ClientConn, opts ...grpc.CallOption) (goa.Endpoint, 
 	itemServiceFlags.Usage = itemServiceUsage
 	itemServiceCreateItemFlags.Usage = itemServiceCreateItemUsage
 	itemServiceGetItemFlags.Usage = itemServiceGetItemUsage
+	itemServiceGetAllItemsFlags.Usage = itemServiceGetAllItemsUsage
 	itemServiceUpdateItemFlags.Usage = itemServiceUpdateItemUsage
 	itemServiceDeleteItemFlags.Usage = itemServiceDeleteItemUsage
 
@@ -101,6 +104,9 @@ func ParseEndpoint(cc *grpc.ClientConn, opts ...grpc.CallOption) (goa.Endpoint, 
 			case "get-item":
 				epf = itemServiceGetItemFlags
 
+			case "get-all-items":
+				epf = itemServiceGetAllItemsFlags
+
 			case "update-item":
 				epf = itemServiceUpdateItemFlags
 
@@ -138,6 +144,9 @@ func ParseEndpoint(cc *grpc.ClientConn, opts ...grpc.CallOption) (goa.Endpoint, 
 			case "get-item":
 				endpoint = c.GetItem()
 				data, err = itemservicec.BuildGetItemPayload(*itemServiceGetItemMessageFlag)
+			case "get-all-items":
+				endpoint = c.GetAllItems()
+				data = nil
 			case "update-item":
 				endpoint = c.UpdateItem()
 				data, err = itemservicec.BuildUpdateItemPayload(*itemServiceUpdateItemMessageFlag)
@@ -164,6 +173,7 @@ Usage:
 COMMAND:
     create-item: CreateItem implements createItem.
     get-item: GetItem implements getItem.
+    get-all-items: GetAllItems implements getAllItems.
     update-item: UpdateItem implements updateItem.
     delete-item: DeleteItem implements deleteItem.
 
@@ -179,11 +189,11 @@ CreateItem implements createItem.
 
 Example:
     %[1]s item-service create-item --message '{
-      "damage": 5341029838629388614,
-      "description": "Et non ipsam.",
-      "healing": 207277126385969691,
-      "name": "Saepe sed velit laboriosam dolorem asperiores.",
-      "protection": 5496475948197560084
+      "damage": 6656640518575154227,
+      "description": "Sit aliquid harum iure qui quos.",
+      "healing": 6018419887003017801,
+      "name": "Asperiores cupiditate et non ipsam blanditiis dolores.",
+      "protection": 1946787761586667757
    }'
 `, os.Args[0])
 }
@@ -196,8 +206,18 @@ GetItem implements getItem.
 
 Example:
     %[1]s item-service get-item --message '{
-      "id": "Et et."
+      "id": "Ut eos fuga laborum."
    }'
+`, os.Args[0])
+}
+
+func itemServiceGetAllItemsUsage() {
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] item-service get-all-items
+
+GetAllItems implements getAllItems.
+
+Example:
+    %[1]s item-service get-all-items
 `, os.Args[0])
 }
 
@@ -209,11 +229,12 @@ UpdateItem implements updateItem.
 
 Example:
     %[1]s item-service update-item --message '{
-      "damage": 2859992754906818538,
-      "description": "At aliquid quia quos.",
-      "healing": 3742503505492702233,
-      "id": "Dolores et voluptas exercitationem et.",
-      "protection": 4504248543921041780
+      "damage": 3012358727598942804,
+      "description": "Quod dolor.",
+      "healing": 8553807324101554941,
+      "id": "Dolorum earum magnam sequi aliquid optio.",
+      "name": "Sint mollitia.",
+      "protection": 8197344049870397300
    }'
 `, os.Args[0])
 }
@@ -226,7 +247,7 @@ DeleteItem implements deleteItem.
 
 Example:
     %[1]s item-service delete-item --message '{
-      "id": "Dolorum earum magnam sequi aliquid optio."
+      "id": "Eaque debitis aut aut autem quia nesciunt."
    }'
 `, os.Args[0])
 }

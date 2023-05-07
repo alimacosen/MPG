@@ -17,6 +17,8 @@ service ItemService {
 	rpc CreateItem (CreateItemRequest) returns (CreateItemResponse);
 	// GetItem implements getItem.
 	rpc GetItem (GetItemRequest) returns (GetItemResponse);
+	// GetAllItems implements getAllItems.
+	rpc GetAllItems (GetAllItemsRequest) returns (GetAllItemsResponse);
 	// UpdateItem implements updateItem.
 	rpc UpdateItem (UpdateItemRequest) returns (UpdateItemResponse);
 	// DeleteItem implements deleteItem.
@@ -24,7 +26,7 @@ service ItemService {
 }
 
 message CreateItemRequest {
-	// name of the item
+	// Name of the item
 	string name = 1;
 	// Description of the item
 	string description = 2;
@@ -71,17 +73,41 @@ message GetItemResponse {
 	sint32 protection = 6;
 }
 
+message GetAllItemsRequest {
+}
+
+message GetAllItemsResponse {
+	repeated Item field = 1;
+}
+
+message Item {
+	// UUId of the item
+	string id = 1;
+	// name of the item
+	string name = 2;
+	// Description of the item
+	string description = 3;
+	// The amount of damage the item can do
+	sint32 damage = 4;
+	// The amount of healing the item can do
+	sint32 healing = 5;
+	// The amount of protection the item can do
+	sint32 protection = 6;
+}
+
 message UpdateItemRequest {
 	// UUId of the item
 	string id = 1;
+	// Name of the item
+	optional string name = 2;
 	// Description of the item
-	optional string description = 2;
+	optional string description = 3;
 	// The amount of damage the item can do
-	optional sint32 damage = 3;
+	optional sint32 damage = 4;
 	// The amount of healing the item can do
-	optional sint32 healing = 4;
+	optional sint32 healing = 5;
 	// The amount of protection the item can do
-	optional sint32 protection = 5;
+	optional sint32 protection = 6;
 }
 
 message UpdateItemResponse {
