@@ -27,7 +27,6 @@ func (s *itemServicesrvc) CreateItem(ctx context.Context, p *itemservice.CreateI
 
 // GetItems implements getItem.
 func (s *itemServicesrvc) GetItems(ctx context.Context, p *itemservice.GetItemsPayload) (res []*itemservice.Item, err error) {
-	s.logger.Println("!!!!!!!!!!payloads: ", *p)
 	res, err = s.itemHandler.GetItems(ctx, p)
 	return
 }
