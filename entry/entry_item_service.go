@@ -45,25 +45,31 @@ func (s *entryItemServicesrvc) CreatItem(ctx context.Context, p *entryitemservic
 	}, nil
 }
 
-// GetItem implements getItem.
-func (s *entryItemServicesrvc) GetItem(ctx context.Context, p *entryitemservice.GetItemPayload) (res *entryitemservice.Item, err error) {
-	getItem := s.entryHandler.GetInstance().GetItemClient().GetItem()
-	payload := &itemservice.GetItemPayload{
-		ID:        p.ID,
+// GetItems implements getItem.
+func (s *entryItemServicesrvc) GetItems(ctx context.Context, p *entryitemservice.GetItemsPayload) (res []*entryitemservice.Item, err error) {
+	getItem := s.entryHandler.GetInstance().GetItemClient().GetItems()
+	payload := &itemservice.GetItemsPayload{
+		ID:        p.Ids,
 	}
 	result, err := getItem(ctx, payload)
 	if err != nil || result == nil {
 		return nil, err
 	}
-	item := result.(*itemservice.Item)
-	return &entryitemservice.Item{
-		ID: item.ID,
-		Name: item.Name,
-		Description: item.Description,
-		Damage: item.Damage,
-		Healing: item.Healing,
-		Protection: item.Protection,
-	}, nil
+
+	results := result.([]*itemservice.Item)
+	items := make([]*entryitemservice.Item, len(results))
+	for i, item := range results {
+		entryItem := &entryitemservice.Item{
+			ID: item.ID,
+			Name: item.Name,
+			Description: item.Description,
+			Damage: item.Damage,
+			Healing: item.Healing,
+			Protection: item.Protection,
+		}
+		items[i] = entryItem
+	}
+	return items, nil
 }
 
 // UpdateItem implements updateItem.

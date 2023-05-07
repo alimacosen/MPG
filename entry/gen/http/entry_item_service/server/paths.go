@@ -16,9 +16,9 @@ func CreatItemEntryItemServicePath() string {
 	return "/item"
 }
 
-// GetItemEntryItemServicePath returns the URL path to the EntryItemService service getItem HTTP endpoint.
-func GetItemEntryItemServicePath(id string) string {
-	return fmt.Sprintf("/item/%v", id)
+// GetItemsEntryItemServicePath returns the URL path to the EntryItemService service getItems HTTP endpoint.
+func GetItemsEntryItemServicePath() string {
+	return "/item"
 }
 
 // UpdateItemEntryItemServicePath returns the URL path to the EntryItemService service updateItem HTTP endpoint.

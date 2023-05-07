@@ -20,8 +20,8 @@ paths:
                         schema:
                             $ref: '#/components/schemas/CreatCharacterRequestBody'
                         example:
-                            description: Quibusdam sunt vero quia tempora dolor repellat.
-                            name: Et est.
+                            description: Est numquam quibusdam sunt vero.
+                            name: Dicta modi quas placeat eaque.
             responses:
                 "200":
                     description: OK response.
@@ -30,19 +30,19 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Character'
                             example:
-                                description: Laboriosam sed.
-                                experience: 4959048932246710545
-                                health: 4293051552321681590
-                                id: Quasi omnis omnis eaque accusamus.
-                                inventoryId: Ipsa harum tempora eaque.
-                                name: Debitis fugit provident nobis alias et.
+                                description: Accusamus officiis.
+                                experience: 2498843979136799543
+                                health: 9128930847587370333
+                                id: Tempora dolor.
+                                inventoryId: Nobis alias.
+                                name: Et quasi omnis omnis.
                 "400":
                     description: 'create_invalid_args: Bad Request response.'
                     content:
                         application/json:
                             schema:
                                 type: string
-                                example: Magnam eos quod facere vero.
+                                example: Doloribus voluptas aut possimus molestias accusamus earum.
     /character/{id}:
         delete:
             tags:
@@ -57,8 +57,8 @@ paths:
                   schema:
                     type: string
                     description: UUId of the Character
-                    example: Provident et aut quia.
-                  example: Vero quisquam blanditiis.
+                    example: Qui ullam molestiae.
+                  example: Aliquam rem quo ea necessitatibus.
             responses:
                 "200":
                     description: OK response.
@@ -66,23 +66,23 @@ paths:
                         application/json:
                             schema:
                                 type: integer
-                                example: 7391703652895214442
+                                example: 5682620926064169703
                                 format: int64
-                            example: 2785881251768718175
+                            example: 6821726858474368803
                 "400":
                     description: 'no_criteria: Bad Request response.'
                     content:
                         application/json:
                             schema:
                                 type: string
-                                example: Ullam sunt architecto dolor.
+                                example: Dolorem velit non eos.
                 "404":
                     description: 'delete_no_match: Not Found response.'
                     content:
                         application/json:
                             schema:
                                 type: string
-                                example: Cumque molestiae ullam vitae.
+                                example: Deleniti ullam sunt.
         get:
             tags:
                 - EntryCharacterService
@@ -96,8 +96,8 @@ paths:
                   schema:
                     type: string
                     description: UUId of the Character
-                    example: Iusto cum dolorem.
-                  example: Quam explicabo numquam corporis deserunt fuga sit.
+                    example: Hic vel.
+                  example: Maxime cumque laborum.
             responses:
                 "200":
                     description: OK response.
@@ -106,26 +106,26 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Character'
                             example:
-                                description: Est sapiente.
-                                experience: 1664981986458278780
-                                health: 1169068876828509673
-                                id: Cupiditate aut commodi.
-                                inventoryId: Harum doloremque.
-                                name: Amet harum repellat.
+                                description: Cupiditate aut commodi.
+                                experience: 1192529693562691237
+                                health: 3442046693883127481
+                                id: Quia reprehenderit ipsa omnis ipsam quia reiciendis.
+                                inventoryId: Repellat quia est sapiente pariatur omnis.
+                                name: Hic aut iste deleniti.
                 "400":
                     description: 'get_invalid_args: Bad Request response.'
                     content:
                         application/json:
                             schema:
                                 type: string
-                                example: Maiores cupiditate repudiandae voluptatem sint.
+                                example: Aut magnam eos quod facere vero ut.
                 "404":
                     description: 'get_no_match: Not Found response.'
                     content:
                         application/json:
                             schema:
                                 type: string
-                                example: Facere aut dolor.
+                                example: Cupiditate repudiandae voluptatem sint.
         patch:
             tags:
                 - EntryCharacterService
@@ -139,8 +139,8 @@ paths:
                   schema:
                     type: string
                     description: UUId of the Character
-                    example: Molestiae ut autem alias autem suscipit.
-                  example: Qui ullam molestiae.
+                    example: Quam explicabo numquam corporis deserunt fuga sit.
+                  example: Hic quam culpa nemo.
             requestBody:
                 required: true
                 content:
@@ -148,10 +148,10 @@ paths:
                         schema:
                             $ref: '#/components/schemas/UpdateCharacterRequestBody'
                         example:
-                            description: Et sit eligendi optio iure.
-                            experience: 7024460863717845377
-                            health: 6587466712592608632
-                            name: Ut velit vel impedit est et.
+                            description: Ut velit vel impedit est et.
+                            experience: 4260254307231964385
+                            health: 5285512784116714502
+                            name: In ut deleniti nesciunt impedit alias voluptatem.
             responses:
                 "200":
                     description: OK response.
@@ -159,23 +159,23 @@ paths:
                         application/json:
                             schema:
                                 type: integer
-                                example: 2815211783346347725
+                                example: 7610669831680270028
                                 format: int64
-                            example: 4403932048489415778
+                            example: 9198755721131191524
                 "400":
                     description: 'update_invalid_args: Bad Request response.'
                     content:
                         application/json:
                             schema:
                                 type: string
-                                example: Fuga dolorem culpa quisquam.
+                                example: Officia rerum iure sunt esse.
                 "404":
                     description: 'update_no_match: Not Found response.'
                     content:
                         application/json:
                             schema:
                                 type: string
-                                example: Consequatur et iusto veritatis consequatur officia.
+                                example: Qui fuga dolorem.
     /inventory/{id}:
         get:
             tags:
@@ -190,8 +190,8 @@ paths:
                   schema:
                     type: string
                     description: UUId of the inventory
-                    example: Velit qui veritatis error.
-                  example: Distinctio officia eaque culpa itaque.
+                    example: Est deleniti et.
+                  example: Quo minus quisquam quia rerum cumque.
             responses:
                 "200":
                     description: OK response.
@@ -200,25 +200,27 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Inventory'
                             example:
-                                id: Ut sunt dolorum qui.
+                                id: Ut incidunt dicta maiores a laborum.
                                 itemsId:
+                                    - Reprehenderit ea hic ut sunt dolorum.
+                                    - Possimus error error sit.
+                                    - Modi sint provident corporis.
                                     - Tempora laudantium.
-                                    - Et maxime non ut eum.
-                                userId: Error error sit tempore modi sint provident.
+                                userId: Sed harum unde.
                 "400":
                     description: 'get_invalid_args: Bad Request response.'
                     content:
                         application/json:
                             schema:
                                 type: string
-                                example: Unde aut architecto occaecati.
+                                example: Voluptates accusantium ratione error molestias eum cupiditate.
                 "404":
                     description: 'get_no_match: Not Found response.'
                     content:
                         application/json:
                             schema:
                                 type: string
-                                example: Eum libero nisi nisi iure dicta.
+                                example: Blanditiis quis error omnis.
         patch:
             tags:
                 - EntryInventoryService
@@ -232,8 +234,8 @@ paths:
                   schema:
                     type: string
                     description: UUId of the Inventory
-                    example: Recusandae ut unde.
-                  example: Adipisci nam dolorem.
+                    example: Perspiciatis aut non laborum enim rerum.
+                  example: Recusandae ut unde.
             requestBody:
                 required: true
                 content:
@@ -242,7 +244,7 @@ paths:
                             $ref: '#/components/schemas/UpdateInventoryRequestBody'
                         example:
                             itemsId:
-                                - Quibusdam nobis natus a.
+                                - Fugiat veniam maiores quibusdam nobis natus a.
                                 - Tempore qui.
             responses:
                 "200":
@@ -251,24 +253,97 @@ paths:
                         application/json:
                             schema:
                                 type: integer
-                                example: 1104236020780072704
+                                example: 8099162220407970229
                                 format: int64
-                            example: 3937865622683538481
+                            example: 2146718516074063828
                 "400":
                     description: 'update_invalid_args: Bad Request response.'
                     content:
                         application/json:
                             schema:
                                 type: string
-                                example: Eaque quidem aut quo quasi ut distinctio.
+                                example: Eos ut.
                 "404":
                     description: 'update_no_match: Not Found response.'
                     content:
                         application/json:
                             schema:
                                 type: string
-                                example: Ipsam officiis aut voluptatum.
+                                example: Autem quae maxime mollitia omnis enim.
     /item:
+        get:
+            tags:
+                - EntryItemService
+            summary: getItems EntryItemService
+            operationId: EntryItemService#getItems
+            parameters:
+                - name: ids
+                  in: query
+                  description: List of item IDs separated by commas
+                  allowEmptyValue: true
+                  schema:
+                    type: array
+                    items:
+                        type: string
+                        example: Neque quidem occaecati reiciendis et nihil.
+                    description: List of item IDs separated by commas
+                    example:
+                        - id1
+                        - id2
+                        - id3
+                  example:
+                    - id1
+                    - id2
+                    - id3
+            responses:
+                "200":
+                    description: OK response.
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Item'
+                                example:
+                                    - damage: 82505416867682399
+                                      description: Nesciunt maiores voluptas officia ullam debitis excepturi.
+                                      healing: 6154713033457490444
+                                      id: Nesciunt provident.
+                                      name: Molestiae rerum dolorem possimus dolor qui.
+                                      protection: 4162510340940445196
+                                    - damage: 82505416867682399
+                                      description: Nesciunt maiores voluptas officia ullam debitis excepturi.
+                                      healing: 6154713033457490444
+                                      id: Nesciunt provident.
+                                      name: Molestiae rerum dolorem possimus dolor qui.
+                                      protection: 4162510340940445196
+                            example:
+                                - damage: 82505416867682399
+                                  description: Nesciunt maiores voluptas officia ullam debitis excepturi.
+                                  healing: 6154713033457490444
+                                  id: Nesciunt provident.
+                                  name: Molestiae rerum dolorem possimus dolor qui.
+                                  protection: 4162510340940445196
+                                - damage: 82505416867682399
+                                  description: Nesciunt maiores voluptas officia ullam debitis excepturi.
+                                  healing: 6154713033457490444
+                                  id: Nesciunt provident.
+                                  name: Molestiae rerum dolorem possimus dolor qui.
+                                  protection: 4162510340940445196
+                "400":
+                    description: 'get_invalid_args: Bad Request response.'
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example: Adipisci perferendis dolor rem nesciunt qui.
+                "404":
+                    description: 'get_no_match: Not Found response.'
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example: Rerum quia.
         post:
             tags:
                 - EntryItemService
@@ -306,7 +381,7 @@ paths:
                         application/json:
                             schema:
                                 type: string
-                                example: Dolor rem nesciunt qui iure.
+                                example: Ducimus consequatur fugiat temporibus.
     /item/{id}:
         delete:
             tags:
@@ -321,8 +396,8 @@ paths:
                   schema:
                     type: string
                     description: UUId of the item
-                    example: In sequi in.
-                  example: Id alias et libero velit accusantium.
+                    example: Aliquam laboriosam asperiores.
+                  example: In sequi in.
             responses:
                 "200":
                     description: OK response.
@@ -330,66 +405,23 @@ paths:
                         application/json:
                             schema:
                                 type: integer
-                                example: 1734703267155603754
+                                example: 8768204006670002611
                                 format: int64
-                            example: 202970588911920033
+                            example: 153786168126883794
                 "400":
                     description: 'delete_no_criteria: Bad Request response.'
                     content:
                         application/json:
                             schema:
                                 type: string
-                                example: Cumque dolorem voluptatem nisi.
+                                example: Rem et qui dolores aut ea non.
                 "404":
                     description: 'delete_no_match: Not Found response.'
                     content:
                         application/json:
                             schema:
                                 type: string
-                                example: Expedita maxime cumque laborum perspiciatis inventore.
-        get:
-            tags:
-                - EntryItemService
-            summary: getItem EntryItemService
-            operationId: EntryItemService#getItem
-            parameters:
-                - name: id
-                  in: path
-                  description: UUId of the item
-                  required: true
-                  schema:
-                    type: string
-                    description: UUId of the item
-                    example: Quidem occaecati reiciendis.
-                  example: Nihil in omnis incidunt.
-            responses:
-                "200":
-                    description: OK response.
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Item'
-                            example:
-                                damage: 8015377013558799617
-                                description: Nostrum unde sed enim.
-                                healing: 1363958195565086567
-                                id: Nesciunt maiores voluptas officia ullam debitis excepturi.
-                                name: Commodi soluta ea earum atque.
-                                protection: 9189508756765937748
-                "400":
-                    description: 'get_invalid_args: Bad Request response.'
-                    content:
-                        application/json:
-                            schema:
-                                type: string
-                                example: Est et consequatur.
-                "404":
-                    description: 'get_no_match: Not Found response.'
-                    content:
-                        application/json:
-                            schema:
-                                type: string
-                                example: Cum a in sint eos consequatur hic.
+                                example: Rerum praesentium ut dolor.
         patch:
             tags:
                 - EntryItemService
@@ -403,8 +435,8 @@ paths:
                   schema:
                     type: string
                     description: UUId of the item
-                    example: Corporis illum rem minus.
-                  example: Nihil incidunt est sed qui dolorum non.
+                    example: Reprehenderit totam voluptatem corporis.
+                  example: Rem minus suscipit nihil.
             requestBody:
                 required: true
                 content:
@@ -412,10 +444,10 @@ paths:
                         schema:
                             $ref: '#/components/schemas/UpdateItemRequestBody'
                         example:
-                            damage: 8211760277916845929
-                            description: Provident voluptas aspernatur.
-                            healing: 5410378431408351801
-                            protection: 1138281801445593390
+                            damage: 3203299607339697376
+                            description: Neque et.
+                            healing: 7179661917089634877
+                            protection: 8269874940287524892
             responses:
                 "200":
                     description: OK response.
@@ -423,23 +455,23 @@ paths:
                         application/json:
                             schema:
                                 type: integer
-                                example: 344182992620473022
+                                example: 7785505101233720605
                                 format: int64
-                            example: 477044541520580572
+                            example: 8683973959481838150
                 "400":
                     description: 'update_invalid_args: Bad Request response.'
                     content:
                         application/json:
                             schema:
                                 type: string
-                                example: Et qui.
+                                example: Eos consequatur.
                 "404":
                     description: 'update_no_match: Not Found response.'
                     content:
                         application/json:
                             schema:
                                 type: string
-                                example: Cum non sed quibusdam animi rerum praesentium.
+                                example: Quo unde recusandae velit optio quam.
 components:
     schemas:
         Character:
@@ -448,36 +480,36 @@ components:
                 description:
                     type: string
                     description: Description of the character
-                    example: Quaerat quia porro porro fuga.
+                    example: Aliquam dicta qui.
                 experience:
                     type: integer
                     description: The amount of experience value of the character
-                    example: 4958890072321800154
+                    example: 5279517397638910157
                     format: int64
                 health:
                     type: integer
                     description: The amount of health value of the character
-                    example: 8862534188478463547
+                    example: 1997751368163690732
                     format: int64
                 id:
                     type: string
                     description: UUId of the character
-                    example: Blanditiis saepe.
+                    example: Eaque quo quod.
                 inventoryId:
                     type: string
                     description: UUId of the inventory record
-                    example: Consequatur repellendus aliquid et.
+                    example: Quod dolorem.
                 name:
                     type: string
                     description: Name of the character
-                    example: Dolorem animi minus.
+                    example: Praesentium iure omnis.
             example:
-                description: Doloribus voluptas aut possimus molestias accusamus earum.
-                experience: 6034619573735753876
-                health: 428843691560566976
-                id: Quisquam magnam occaecati.
-                inventoryId: Quaerat magnam assumenda.
-                name: Vel delectus placeat a et quidem quibusdam.
+                description: Magnam occaecati dolor vel.
+                experience: 2029506144581947099
+                health: 5498140684395196341
+                id: Minus cumque quaerat quia porro porro fuga.
+                inventoryId: Et quidem quibusdam.
+                name: Voluptas voluptatem consequatur repellendus aliquid et harum.
             required:
                 - id
                 - name
@@ -491,14 +523,14 @@ components:
                 description:
                     type: string
                     description: Description of the Character
-                    example: Eaque quo quod.
+                    example: Suscipit sit natus.
                 name:
                     type: string
                     description: Name of the Character
-                    example: Ea ipsum dolores omnis.
+                    example: Aut recusandae molestiae sit.
             example:
-                description: Aliquam dicta qui.
-                name: Praesentium iure omnis.
+                description: Similique molestiae officia ea ipsum dolores omnis.
+                name: Veritatis eum maxime neque quo.
             required:
                 - name
         CreatItemRequestBody:
@@ -507,32 +539,32 @@ components:
                 damage:
                     type: integer
                     description: The amount of damage the item can do
-                    example: 4648632336786821695
+                    example: 6091669431511271155
                     format: int64
                 description:
                     type: string
                     description: Description of the item
-                    example: Qui eveniet beatae dolores laboriosam sed.
+                    example: Quo quasi ut distinctio mollitia.
                 healing:
                     type: integer
                     description: The amount of healing the item can do
-                    example: 5476739672495686682
+                    example: 6819395025011835073
                     format: int64
                 name:
                     type: string
                     description: name of the item
-                    example: Ut laboriosam qui quos.
+                    example: Qui eaque quidem.
                 protection:
                     type: integer
                     description: The amount of protection the item can do
-                    example: 6407140785228801521
+                    example: 3038747017978127650
                     format: int64
             example:
-                damage: 4723208021508182094
-                description: Cumque ea quo aut.
-                healing: 3324003565343799983
-                name: Qui perspiciatis.
-                protection: 2255336337640910560
+                damage: 6404216896711613122
+                description: Ut laboriosam qui quos.
+                healing: 1427117095187337709
+                name: Ipsam officiis aut voluptatum.
+                protection: 424000276647839486
             required:
                 - name
                 - description
@@ -545,27 +577,27 @@ components:
                 id:
                     type: string
                     description: UUId of the inventory
-                    example: Ducimus magni et officiis est voluptatem ut.
+                    example: Dolor expedita.
                 itemsId:
                     type: array
                     items:
                         type: string
-                        example: Aut a facere.
+                        example: Ullam vitae possimus ducimus magni et.
                     description: Array of uuid of items
                     example:
-                        - Aliquam nostrum consectetur quidem.
-                        - Eum deleniti.
-                        - Qui ab et explicabo voluptatem.
+                        - Voluptatem ut nemo ab tempora iure sunt.
+                        - A facere harum quas aliquam nostrum consectetur.
                 userId:
                     type: string
                     description: UUId of the character that this inventory belongs to
-                    example: Ab tempora iure.
+                    example: Veniam eum aut cumque.
             example:
-                id: Rerum eligendi quia et repellat ex dolore.
+                id: Est eum deleniti dolores qui ab et.
                 itemsId:
-                    - Quas maiores voluptates.
-                    - Ratione error molestias eum cupiditate.
-                userId: Molestiae et ad nostrum eum consectetur.
+                    - Repellat ex dolore quia molestiae et ad.
+                    - Eum consectetur.
+                    - Neque quas.
+                userId: Voluptatem suscipit rerum eligendi.
             required:
                 - id
                 - userId
@@ -575,37 +607,37 @@ components:
                 damage:
                     type: integer
                     description: The amount of damage the item can do
-                    example: 2646041842594261051
+                    example: 4723208021508182094
                     format: int64
                 description:
                     type: string
                     description: Description of the item
-                    example: Et sed qui.
+                    example: Cumque ea quo aut.
                 healing:
                     type: integer
                     description: The amount of healing the item can do
-                    example: 885852020221495776
+                    example: 3324003565343799983
                     format: int64
                 id:
                     type: string
                     description: UUId of the item
-                    example: Commodi aut atque voluptates deserunt rem facere.
+                    example: Dolores laboriosam sed.
                 name:
                     type: string
                     description: name of the item
-                    example: Enim recusandae.
+                    example: Cum ipsum autem qui perspiciatis.
                 protection:
                     type: integer
                     description: The amount of protection the item can do
-                    example: 6155563284703613456
+                    example: 2255336337640910560
                     format: int64
             example:
-                damage: 1971465985589832306
-                description: Ut distinctio eaque velit ullam iste.
-                healing: 6003446792148825810
-                id: Ducimus consequatur fugiat temporibus.
-                name: Quibusdam at reiciendis maxime ut sit.
-                protection: 5790375836858094881
+                damage: 2646041842594261051
+                description: Et sed qui.
+                healing: 885852020221495776
+                id: Commodi aut atque voluptates deserunt rem facere.
+                name: Enim recusandae.
+                protection: 6155563284703613456
             required:
                 - id
                 - name
@@ -619,26 +651,26 @@ components:
                 description:
                     type: string
                     description: Description of the Character
-                    example: Aliquam aut repudiandae et.
+                    example: Facere aut dolor.
                 experience:
                     type: integer
                     description: The amount of experience value of the Character
-                    example: 3280542176385847728
+                    example: 1451882900716250803
                     format: int64
                 health:
                     type: integer
                     description: The amount of health value of the Character
-                    example: 7320803378756559932
+                    example: 9033135460609566161
                     format: int64
                 name:
                     type: string
                     description: Name of the Character
-                    example: Qui sed nihil fugiat aut.
+                    example: Unde et molestias ea modi sit.
             example:
-                description: Sunt esse impedit soluta temporibus.
-                experience: 4760179401470515818
-                health: 7299064601292499876
-                name: Est officia rerum.
+                description: Aliquam aut repudiandae et.
+                experience: 3280542176385847728
+                health: 7320803378756559932
+                name: Nihil fugiat aut.
         UpdateInventoryRequestBody:
             type: object
             properties:
@@ -646,16 +678,15 @@ components:
                     type: array
                     items:
                         type: string
-                        example: Asperiores earum quisquam animi vero vel ut.
+                        example: Eum libero nisi nisi iure dicta.
                     description: Array of uuid of items
                     example:
-                        - Nisi alias ab et.
-                        - Velit iusto velit.
+                        - Earum quisquam animi.
+                        - Vel ut.
             example:
                 itemsId:
-                    - Eos ut.
-                    - Eos sit.
-                    - Autem quae maxime mollitia omnis enim.
+                    - Nisi alias ab et.
+                    - Velit iusto velit.
             required:
                 - itemsId
         UpdateItemRequestBody:
@@ -664,27 +695,27 @@ components:
                 damage:
                     type: integer
                     description: The amount of damage the item can do
-                    example: 1692060001976825606
+                    example: 3163530541029288893
                     format: int64
                 description:
                     type: string
                     description: Description of the item
-                    example: Consequatur unde ipsam eum.
+                    example: Expedita est et.
                 healing:
                     type: integer
                     description: The amount of healing the item can do
-                    example: 4633309457590523495
+                    example: 8639651129734090640
                     format: int64
                 protection:
                     type: integer
                     description: The amount of protection the item can do
-                    example: 4118370620976858597
+                    example: 6562927741264547420
                     format: int64
             example:
-                damage: 8276620009322244692
-                description: Unde recusandae velit.
-                healing: 4988171159881159893
-                protection: 8768204006670002611
+                damage: 5324224012261769472
+                description: Molestiae quibusdam ut voluptatibus maiores.
+                healing: 6265304869675842764
+                protection: 3441747299886222017
 tags:
     - name: EntryCharacterService
       description: The entry character service communicates with characters microservice.

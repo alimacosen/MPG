@@ -46,32 +46,32 @@ func DecodeCreateItemRequest(ctx context.Context, v any, md metadata.MD) (any, e
 	return payload, nil
 }
 
-// EncodeGetItemResponse encodes responses from the "ItemService" service
-// "getItem" endpoint.
-func EncodeGetItemResponse(ctx context.Context, v any, hdr, trlr *metadata.MD) (any, error) {
-	result, ok := v.(*itemservice.Item)
+// EncodeGetItemsResponse encodes responses from the "ItemService" service
+// "getItems" endpoint.
+func EncodeGetItemsResponse(ctx context.Context, v any, hdr, trlr *metadata.MD) (any, error) {
+	result, ok := v.([]*itemservice.Item)
 	if !ok {
-		return nil, goagrpc.ErrInvalidType("ItemService", "getItem", "*itemservice.Item", v)
+		return nil, goagrpc.ErrInvalidType("ItemService", "getItems", "[]*itemservice.Item", v)
 	}
-	resp := NewProtoGetItemResponse(result)
+	resp := NewProtoGetItemsResponse(result)
 	return resp, nil
 }
 
-// DecodeGetItemRequest decodes requests sent to "ItemService" service
-// "getItem" endpoint.
-func DecodeGetItemRequest(ctx context.Context, v any, md metadata.MD) (any, error) {
+// DecodeGetItemsRequest decodes requests sent to "ItemService" service
+// "getItems" endpoint.
+func DecodeGetItemsRequest(ctx context.Context, v any, md metadata.MD) (any, error) {
 	var (
-		message *item_servicepb.GetItemRequest
+		message *item_servicepb.GetItemsRequest
 		ok      bool
 	)
 	{
-		if message, ok = v.(*item_servicepb.GetItemRequest); !ok {
-			return nil, goagrpc.ErrInvalidType("ItemService", "getItem", "*item_servicepb.GetItemRequest", v)
+		if message, ok = v.(*item_servicepb.GetItemsRequest); !ok {
+			return nil, goagrpc.ErrInvalidType("ItemService", "getItems", "*item_servicepb.GetItemsRequest", v)
 		}
 	}
-	var payload *itemservice.GetItemPayload
+	var payload *itemservice.GetItemsPayload
 	{
-		payload = NewGetItemPayload(message)
+		payload = NewGetItemsPayload(message)
 	}
 	return payload, nil
 }

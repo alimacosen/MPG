@@ -15,8 +15,8 @@ import (
 type Service interface {
 	// CreatItem implements creatItem.
 	CreatItem(context.Context, *CreatItemPayload) (res *Item, err error)
-	// GetItem implements getItem.
-	GetItem(context.Context, *GetItemPayload) (res *Item, err error)
+	// GetItems implements getItems.
+	GetItems(context.Context, *GetItemsPayload) (res []*Item, err error)
 	// UpdateItem implements updateItem.
 	UpdateItem(context.Context, *UpdateItemPayload) (res int, err error)
 	// DeleteItem implements deleteItem.
@@ -31,7 +31,7 @@ const ServiceName = "EntryItemService"
 // MethodNames lists the service method names as defined in the design. These
 // are the same values that are set in the endpoint request contexts under the
 // MethodKey key.
-var MethodNames = [4]string{"creatItem", "getItem", "updateItem", "deleteItem"}
+var MethodNames = [4]string{"creatItem", "getItems", "updateItem", "deleteItem"}
 
 // CreatItemPayload is the payload type of the EntryItemService service
 // creatItem method.
@@ -55,11 +55,11 @@ type DeleteItemPayload struct {
 	ID string
 }
 
-// GetItemPayload is the payload type of the EntryItemService service getItem
+// GetItemsPayload is the payload type of the EntryItemService service getItems
 // method.
-type GetItemPayload struct {
-	// UUId of the item
-	ID string
+type GetItemsPayload struct {
+	// A List of UUIds of the items (will get all if not provided)
+	Ids []string
 }
 
 // Item is the result type of the EntryItemService service creatItem method.

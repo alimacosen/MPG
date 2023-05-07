@@ -203,6 +203,37 @@ paths:
             schemes:
                 - http
     /item:
+        get:
+            tags:
+                - EntryItemService
+            summary: getItems EntryItemService
+            operationId: EntryItemService#getItems
+            parameters:
+                - name: ids
+                  in: query
+                  description: List of item IDs separated by commas
+                  required: false
+                  type: array
+                  items:
+                    type: string
+                  collectionFormat: multi
+            responses:
+                "200":
+                    description: OK response.
+                    schema:
+                        type: array
+                        items:
+                            $ref: '#/definitions/ItemResponse'
+                "400":
+                    description: Bad Request response.
+                    schema:
+                        type: string
+                "404":
+                    description: Not Found response.
+                    schema:
+                        type: string
+            schemes:
+                - http
         post:
             tags:
                 - EntryItemService
@@ -239,39 +270,6 @@ paths:
             schemes:
                 - http
     /item/{id}:
-        get:
-            tags:
-                - EntryItemService
-            summary: getItem EntryItemService
-            operationId: EntryItemService#getItem
-            parameters:
-                - name: id
-                  in: path
-                  description: UUId of the item
-                  required: true
-                  type: string
-            responses:
-                "200":
-                    description: OK response.
-                    schema:
-                        $ref: '#/definitions/EntryItemServiceGetItemResponseBody'
-                        required:
-                            - id
-                            - name
-                            - description
-                            - damage
-                            - healing
-                            - protection
-                "400":
-                    description: Bad Request response.
-                    schema:
-                        type: string
-                "404":
-                    description: Not Found response.
-                    schema:
-                        type: string
-            schemes:
-                - http
         delete:
             tags:
                 - EntryItemService
@@ -339,14 +337,14 @@ definitions:
             description:
                 type: string
                 description: Description of the Character
-                example: Numquam nemo esse ea sit porro.
+                example: Voluptates porro suscipit.
             name:
                 type: string
                 description: Name of the Character
-                example: Ea veritatis.
+                example: Est labore et placeat aut nobis.
         example:
-            description: Quibusdam iusto nobis quam rem.
-            name: Omnis accusantium dolores suscipit.
+            description: Voluptatibus quae est et.
+            name: Aut non debitis aut reiciendis.
         required:
             - name
     EntryCharacterServiceCreatCharacterResponseBody:
@@ -356,36 +354,36 @@ definitions:
             description:
                 type: string
                 description: Description of the character
-                example: Eum quam sint non necessitatibus earum sed.
+                example: Enim qui.
             experience:
                 type: integer
                 description: The amount of experience value of the character
-                example: 2383481284568078650
+                example: 6151480490036731996
                 format: int64
             health:
                 type: integer
                 description: The amount of health value of the character
-                example: 7423830986562215167
+                example: 4273580459537282698
                 format: int64
             id:
                 type: string
                 description: UUId of the character
-                example: Qui modi qui debitis odit dolorum.
+                example: Eius ut consequatur.
             inventoryId:
                 type: string
                 description: UUId of the inventory record
-                example: Sint quasi nemo sunt natus dicta blanditiis.
+                example: Odit dolorum dignissimos temporibus.
             name:
                 type: string
                 description: Name of the character
-                example: Temporibus accusantium totam accusamus.
+                example: A explicabo nostrum sit tempore labore.
         example:
-            description: Aut non debitis aut reiciendis.
-            experience: 3016547019325695351
-            health: 8297019746801853513
-            id: Est labore et placeat aut nobis.
-            inventoryId: Est et veritatis itaque quisquam delectus voluptates.
-            name: Voluptates porro suscipit.
+            description: Sed vel maxime hic sint.
+            experience: 3273255253126358752
+            health: 192112299533579920
+            id: Totam accusamus eum eum quam.
+            inventoryId: Natus dicta blanditiis.
+            name: Non necessitatibus.
         required:
             - id
             - name
@@ -400,36 +398,36 @@ definitions:
             description:
                 type: string
                 description: Description of the character
-                example: Excepturi fuga perferendis quas odio.
+                example: Veritatis a numquam.
             experience:
                 type: integer
                 description: The amount of experience value of the character
-                example: 7687424890364925477
+                example: 2179103222160767970
                 format: int64
             health:
                 type: integer
                 description: The amount of health value of the character
-                example: 3953714528485285362
+                example: 9105368185984365147
                 format: int64
             id:
                 type: string
                 description: UUId of the character
-                example: Qui reprehenderit natus.
+                example: Itaque quisquam.
             inventoryId:
                 type: string
                 description: UUId of the inventory record
-                example: Quo aut excepturi non ducimus.
+                example: Sit porro et omnis.
             name:
                 type: string
                 description: Name of the character
-                example: Ea temporibus.
+                example: Voluptates est.
         example:
-            description: Dolorum sint vero.
-            experience: 3399838487155674043
-            health: 2435322486920218454
-            id: Molestiae in est doloremque.
-            inventoryId: Cum cupiditate dolores modi laudantium provident.
-            name: Harum et eum.
+            description: Qui reprehenderit natus.
+            experience: 5589857983395541352
+            health: 6475181303601977928
+            id: Dolores suscipit.
+            inventoryId: Rerum excepturi fuga perferendis quas odio.
+            name: Quibusdam iusto nobis quam rem.
         required:
             - id
             - name
@@ -444,26 +442,26 @@ definitions:
             description:
                 type: string
                 description: Description of the Character
-                example: Blanditiis minima ut alias.
+                example: Non ducimus numquam.
             experience:
                 type: integer
                 description: The amount of experience value of the Character
-                example: 3375384238095499247
+                example: 4005089790840420711
                 format: int64
             health:
                 type: integer
                 description: The amount of health value of the Character
-                example: 4841819224652801619
+                example: 4994204449734107501
                 format: int64
             name:
                 type: string
                 description: Name of the Character
-                example: Aut a fugit ipsum ex.
+                example: Et nulla quo aut.
         example:
-            description: Labore qui et.
-            experience: 7387014515383921807
-            health: 6028282123356271838
-            name: Exercitationem voluptas nihil perferendis tenetur.
+            description: Vero non qui consequatur.
+            experience: 8915342682572116701
+            health: 8322144202907052629
+            name: Doloremque nisi harum et eum veniam dolorum.
     EntryInventoryServiceGetInventoryResponseBody:
         title: EntryInventoryServiceGetInventoryResponseBody
         type: object
@@ -471,27 +469,28 @@ definitions:
             id:
                 type: string
                 description: UUId of the inventory
-                example: A iure neque ea.
+                example: Modi laudantium provident similique aut.
             itemsId:
                 type: array
                 items:
                     type: string
-                    example: Ea vero mollitia consectetur iste optio.
+                    example: Alias dolorem quia ducimus exercitationem.
                 description: Array of uuid of items
                 example:
-                    - Molestias aut.
-                    - Expedita sit suscipit magni vitae.
+                    - Perferendis tenetur facilis labore qui et.
+                    - Libero voluptas a iure.
+                    - Ea nostrum suscipit.
+                    - Temporibus ea vero.
             userId:
                 type: string
                 description: UUId of the character that this inventory belongs to
-                example: Suscipit dolore.
+                example: Fugit ipsum ex sequi blanditiis minima.
         example:
-            id: In eveniet.
+            id: Consectetur iste optio.
             itemsId:
-                - Consequuntur ad mollitia.
-                - Numquam quam fugiat aperiam recusandae reiciendis.
-                - Dolor eum a.
-            userId: Magnam aut dolorum sit.
+                - Suscipit magni vitae.
+                - In eveniet.
+            userId: Deserunt molestias aut non.
         required:
             - id
             - userId
@@ -503,19 +502,16 @@ definitions:
                 type: array
                 items:
                     type: string
-                    example: Ut quo.
+                    example: Magnam aut dolorum sit.
                 description: Array of uuid of items
                 example:
-                    - Eos eveniet rem iste sed dicta.
-                    - Et nisi qui deleniti.
-                    - Aut consequatur mollitia maiores possimus tempora animi.
-                    - Voluptas voluptas nostrum ut iusto nihil.
+                    - Consequuntur ad mollitia.
+                    - Numquam quam fugiat aperiam recusandae reiciendis.
+                    - Dolor eum a.
         example:
             itemsId:
-                - Rerum officiis rerum sed.
-                - Sint dignissimos.
-                - Non excepturi.
-                - Aperiam at rem voluptatem corporis hic.
+                - Quo minus consequuntur eos eveniet rem.
+                - Sed dicta.
         required:
             - itemsId
     EntryItemServiceCreatItemRequestBody:
@@ -525,32 +521,32 @@ definitions:
             damage:
                 type: integer
                 description: The amount of damage the item can do
-                example: 5518902845522610198
+                example: 4912646914821176720
                 format: int64
             description:
                 type: string
                 description: Description of the item
-                example: Quo harum rem natus.
+                example: Recusandae veritatis excepturi enim non consequatur.
             healing:
                 type: integer
                 description: The amount of healing the item can do
-                example: 3663631085071697561
+                example: 5348405359650813912
                 format: int64
             name:
                 type: string
                 description: name of the item
-                example: Sequi minus natus.
+                example: Adipisci a blanditiis.
             protection:
                 type: integer
                 description: The amount of protection the item can do
-                example: 2718744731566507161
+                example: 7813876536787401980
                 format: int64
         example:
-            damage: 4430341105080950199
-            description: Voluptatem adipisci rerum non maxime eaque.
-            healing: 1738002795148367494
-            name: Consectetur aut.
-            protection: 2804677376964311541
+            damage: 7442076425543414647
+            description: Aliquid hic fugit.
+            healing: 3452583221011656177
+            name: Possimus amet consequatur nulla architecto et neque.
+            protection: 2915927790259007085
         required:
             - name
             - description
@@ -564,82 +560,37 @@ definitions:
             damage:
                 type: integer
                 description: The amount of damage the item can do
-                example: 6361299299013101867
+                example: 3557238148980618185
                 format: int64
             description:
                 type: string
                 description: Description of the item
-                example: Adipisci a blanditiis.
+                example: Voluptas voluptas nostrum ut iusto nihil.
             healing:
                 type: integer
                 description: The amount of healing the item can do
-                example: 4278048299083480722
+                example: 2265772742467057336
                 format: int64
             id:
                 type: string
                 description: UUId of the item
-                example: Rerum sunt saepe dolor autem pariatur.
+                example: Et nisi qui deleniti.
             name:
                 type: string
                 description: name of the item
-                example: Beatae ea.
+                example: Aut consequatur mollitia maiores possimus tempora animi.
             protection:
                 type: integer
                 description: The amount of protection the item can do
-                example: 4844461713965617366
+                example: 802228063177533994
                 format: int64
         example:
-            damage: 7442076425543414647
-            description: Aliquid hic fugit.
-            healing: 3452583221011656177
-            id: Enim non consequatur molestias doloremque voluptatum.
-            name: Possimus amet consequatur nulla architecto et neque.
-            protection: 2915927790259007085
-        required:
-            - id
-            - name
-            - description
-            - damage
-            - healing
-            - protection
-    EntryItemServiceGetItemResponseBody:
-        title: EntryItemServiceGetItemResponseBody
-        type: object
-        properties:
-            damage:
-                type: integer
-                description: The amount of damage the item can do
-                example: 8199667672207191965
-                format: int64
-            description:
-                type: string
-                description: Description of the item
-                example: Fugit officia.
-            healing:
-                type: integer
-                description: The amount of healing the item can do
-                example: 9067795914301216091
-                format: int64
-            id:
-                type: string
-                description: UUId of the item
-                example: Omnis quisquam aut et.
-            name:
-                type: string
-                description: name of the item
-                example: Repellendus similique reiciendis.
-            protection:
-                type: integer
-                description: The amount of protection the item can do
-                example: 837446403879087379
-                format: int64
-        example:
-            damage: 2823430620406757050
-            description: Distinctio ratione.
-            healing: 4303375779329772560
-            id: Et quas iste.
-            name: Sunt atque dicta fuga mollitia.
-            protection: 1632534630022189881
+            damage: 5501637286166184397
+            description: Omnis rerum sunt saepe dolor autem pariatur.
+            healing: 4520143416293010721
+            id: Rerum sed dolores sint dignissimos ducimus.
+            name: Excepturi pariatur aperiam at rem voluptatem corporis.
+            protection: 2032183622103638463
         required:
             - id
             - name
@@ -654,24 +605,69 @@ definitions:
             damage:
                 type: integer
                 description: The amount of damage the item can do
-                example: 8160394278778452612
+                example: 3492769110441161350
                 format: int64
             description:
                 type: string
                 description: Description of the item
-                example: Recusandae molestiae sit corrupti.
+                example: Officiis alias odio et quas.
             healing:
                 type: integer
                 description: The amount of healing the item can do
-                example: 922158710379435614
+                example: 292946016936566502
                 format: int64
             protection:
                 type: integer
                 description: The amount of protection the item can do
-                example: 8655181592637952061
+                example: 2043994820125936570
                 format: int64
         example:
-            damage: 8932500028630521291
-            description: Veritatis eum maxime neque quo.
-            healing: 44475693837648265
-            protection: 7542541237124817789
+            damage: 6057538582975214414
+            description: Dicta fuga mollitia est distinctio.
+            healing: 2823430620406757050
+            protection: 4303375779329772560
+    ItemResponse:
+        title: ItemResponse
+        type: object
+        properties:
+            damage:
+                type: integer
+                description: The amount of damage the item can do
+                example: 4352849972533056931
+                format: int64
+            description:
+                type: string
+                description: Description of the item
+                example: Ut magni velit consectetur aut vel voluptatem.
+            healing:
+                type: integer
+                description: The amount of healing the item can do
+                example: 7831982711180836524
+                format: int64
+            id:
+                type: string
+                description: UUId of the item
+                example: Sequi minus natus.
+            name:
+                type: string
+                description: name of the item
+                example: Quo harum rem natus.
+            protection:
+                type: integer
+                description: The amount of protection the item can do
+                example: 4635530457436951175
+                format: int64
+        example:
+            damage: 2433015413796027910
+            description: Repellendus similique reiciendis.
+            healing: 1811885864130555350
+            id: Eaque ad aut omnis.
+            name: Omnis quisquam aut et.
+            protection: 4415365975770073213
+        required:
+            - id
+            - name
+            - description
+            - damage
+            - healing
+            - protection

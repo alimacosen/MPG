@@ -16,7 +16,7 @@ import (
 // Endpoints wraps the "ItemService" service endpoints.
 type Endpoints struct {
 	CreateItem  goa.Endpoint
-	GetItem     goa.Endpoint
+	GetItems    goa.Endpoint
 	GetAllItems goa.Endpoint
 	UpdateItem  goa.Endpoint
 	DeleteItem  goa.Endpoint
@@ -26,7 +26,7 @@ type Endpoints struct {
 func NewEndpoints(s Service) *Endpoints {
 	return &Endpoints{
 		CreateItem:  NewCreateItemEndpoint(s),
-		GetItem:     NewGetItemEndpoint(s),
+		GetItems:    NewGetItemsEndpoint(s),
 		GetAllItems: NewGetAllItemsEndpoint(s),
 		UpdateItem:  NewUpdateItemEndpoint(s),
 		DeleteItem:  NewDeleteItemEndpoint(s),
@@ -36,7 +36,7 @@ func NewEndpoints(s Service) *Endpoints {
 // Use applies the given middleware to all the "ItemService" service endpoints.
 func (e *Endpoints) Use(m func(goa.Endpoint) goa.Endpoint) {
 	e.CreateItem = m(e.CreateItem)
-	e.GetItem = m(e.GetItem)
+	e.GetItems = m(e.GetItems)
 	e.GetAllItems = m(e.GetAllItems)
 	e.UpdateItem = m(e.UpdateItem)
 	e.DeleteItem = m(e.DeleteItem)
@@ -51,12 +51,12 @@ func NewCreateItemEndpoint(s Service) goa.Endpoint {
 	}
 }
 
-// NewGetItemEndpoint returns an endpoint function that calls the method
-// "getItem" of service "ItemService".
-func NewGetItemEndpoint(s Service) goa.Endpoint {
+// NewGetItemsEndpoint returns an endpoint function that calls the method
+// "getItems" of service "ItemService".
+func NewGetItemsEndpoint(s Service) goa.Endpoint {
 	return func(ctx context.Context, req any) (any, error) {
-		p := req.(*GetItemPayload)
-		return s.GetItem(ctx, p)
+		p := req.(*GetItemsPayload)
+		return s.GetItems(ctx, p)
 	}
 }
 

@@ -7,7 +7,7 @@ import (
 )
 
 type ItemSvcInterface interface {
-	GetById(ctx context.Context, id string) (*model.Item, error)
+	GetById(ctx context.Context, idList []string) ([]*model.Item, error)
 	GetAll(ctx context.Context) ([]*model.Item, error)
 	Create(ctx context.Context, character *model.Item) (*model.Item, error)
 	Update(ctx context.Context, id string, updateFields *model.Item) (int, error)
@@ -30,8 +30,8 @@ func (s *ItemService) Create(ctx context.Context, item *model.Item) (*model.Item
 	return result, nil
 }
 
-func (s *ItemService) GetById(ctx context.Context, id string) (*model.Item, error) {
-	result, err := s.repo.FindByID(ctx, id)
+func (s *ItemService) GetById(ctx context.Context, idList []string) ([]*model.Item, error) {
+	result, err := s.repo.FindByID(ctx, idList)
 	if err != nil {
 		return nil, err
 	}

@@ -39,25 +39,33 @@ func NewProtoCreateItemResponse(result *itemservice.Item) *item_servicepb.Create
 	return message
 }
 
-// NewGetItemPayload builds the payload of the "getItem" endpoint of the
+// NewGetItemsPayload builds the payload of the "getItems" endpoint of the
 // "ItemService" service from the gRPC request type.
-func NewGetItemPayload(message *item_servicepb.GetItemRequest) *itemservice.GetItemPayload {
-	v := &itemservice.GetItemPayload{
-		ID: message.Id,
+func NewGetItemsPayload(message *item_servicepb.GetItemsRequest) *itemservice.GetItemsPayload {
+	v := &itemservice.GetItemsPayload{}
+	if message.Id != nil {
+		v.ID = make([]string, len(message.Id))
+		for i, val := range message.Id {
+			v.ID[i] = val
+		}
 	}
 	return v
 }
 
-// NewProtoGetItemResponse builds the gRPC response type from the result of the
-// "getItem" endpoint of the "ItemService" service.
-func NewProtoGetItemResponse(result *itemservice.Item) *item_servicepb.GetItemResponse {
-	message := &item_servicepb.GetItemResponse{
-		Id:          result.ID,
-		Name:        result.Name,
-		Description: result.Description,
-		Damage:      int32(result.Damage),
-		Healing:     int32(result.Healing),
-		Protection:  int32(result.Protection),
+// NewProtoGetItemsResponse builds the gRPC response type from the result of
+// the "getItems" endpoint of the "ItemService" service.
+func NewProtoGetItemsResponse(result []*itemservice.Item) *item_servicepb.GetItemsResponse {
+	message := &item_servicepb.GetItemsResponse{}
+	message.Field = make([]*item_servicepb.Item, len(result))
+	for i, val := range result {
+		message.Field[i] = &item_servicepb.Item{
+			Id:          val.ID,
+			Name:        val.Name,
+			Description: val.Description,
+			Damage:      int32(val.Damage),
+			Healing:     int32(val.Healing),
+			Protection:  int32(val.Protection),
+		}
 	}
 	return message
 }
