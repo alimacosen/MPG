@@ -6,12 +6,19 @@ import (
 	repo "mpg/inventories/internal/repository"
 )
 
+type InventorySvcInterface interface {
+	Create(ctx context.Context, inventoryPreliminary *model.Inventory) (*model.Inventory, error)
+	GetById(ctx context.Context, id string) (*model.Inventory, error)
+	Update(ctx context.Context, id string, updateFields *model.Inventory) (int, error)
+	Delete(ctx context.Context, id string) (int, error)
+}
+
 type InventoryService struct {
 	repo repo.InventoryRepository
 }
 
 
-func NewInventoryService(repo repo.InventoryRepository) *InventoryService {
+func NewInventoryService(repo repo.InventoryRepository) InventorySvcInterface {
 	return &InventoryService{repo: repo}
 }
 
