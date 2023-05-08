@@ -1,7 +1,34 @@
 # Multiplayer Game
 
 
-# TO BE DONE
+## Introduction
+
+### Requirements 
+This is a take-home assessment project. The task is to build a microservice application that stores characters and their item inventories for a multiplayer game.  
+It is required to use [Goa](https://goa.design/), a design-first microservice framework with [Golang](https://go.dev/) to finish the entire task.
+There are 4 microservices in total:
+> An HTTP/JSON front entry service which provides an API to manipulate the characters, their inventories, and the items that exist
+
+> A GRPC back service that handles CRUD operations for the characters and their attributes
+
+> A GRPC back service that handles CRUD operations for the characters’ inventories
+
+> A GRPC back service that handles CRUD operations for the items that exist and their attributes
+
+> The front entry service should not have any state of its own and should call the appropriate back services via GRPC to implement its operations. The back services may store their state in memory.
+
+### Database Schemas
+
+The entry service doesn't have a DB schema, and the rest 3 services, which are Character, Inventory, and Item, have their own schema.
+
+![schemaER](readme_files/schema.png)
+
+
+### Architecture
+
+The overall architecture is as the image below shows.
+
+![architecture](readme_files/mpg.png)
 
 ## Installation
 
