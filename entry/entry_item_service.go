@@ -77,6 +77,7 @@ func (s *entryItemServicesrvc) UpdateItem(ctx context.Context, p *entryitemservi
 	updateItem := s.entryHandler.GetInstance().GetItemClient().UpdateItem()
 	payload := &itemservice.UpdateItemPayload{
 		ID: p.ID,
+		Name: p.Name,
 		Description: p.Description,
 		Damage: p.Damage,
 		Healing: p.Healing,

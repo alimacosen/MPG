@@ -33,10 +33,10 @@ entry-item-service (create-item|get-items|update-item|delete-item)
 // UsageExamples produces an example of a valid invocation of the CLI tool.
 func UsageExamples() string {
 	return os.Args[0] + ` entry-character-service create-character --body '{
-      "description": "Est numquam quibusdam sunt vero.",
-      "name": "Dicta modi quas placeat eaque."
+      "description": "Quibusdam sunt vero quia tempora dolor repellat.",
+      "name": "Et est."
    }'` + "\n" +
-		os.Args[0] + ` entry-inventory-service get-inventory --id "Et corporis."` + "\n" +
+		os.Args[0] + ` entry-inventory-service get-inventory --id "Amet reprehenderit ea."` + "\n" +
 		os.Args[0] + ` entry-item-service create-item --body '{
       "damage": 1446501656436104991,
       "description": "Porro excepturi quia tempore esse sapiente.",
@@ -286,8 +286,8 @@ CreateCharacter implements createCharacter.
 
 Example:
     %[1]s entry-character-service create-character --body '{
-      "description": "Est numquam quibusdam sunt vero.",
-      "name": "Dicta modi quas placeat eaque."
+      "description": "Quibusdam sunt vero quia tempora dolor repellat.",
+      "name": "Et est."
    }'
 `, os.Args[0])
 }
@@ -299,7 +299,7 @@ GetCharacter implements getCharacter.
     -id STRING: UUId of the Character
 
 Example:
-    %[1]s entry-character-service get-character --id "A molestiae quo eaque ex."
+    %[1]s entry-character-service get-character --id "Hic aut iste deleniti."
 `, os.Args[0])
 }
 
@@ -312,11 +312,11 @@ UpdateCharacter implements updateCharacter.
 
 Example:
     %[1]s entry-character-service update-character --body '{
-      "description": "Ut velit vel impedit est et.",
-      "experience": 4260254307231964385,
-      "health": 5285512784116714502,
-      "name": "In ut deleniti nesciunt impedit alias voluptatem."
-   }' --id "Eligendi optio iure."
+      "description": "Et sit eligendi optio iure.",
+      "experience": 7024460863717845377,
+      "health": 6587466712592608632,
+      "name": "Ut velit vel impedit est et."
+   }' --id "Aliquam cum."
 `, os.Args[0])
 }
 
@@ -327,7 +327,7 @@ DeleteCharacter implements deleteCharacter.
     -id STRING: UUId of the Character
 
 Example:
-    %[1]s entry-character-service delete-character --id "Beatae maxime."
+    %[1]s entry-character-service delete-character --id "Modi totam provident ex magni sunt sunt."
 `, os.Args[0])
 }
 
@@ -353,7 +353,7 @@ GetInventory implements getInventory.
     -id STRING: UUId of the inventory
 
 Example:
-    %[1]s entry-inventory-service get-inventory --id "Et corporis."
+    %[1]s entry-inventory-service get-inventory --id "Amet reprehenderit ea."
 `, os.Args[0])
 }
 
@@ -367,7 +367,7 @@ UpdateInventory implements updateInventory.
 Example:
     %[1]s entry-inventory-service update-inventory --body '{
       "itemsId": [
-         "Fugiat veniam maiores quibusdam nobis natus a.",
+         "Quibusdam nobis natus a.",
          "Tempore qui."
       ]
    }' --id "Iure quae."
@@ -432,11 +432,12 @@ UpdateItem implements updateItem.
 
 Example:
     %[1]s entry-item-service update-item --body '{
-      "damage": 3203299607339697376,
-      "description": "Neque et.",
-      "healing": 7179661917089634877,
-      "protection": 8269874940287524892
-   }' --id "Et quo voluptas fugit officiis."
+      "damage": 7370789085788686602,
+      "description": "Sapiente harum sint et quo voluptas fugit.",
+      "healing": 8579359920166379124,
+      "name": "Neque et.",
+      "protection": 8272555717849134277
+   }' --id "Est maxime."
 `, os.Args[0])
 }
 
@@ -447,6 +448,6 @@ DeleteItem implements deleteItem.
     -id STRING: UUId of the item
 
 Example:
-    %[1]s entry-item-service delete-item --id "Eos beatae."
+    %[1]s entry-item-service delete-item --id "Et laborum quibusdam quasi quis."
 `, os.Args[0])
 }

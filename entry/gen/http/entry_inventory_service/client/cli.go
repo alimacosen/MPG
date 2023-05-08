@@ -36,7 +36,7 @@ func BuildUpdateInventoryPayload(entryInventoryServiceUpdateInventoryBody string
 	{
 		err = json.Unmarshal([]byte(entryInventoryServiceUpdateInventoryBody), &body)
 		if err != nil {
-			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"itemsId\": [\n         \"Fugiat veniam maiores quibusdam nobis natus a.\",\n         \"Tempore qui.\"\n      ]\n   }'")
+			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"itemsId\": [\n         \"Quibusdam nobis natus a.\",\n         \"Tempore qui.\"\n      ]\n   }'")
 		}
 		if body.ItemsID == nil {
 			err = goa.MergeErrors(err, goa.MissingFieldError("itemsId", "body"))

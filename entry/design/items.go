@@ -69,16 +69,19 @@ var _ = Service("EntryItemService", func() {
 			Field(1, "id", String, "UUId of the item", func() {
 				Meta("rpc:tag", "1")
 			})
-			Field(2, "description", String, "Description of the item", func() {
+			Field(2, "name", String, "name of the item", func() {
+				Meta("rpc:tag", "2")
+			})
+			Field(3, "description", String, "Description of the item", func() {
 				Meta("rpc:tag", "3")
 			})
-			Field(3, "damage", Int, "The amount of damage the item can do", func() {
+			Field(4, "damage", Int, "The amount of damage the item can do", func() {
 				Meta("rpc:tag", "4")
 			})
-			Field(4, "healing", Int, "The amount of healing the item can do", func() {
+			Field(5, "healing", Int, "The amount of healing the item can do", func() {
 				Meta("rpc:tag", "5")
 			})
-			Field(5, "protection", Int, "The amount of protection the item can do", func() {
+			Field(6, "protection", Int, "The amount of protection the item can do", func() {
 				Meta("rpc:tag", "6")
 			})
 			Required("id")
