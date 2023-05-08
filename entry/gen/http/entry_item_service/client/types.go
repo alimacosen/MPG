@@ -58,9 +58,12 @@ type CreateItemResponseBody struct {
 	Protection *int `form:"protection,omitempty" json:"protection,omitempty" xml:"protection,omitempty"`
 }
 
-// GetItemResponseBody is the type of the "EntryItemService" service "getItem"
-// endpoint HTTP response body.
-type GetItemResponseBody struct {
+// GetItemsResponseBody is the type of the "EntryItemService" service
+// "getItems" endpoint HTTP response body.
+type GetItemsResponseBody []*ItemResponse
+
+// ItemResponse is used to define fields on response body types.
+type ItemResponse struct {
 	// UUId of the item
 	ID *string `form:"id,omitempty" json:"id,omitempty" xml:"id,omitempty"`
 	// name of the item
@@ -139,40 +142,36 @@ func NewCreateItemCreateNoCriteria(body string) entryitemservice.CreateNoCriteri
 	return v
 }
 
-// NewGetItemItemOK builds a "EntryItemService" service "getItem" endpoint
+// NewGetItemsItemOK builds a "EntryItemService" service "getItems" endpoint
 // result from a HTTP "OK" response.
-func NewGetItemItemOK(body *GetItemResponseBody) *entryitemservice.Item {
-	v := &entryitemservice.Item{
-		ID:          *body.ID,
-		Name:        *body.Name,
-		Description: *body.Description,
-		Damage:      *body.Damage,
-		Healing:     *body.Healing,
-		Protection:  *body.Protection,
+func NewGetItemsItemOK(body []*ItemResponse) []*entryitemservice.Item {
+	v := make([]*entryitemservice.Item, len(body))
+	for i, val := range body {
+		v[i] = unmarshalItemResponseToEntryitemserviceItem(val)
 	}
 
 	return v
 }
 
-// NewGetItemGetInvalidArgs builds a EntryItemService service getItem endpoint
-// get_invalid_args error.
-func NewGetItemGetInvalidArgs(body string) entryitemservice.GetInvalidArgs {
+// NewGetItemsGetInvalidArgs builds a EntryItemService service getItems
+// endpoint get_invalid_args error.
+func NewGetItemsGetInvalidArgs(body string) entryitemservice.GetInvalidArgs {
 	v := entryitemservice.GetInvalidArgs(body)
 
 	return v
 }
 
-// NewGetItemGetNoCriteria builds a EntryItemService service getItem endpoint
+// NewGetItemsGetNoCriteria builds a EntryItemService service getItems endpoint
 // get_no_criteria error.
-func NewGetItemGetNoCriteria(body string) entryitemservice.GetNoCriteria {
+func NewGetItemsGetNoCriteria(body string) entryitemservice.GetNoCriteria {
 	v := entryitemservice.GetNoCriteria(body)
 
 	return v
 }
 
-// NewGetItemGetNoMatch builds a EntryItemService service getItem endpoint
+// NewGetItemsGetNoMatch builds a EntryItemService service getItems endpoint
 // get_no_match error.
-func NewGetItemGetNoMatch(body string) entryitemservice.GetNoMatch {
+func NewGetItemsGetNoMatch(body string) entryitemservice.GetNoMatch {
 	v := entryitemservice.GetNoMatch(body)
 
 	return v
@@ -250,9 +249,8 @@ func ValidateCreateItemResponseBody(body *CreateItemResponseBody) (err error) {
 	return
 }
 
-// ValidateGetItemResponseBody runs the validations defined on
-// GetItemResponseBody
-func ValidateGetItemResponseBody(body *GetItemResponseBody) (err error) {
+// ValidateItemResponse runs the validations defined on ItemResponse
+func ValidateItemResponse(body *ItemResponse) (err error) {
 	if body.ID == nil {
 		err = goa.MergeErrors(err, goa.MissingFieldError("id", "body"))
 	}

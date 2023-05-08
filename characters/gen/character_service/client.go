@@ -36,6 +36,7 @@ func NewClient(createCharacter, getCharacter, updateCharacter, deleteCharacter g
 // "CharacterService" service.
 // CreateCharacter may return the following errors:
 //   - "create_invalid_args" (type CreateInvalidArgs)
+//   - "create_name_not_unique" (type CreateNameNotUnique)
 //   - error: internal error
 func (c *Client) CreateCharacter(ctx context.Context, p *CreateCharacterPayload) (res *Character, err error) {
 	var ires any
@@ -64,6 +65,7 @@ func (c *Client) GetCharacter(ctx context.Context, p *GetCharacterPayload) (res 
 // UpdateCharacter calls the "updateCharacter" endpoint of the
 // "CharacterService" service.
 // UpdateCharacter may return the following errors:
+//   - "update_name_not_unique" (type UpdateNameNotUnique)
 //   - "update_invalid_args" (type UpdateInvalidArgs)
 //   - "update_no_match" (type UpdateNoMatch)
 //   - error: internal error

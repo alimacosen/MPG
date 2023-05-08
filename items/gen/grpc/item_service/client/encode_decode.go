@@ -52,37 +52,37 @@ func DecodeCreateItemResponse(ctx context.Context, v any, hdr, trlr metadata.MD)
 	return res, nil
 }
 
-// BuildGetItemFunc builds the remote method to invoke for "ItemService"
-// service "getItem" endpoint.
-func BuildGetItemFunc(grpccli item_servicepb.ItemServiceClient, cliopts ...grpc.CallOption) goagrpc.RemoteFunc {
+// BuildGetItemsFunc builds the remote method to invoke for "ItemService"
+// service "getItems" endpoint.
+func BuildGetItemsFunc(grpccli item_servicepb.ItemServiceClient, cliopts ...grpc.CallOption) goagrpc.RemoteFunc {
 	return func(ctx context.Context, reqpb any, opts ...grpc.CallOption) (any, error) {
 		for _, opt := range cliopts {
 			opts = append(opts, opt)
 		}
 		if reqpb != nil {
-			return grpccli.GetItem(ctx, reqpb.(*item_servicepb.GetItemRequest), opts...)
+			return grpccli.GetItems(ctx, reqpb.(*item_servicepb.GetItemsRequest), opts...)
 		}
-		return grpccli.GetItem(ctx, &item_servicepb.GetItemRequest{}, opts...)
+		return grpccli.GetItems(ctx, &item_servicepb.GetItemsRequest{}, opts...)
 	}
 }
 
-// EncodeGetItemRequest encodes requests sent to ItemService getItem endpoint.
-func EncodeGetItemRequest(ctx context.Context, v any, md *metadata.MD) (any, error) {
-	payload, ok := v.(*itemservice.GetItemPayload)
+// EncodeGetItemsRequest encodes requests sent to ItemService getItems endpoint.
+func EncodeGetItemsRequest(ctx context.Context, v any, md *metadata.MD) (any, error) {
+	payload, ok := v.(*itemservice.GetItemsPayload)
 	if !ok {
-		return nil, goagrpc.ErrInvalidType("ItemService", "getItem", "*itemservice.GetItemPayload", v)
+		return nil, goagrpc.ErrInvalidType("ItemService", "getItems", "*itemservice.GetItemsPayload", v)
 	}
-	return NewProtoGetItemRequest(payload), nil
+	return NewProtoGetItemsRequest(payload), nil
 }
 
-// DecodeGetItemResponse decodes responses from the ItemService getItem
+// DecodeGetItemsResponse decodes responses from the ItemService getItems
 // endpoint.
-func DecodeGetItemResponse(ctx context.Context, v any, hdr, trlr metadata.MD) (any, error) {
-	message, ok := v.(*item_servicepb.GetItemResponse)
+func DecodeGetItemsResponse(ctx context.Context, v any, hdr, trlr metadata.MD) (any, error) {
+	message, ok := v.(*item_servicepb.GetItemsResponse)
 	if !ok {
-		return nil, goagrpc.ErrInvalidType("ItemService", "getItem", "*item_servicepb.GetItemResponse", v)
+		return nil, goagrpc.ErrInvalidType("ItemService", "getItems", "*item_servicepb.GetItemsResponse", v)
 	}
-	res := NewGetItemResult(message)
+	res := NewGetItemsResult(message)
 	return res, nil
 }
 

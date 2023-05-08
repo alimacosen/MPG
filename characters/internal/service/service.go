@@ -109,7 +109,7 @@ func (s *characterService) deleteInventory(ctx context.Context, inventoryId stri
 }
 
 func (s *characterService) updateInventoryId(ctx context.Context, id string, inventoryId string) (int, error) {
-	result, err := s.repo.Update(ctx, id, &model.Character{InventoryID: &inventoryId})
+	result, err := s.repo.Update(ctx, id, model.Character{InventoryID: &inventoryId})
 	if err != nil {
 		return 0, err
 	}

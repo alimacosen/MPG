@@ -35,15 +35,21 @@ func BuildCreateItemPayload(entryItemServiceCreateItemBody string) (*entryitemse
 	return v, nil
 }
 
-// BuildGetItemPayload builds the payload for the EntryItemService getItem
+// BuildGetItemsPayload builds the payload for the EntryItemService getItems
 // endpoint from CLI flags.
-func BuildGetItemPayload(entryItemServiceGetItemID string) (*entryitemservice.GetItemPayload, error) {
-	var id string
+func BuildGetItemsPayload(entryItemServiceGetItemsIds string) (*entryitemservice.GetItemsPayload, error) {
+	var err error
+	var ids []string
 	{
-		id = entryItemServiceGetItemID
+		if entryItemServiceGetItemsIds != "" {
+			err = json.Unmarshal([]byte(entryItemServiceGetItemsIds), &ids)
+			if err != nil {
+				return nil, fmt.Errorf("invalid JSON for ids, \nerror: %s, \nexample of valid JSON:\n%s", err, "'[\n      \"id1\",\n      \"id2\",\n      \"id3\"\n   ]'")
+			}
+		}
 	}
-	v := &entryitemservice.GetItemPayload{}
-	v.ID = id
+	v := &entryitemservice.GetItemsPayload{}
+	v.Ids = ids
 
 	return v, nil
 }
@@ -56,7 +62,7 @@ func BuildUpdateItemPayload(entryItemServiceUpdateItemBody string, entryItemServ
 	{
 		err = json.Unmarshal([]byte(entryItemServiceUpdateItemBody), &body)
 		if err != nil {
-			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"damage\": 8211760277916845929,\n      \"description\": \"Provident voluptas aspernatur.\",\n      \"healing\": 5410378431408351801,\n      \"protection\": 1138281801445593390\n   }'")
+			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"damage\": 3203299607339697376,\n      \"description\": \"Neque et.\",\n      \"healing\": 7179661917089634877,\n      \"protection\": 8269874940287524892\n   }'")
 		}
 	}
 	var id string

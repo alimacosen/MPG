@@ -25,9 +25,9 @@ func (s *itemServicesrvc) CreateItem(ctx context.Context, p *itemservice.CreateI
 	return
 }
 
-// GetItem implements getItem.
-func (s *itemServicesrvc) GetItem(ctx context.Context, p *itemservice.GetItemPayload) (res *itemservice.Item, err error) {
-	res, err = s.itemHandler.GetItem(ctx, p)
+// GetItems implements getItem.
+func (s *itemServicesrvc) GetItems(ctx context.Context, p *itemservice.GetItemsPayload) (res []*itemservice.Item, err error) {
+	res, err = s.itemHandler.GetItems(ctx, p)
 	return
 }
 

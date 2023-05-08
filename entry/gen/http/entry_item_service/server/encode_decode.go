@@ -95,37 +95,35 @@ func EncodeCreateItemError(encoder func(context.Context, http.ResponseWriter) go
 	}
 }
 
-// EncodeGetItemResponse returns an encoder for responses returned by the
-// EntryItemService getItem endpoint.
-func EncodeGetItemResponse(encoder func(context.Context, http.ResponseWriter) goahttp.Encoder) func(context.Context, http.ResponseWriter, any) error {
+// EncodeGetItemsResponse returns an encoder for responses returned by the
+// EntryItemService getItems endpoint.
+func EncodeGetItemsResponse(encoder func(context.Context, http.ResponseWriter) goahttp.Encoder) func(context.Context, http.ResponseWriter, any) error {
 	return func(ctx context.Context, w http.ResponseWriter, v any) error {
-		res, _ := v.(*entryitemservice.Item)
+		res, _ := v.([]*entryitemservice.Item)
 		enc := encoder(ctx, w)
-		body := NewGetItemResponseBody(res)
+		body := NewGetItemsResponseBody(res)
 		w.WriteHeader(http.StatusOK)
 		return enc.Encode(body)
 	}
 }
 
-// DecodeGetItemRequest returns a decoder for requests sent to the
-// EntryItemService getItem endpoint.
-func DecodeGetItemRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.Decoder) func(*http.Request) (any, error) {
+// DecodeGetItemsRequest returns a decoder for requests sent to the
+// EntryItemService getItems endpoint.
+func DecodeGetItemsRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp.Decoder) func(*http.Request) (any, error) {
 	return func(r *http.Request) (any, error) {
 		var (
-			id string
-
-			params = mux.Vars(r)
+			ids []string
 		)
-		id = params["id"]
-		payload := NewGetItemPayload(id)
+		ids = r.URL.Query()["ids"]
+		payload := NewGetItemsPayload(ids)
 
 		return payload, nil
 	}
 }
 
-// EncodeGetItemError returns an encoder for errors returned by the getItem
+// EncodeGetItemsError returns an encoder for errors returned by the getItems
 // EntryItemService endpoint.
-func EncodeGetItemError(encoder func(context.Context, http.ResponseWriter) goahttp.Encoder, formatter func(ctx context.Context, err error) goahttp.Statuser) func(context.Context, http.ResponseWriter, error) error {
+func EncodeGetItemsError(encoder func(context.Context, http.ResponseWriter) goahttp.Encoder, formatter func(ctx context.Context, err error) goahttp.Statuser) func(context.Context, http.ResponseWriter, error) error {
 	encodeError := goahttp.ErrorEncoder(encoder, formatter)
 	return func(ctx context.Context, w http.ResponseWriter, v error) error {
 		var en goa.GoaErrorNamer
@@ -309,4 +307,19 @@ func EncodeDeleteItemError(encoder func(context.Context, http.ResponseWriter) go
 			return encodeError(ctx, w, v)
 		}
 	}
+}
+
+// marshalEntryitemserviceItemToItemResponse builds a value of type
+// *ItemResponse from a value of type *entryitemservice.Item.
+func marshalEntryitemserviceItemToItemResponse(v *entryitemservice.Item) *ItemResponse {
+	res := &ItemResponse{
+		ID:          v.ID,
+		Name:        v.Name,
+		Description: v.Description,
+		Damage:      v.Damage,
+		Healing:     v.Healing,
+		Protection:  v.Protection,
+	}
+
+	return res
 }

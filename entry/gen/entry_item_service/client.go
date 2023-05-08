@@ -16,17 +16,17 @@ import (
 // Client is the "EntryItemService" service client.
 type Client struct {
 	CreateItemEndpoint goa.Endpoint
-	GetItemEndpoint    goa.Endpoint
+	GetItemsEndpoint   goa.Endpoint
 	UpdateItemEndpoint goa.Endpoint
 	DeleteItemEndpoint goa.Endpoint
 }
 
 // NewClient initializes a "EntryItemService" service client given the
 // endpoints.
-func NewClient(createItem, getItem, updateItem, deleteItem goa.Endpoint) *Client {
+func NewClient(createItem, getItems, updateItem, deleteItem goa.Endpoint) *Client {
 	return &Client{
 		CreateItemEndpoint: createItem,
-		GetItemEndpoint:    getItem,
+		GetItemsEndpoint:   getItems,
 		UpdateItemEndpoint: updateItem,
 		DeleteItemEndpoint: deleteItem,
 	}
@@ -47,19 +47,19 @@ func (c *Client) CreateItem(ctx context.Context, p *CreateItemPayload) (res *Ite
 	return ires.(*Item), nil
 }
 
-// GetItem calls the "getItem" endpoint of the "EntryItemService" service.
-// GetItem may return the following errors:
+// GetItems calls the "getItems" endpoint of the "EntryItemService" service.
+// GetItems may return the following errors:
 //   - "get_no_criteria" (type GetNoCriteria)
 //   - "get_invalid_args" (type GetInvalidArgs)
 //   - "get_no_match" (type GetNoMatch)
 //   - error: internal error
-func (c *Client) GetItem(ctx context.Context, p *GetItemPayload) (res *Item, err error) {
+func (c *Client) GetItems(ctx context.Context, p *GetItemsPayload) (res []*Item, err error) {
 	var ires any
-	ires, err = c.GetItemEndpoint(ctx, p)
+	ires, err = c.GetItemsEndpoint(ctx, p)
 	if err != nil {
 		return
 	}
-	return ires.(*Item), nil
+	return ires.([]*Item), nil
 }
 
 // UpdateItem calls the "updateItem" endpoint of the "EntryItemService" service.

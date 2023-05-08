@@ -23,7 +23,7 @@ func BuildCreateItemPayload(itemServiceCreateItemMessage string) (*itemservice.C
 		if itemServiceCreateItemMessage != "" {
 			err = json.Unmarshal([]byte(itemServiceCreateItemMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"damage\": 6656640518575154227,\n      \"description\": \"Sit aliquid harum iure qui quos.\",\n      \"healing\": 6018419887003017801,\n      \"name\": \"Asperiores cupiditate et non ipsam blanditiis dolores.\",\n      \"protection\": 1946787761586667757\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"damage\": 9130759664473784082,\n      \"description\": \"Quod et unde quidem temporibus architecto.\",\n      \"healing\": 1398113917470051483,\n      \"name\": \"Impedit et quasi qui.\",\n      \"protection\": 5568558875973245467\n   }'")
 			}
 		}
 	}
@@ -38,21 +38,25 @@ func BuildCreateItemPayload(itemServiceCreateItemMessage string) (*itemservice.C
 	return v, nil
 }
 
-// BuildGetItemPayload builds the payload for the ItemService getItem endpoint
-// from CLI flags.
-func BuildGetItemPayload(itemServiceGetItemMessage string) (*itemservice.GetItemPayload, error) {
+// BuildGetItemsPayload builds the payload for the ItemService getItems
+// endpoint from CLI flags.
+func BuildGetItemsPayload(itemServiceGetItemsMessage string) (*itemservice.GetItemsPayload, error) {
 	var err error
-	var message item_servicepb.GetItemRequest
+	var message item_servicepb.GetItemsRequest
 	{
-		if itemServiceGetItemMessage != "" {
-			err = json.Unmarshal([]byte(itemServiceGetItemMessage), &message)
+		if itemServiceGetItemsMessage != "" {
+			err = json.Unmarshal([]byte(itemServiceGetItemsMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": \"Ut eos fuga laborum.\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": [\n         \"Et facere ab dolores.\",\n         \"Voluptas exercitationem et.\"\n      ]\n   }'")
 			}
 		}
 	}
-	v := &itemservice.GetItemPayload{
-		ID: message.Id,
+	v := &itemservice.GetItemsPayload{}
+	if message.Id != nil {
+		v.ID = make([]string, len(message.Id))
+		for i, val := range message.Id {
+			v.ID[i] = val
+		}
 	}
 
 	return v, nil
@@ -67,7 +71,7 @@ func BuildUpdateItemPayload(itemServiceUpdateItemMessage string) (*itemservice.U
 		if itemServiceUpdateItemMessage != "" {
 			err = json.Unmarshal([]byte(itemServiceUpdateItemMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"damage\": 3012358727598942804,\n      \"description\": \"Quod dolor.\",\n      \"healing\": 8553807324101554941,\n      \"id\": \"Dolorum earum magnam sequi aliquid optio.\",\n      \"name\": \"Sint mollitia.\",\n      \"protection\": 8197344049870397300\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"damage\": 77559218004444832,\n      \"description\": \"Optio occaecati sint mollitia aspernatur.\",\n      \"healing\": 8195123972751783688,\n      \"id\": \"Et et quis aperiam harum rerum dolorum.\",\n      \"name\": \"Magnam sequi.\",\n      \"protection\": 3012358727598942804\n   }'")
 			}
 		}
 	}
@@ -101,7 +105,7 @@ func BuildDeleteItemPayload(itemServiceDeleteItemMessage string) (*itemservice.D
 		if itemServiceDeleteItemMessage != "" {
 			err = json.Unmarshal([]byte(itemServiceDeleteItemMessage), &message)
 			if err != nil {
-				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": \"Eaque debitis aut aut autem quia nesciunt.\"\n   }'")
+				return nil, fmt.Errorf("invalid JSON for message, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"id\": \"Nemo ut eaque debitis.\"\n   }'")
 			}
 		}
 	}

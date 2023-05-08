@@ -21,7 +21,7 @@ import (
 // Server implements the item_servicepb.ItemServiceServer interface.
 type Server struct {
 	CreateItemH  goagrpc.UnaryHandler
-	GetItemH     goagrpc.UnaryHandler
+	GetItemsH    goagrpc.UnaryHandler
 	GetAllItemsH goagrpc.UnaryHandler
 	UpdateItemH  goagrpc.UnaryHandler
 	DeleteItemH  goagrpc.UnaryHandler
@@ -32,7 +32,7 @@ type Server struct {
 func New(e *itemservice.Endpoints, uh goagrpc.UnaryHandler) *Server {
 	return &Server{
 		CreateItemH:  NewCreateItemHandler(e.CreateItem, uh),
-		GetItemH:     NewGetItemHandler(e.GetItem, uh),
+		GetItemsH:    NewGetItemsHandler(e.GetItems, uh),
 		GetAllItemsH: NewGetAllItemsHandler(e.GetAllItems, uh),
 		UpdateItemH:  NewUpdateItemHandler(e.UpdateItem, uh),
 		DeleteItemH:  NewDeleteItemHandler(e.DeleteItem, uh),
@@ -67,21 +67,21 @@ func (s *Server) CreateItem(ctx context.Context, message *item_servicepb.CreateI
 	return resp.(*item_servicepb.CreateItemResponse), nil
 }
 
-// NewGetItemHandler creates a gRPC handler which serves the "ItemService"
-// service "getItem" endpoint.
-func NewGetItemHandler(endpoint goa.Endpoint, h goagrpc.UnaryHandler) goagrpc.UnaryHandler {
+// NewGetItemsHandler creates a gRPC handler which serves the "ItemService"
+// service "getItems" endpoint.
+func NewGetItemsHandler(endpoint goa.Endpoint, h goagrpc.UnaryHandler) goagrpc.UnaryHandler {
 	if h == nil {
-		h = goagrpc.NewUnaryHandler(endpoint, DecodeGetItemRequest, EncodeGetItemResponse)
+		h = goagrpc.NewUnaryHandler(endpoint, DecodeGetItemsRequest, EncodeGetItemsResponse)
 	}
 	return h
 }
 
-// GetItem implements the "GetItem" method in item_servicepb.ItemServiceServer
-// interface.
-func (s *Server) GetItem(ctx context.Context, message *item_servicepb.GetItemRequest) (*item_servicepb.GetItemResponse, error) {
-	ctx = context.WithValue(ctx, goa.MethodKey, "getItem")
+// GetItems implements the "GetItems" method in
+// item_servicepb.ItemServiceServer interface.
+func (s *Server) GetItems(ctx context.Context, message *item_servicepb.GetItemsRequest) (*item_servicepb.GetItemsResponse, error) {
+	ctx = context.WithValue(ctx, goa.MethodKey, "getItems")
 	ctx = context.WithValue(ctx, goa.ServiceKey, "ItemService")
-	resp, err := s.GetItemH.Handle(ctx, message)
+	resp, err := s.GetItemsH.Handle(ctx, message)
 	if err != nil {
 		var en goa.GoaErrorNamer
 		if errors.As(err, &en) {
@@ -94,7 +94,7 @@ func (s *Server) GetItem(ctx context.Context, message *item_servicepb.GetItemReq
 		}
 		return nil, goagrpc.EncodeError(err)
 	}
-	return resp.(*item_servicepb.GetItemResponse), nil
+	return resp.(*item_servicepb.GetItemsResponse), nil
 }
 
 // NewGetAllItemsHandler creates a gRPC handler which serves the "ItemService"

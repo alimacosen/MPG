@@ -50,20 +50,22 @@ func (i *ItemHandler) payloadCheck(p *itemservice.CreateItemPayload) (*model.Ite
 	return item, nil
 }
 
-func (i *ItemHandler) GetItem(ctx context.Context, p *itemservice.GetItemPayload) (res *itemservice.Item, err error) {
-	id := p.ID
-	if len(id) == 0 {
-		return nil, itemservice.GetInvalidArgs("Id can not be an empty string")
-	}
-
+func (i *ItemHandler) GetItems(ctx context.Context, p *itemservice.GetItemsPayload) (res []*itemservice.Item, err error) {
+	idList := p.ID
 	svc := i.instances.GetSvc()
 
-	item, err := svc.GetById(ctx, id)
+	var items []*model.Item
+	if len(idList) ==0 {
+		items, err = svc.GetAll(ctx)
+	} else {
+		items, err = svc.GetById(ctx, idList)
+	}
+
 	if err != nil {
 		return nil, err
 	}
 
-	res = convertOne(item)
+	res = convertAll(items)
 	return
 }
 

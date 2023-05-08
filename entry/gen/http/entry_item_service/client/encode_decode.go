@@ -16,6 +16,7 @@ import (
 	"net/url"
 
 	goahttp "goa.design/goa/v3/http"
+	goa "goa.design/goa/v3/pkg"
 )
 
 // BuildCreateItemRequest instantiates a HTTP request object with method and
@@ -131,23 +132,13 @@ func DecodeCreateItemResponse(decoder func(*http.Response) goahttp.Decoder, rest
 	}
 }
 
-// BuildGetItemRequest instantiates a HTTP request object with method and path
-// set to call the "EntryItemService" service "getItem" endpoint
-func (c *Client) BuildGetItemRequest(ctx context.Context, v any) (*http.Request, error) {
-	var (
-		id string
-	)
-	{
-		p, ok := v.(*entryitemservice.GetItemPayload)
-		if !ok {
-			return nil, goahttp.ErrInvalidType("EntryItemService", "getItem", "*entryitemservice.GetItemPayload", v)
-		}
-		id = p.ID
-	}
-	u := &url.URL{Scheme: c.scheme, Host: c.host, Path: GetItemEntryItemServicePath(id)}
+// BuildGetItemsRequest instantiates a HTTP request object with method and path
+// set to call the "EntryItemService" service "getItems" endpoint
+func (c *Client) BuildGetItemsRequest(ctx context.Context, v any) (*http.Request, error) {
+	u := &url.URL{Scheme: c.scheme, Host: c.host, Path: GetItemsEntryItemServicePath()}
 	req, err := http.NewRequest("GET", u.String(), nil)
 	if err != nil {
-		return nil, goahttp.ErrInvalidURL("EntryItemService", "getItem", u.String(), err)
+		return nil, goahttp.ErrInvalidURL("EntryItemService", "getItems", u.String(), err)
 	}
 	if ctx != nil {
 		req = req.WithContext(ctx)
@@ -156,15 +147,32 @@ func (c *Client) BuildGetItemRequest(ctx context.Context, v any) (*http.Request,
 	return req, nil
 }
 
-// DecodeGetItemResponse returns a decoder for responses returned by the
-// EntryItemService getItem endpoint. restoreBody controls whether the response
-// body should be restored after having been read.
-// DecodeGetItemResponse may return the following errors:
+// EncodeGetItemsRequest returns an encoder for requests sent to the
+// EntryItemService getItems server.
+func EncodeGetItemsRequest(encoder func(*http.Request) goahttp.Encoder) func(*http.Request, any) error {
+	return func(req *http.Request, v any) error {
+		p, ok := v.(*entryitemservice.GetItemsPayload)
+		if !ok {
+			return goahttp.ErrInvalidType("EntryItemService", "getItems", "*entryitemservice.GetItemsPayload", v)
+		}
+		values := req.URL.Query()
+		for _, value := range p.Ids {
+			values.Add("ids", value)
+		}
+		req.URL.RawQuery = values.Encode()
+		return nil
+	}
+}
+
+// DecodeGetItemsResponse returns a decoder for responses returned by the
+// EntryItemService getItems endpoint. restoreBody controls whether the
+// response body should be restored after having been read.
+// DecodeGetItemsResponse may return the following errors:
 //   - "get_invalid_args" (type entryitemservice.GetInvalidArgs): http.StatusBadRequest
 //   - "get_no_criteria" (type entryitemservice.GetNoCriteria): http.StatusBadRequest
 //   - "get_no_match" (type entryitemservice.GetNoMatch): http.StatusNotFound
 //   - error: internal error
-func DecodeGetItemResponse(decoder func(*http.Response) goahttp.Decoder, restoreBody bool) func(*http.Response) (any, error) {
+func DecodeGetItemsResponse(decoder func(*http.Response) goahttp.Decoder, restoreBody bool) func(*http.Response) (any, error) {
 	return func(resp *http.Response) (any, error) {
 		if restoreBody {
 			b, err := io.ReadAll(resp.Body)
@@ -181,18 +189,24 @@ func DecodeGetItemResponse(decoder func(*http.Response) goahttp.Decoder, restore
 		switch resp.StatusCode {
 		case http.StatusOK:
 			var (
-				body GetItemResponseBody
+				body GetItemsResponseBody
 				err  error
 			)
 			err = decoder(resp).Decode(&body)
 			if err != nil {
-				return nil, goahttp.ErrDecodingError("EntryItemService", "getItem", err)
+				return nil, goahttp.ErrDecodingError("EntryItemService", "getItems", err)
 			}
-			err = ValidateGetItemResponseBody(&body)
+			for _, e := range body {
+				if e != nil {
+					if err2 := ValidateItemResponse(e); err2 != nil {
+						err = goa.MergeErrors(err, err2)
+					}
+				}
+			}
 			if err != nil {
-				return nil, goahttp.ErrValidationError("EntryItemService", "getItem", err)
+				return nil, goahttp.ErrValidationError("EntryItemService", "getItems", err)
 			}
-			res := NewGetItemItemOK(&body)
+			res := NewGetItemsItemOK(body)
 			return res, nil
 		case http.StatusBadRequest:
 			en := resp.Header.Get("goa-error")
@@ -204,9 +218,9 @@ func DecodeGetItemResponse(decoder func(*http.Response) goahttp.Decoder, restore
 				)
 				err = decoder(resp).Decode(&body)
 				if err != nil {
-					return nil, goahttp.ErrDecodingError("EntryItemService", "getItem", err)
+					return nil, goahttp.ErrDecodingError("EntryItemService", "getItems", err)
 				}
-				return nil, NewGetItemGetInvalidArgs(body)
+				return nil, NewGetItemsGetInvalidArgs(body)
 			case "get_no_criteria":
 				var (
 					body string
@@ -214,12 +228,12 @@ func DecodeGetItemResponse(decoder func(*http.Response) goahttp.Decoder, restore
 				)
 				err = decoder(resp).Decode(&body)
 				if err != nil {
-					return nil, goahttp.ErrDecodingError("EntryItemService", "getItem", err)
+					return nil, goahttp.ErrDecodingError("EntryItemService", "getItems", err)
 				}
-				return nil, NewGetItemGetNoCriteria(body)
+				return nil, NewGetItemsGetNoCriteria(body)
 			default:
 				body, _ := io.ReadAll(resp.Body)
-				return nil, goahttp.ErrInvalidResponse("EntryItemService", "getItem", resp.StatusCode, string(body))
+				return nil, goahttp.ErrInvalidResponse("EntryItemService", "getItems", resp.StatusCode, string(body))
 			}
 		case http.StatusNotFound:
 			var (
@@ -228,12 +242,12 @@ func DecodeGetItemResponse(decoder func(*http.Response) goahttp.Decoder, restore
 			)
 			err = decoder(resp).Decode(&body)
 			if err != nil {
-				return nil, goahttp.ErrDecodingError("EntryItemService", "getItem", err)
+				return nil, goahttp.ErrDecodingError("EntryItemService", "getItems", err)
 			}
-			return nil, NewGetItemGetNoMatch(body)
+			return nil, NewGetItemsGetNoMatch(body)
 		default:
 			body, _ := io.ReadAll(resp.Body)
-			return nil, goahttp.ErrInvalidResponse("EntryItemService", "getItem", resp.StatusCode, string(body))
+			return nil, goahttp.ErrInvalidResponse("EntryItemService", "getItems", resp.StatusCode, string(body))
 		}
 	}
 }
@@ -456,4 +470,19 @@ func DecodeDeleteItemResponse(decoder func(*http.Response) goahttp.Decoder, rest
 			return nil, goahttp.ErrInvalidResponse("EntryItemService", "deleteItem", resp.StatusCode, string(body))
 		}
 	}
+}
+
+// unmarshalItemResponseToEntryitemserviceItem builds a value of type
+// *entryitemservice.Item from a value of type *ItemResponse.
+func unmarshalItemResponseToEntryitemserviceItem(v *ItemResponse) *entryitemservice.Item {
+	res := &entryitemservice.Item{
+		ID:          *v.ID,
+		Name:        *v.Name,
+		Description: *v.Description,
+		Damage:      *v.Damage,
+		Healing:     *v.Healing,
+		Protection:  *v.Protection,
+	}
+
+	return res
 }

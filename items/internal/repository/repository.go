@@ -11,7 +11,7 @@ import (
 )
 
 type ItemRepository interface {
-	FindByID(ctx context.Context, id string) (*model.Item, error)
+	FindByID(ctx context.Context, idList []string) ([]*model.Item, error)
 	FindAll(ctx context.Context) ([]*model.Item, error)
 	Create(ctx context.Context, character *model.Item) (*model.Item, error)
 	Update(ctx context.Context, id string, updateFields *model.Item) (int, error)
@@ -35,8 +35,7 @@ func NewItemRepository(logger *log.Logger, client *mongo.Client, dbName string) 
 func (r *mongoItemRepository) Create(ctx context.Context, item *model.Item) (*model.Item, error) {
 	collection := r.db.Collection("itemCollection")
 
-	ok := r.itemNameUniqueCheck(ctx, collection, *item.Name)
-	if !ok {
+	if ok := r.itemNameUniqueCheck(ctx, collection, item.Name); !ok {
 		return nil, itemservice.CreateDuplicatedName("item name" + *item.Name + "already exists")
 	}
 
@@ -48,7 +47,10 @@ func (r *mongoItemRepository) Create(ctx context.Context, item *model.Item) (*mo
 	return item, err
 }
 
-func (r *mongoItemRepository) itemNameUniqueCheck(ctx context.Context, collection *mongo.Collection, name string) bool {
+func (r *mongoItemRepository) itemNameUniqueCheck(ctx context.Context, collection *mongo.Collection, name *string) bool {
+	if name == nil {
+		return true
+	}
 	filter := bson.M{"name": name}
 	var item model.Item
 	_ = collection.FindOne(ctx, filter).Decode(&item)
@@ -58,46 +60,46 @@ func (r *mongoItemRepository) itemNameUniqueCheck(ctx context.Context, collectio
 	return false
 }
 
-func (r *mongoItemRepository) FindByID(ctx context.Context, id string) (*model.Item, error) {
+func (r *mongoItemRepository) FindByID(ctx context.Context, idList []string) ([]*model.Item, error) {
 	collection := r.db.Collection("itemCollection")
-	var item model.Item
-	objectID, err := primitive.ObjectIDFromHex(id)
-	if err != nil {
-		r.logger.Println(err)
-	}
-	filter := bson.M{"_id": objectID}
-	err = collection.FindOne(ctx, filter).Decode(&item)
-	if err != nil {
-		if err == mongo.ErrNoDocuments {
-			r.logger.Println("No document found with the specified filter.")
-			return nil, itemservice.GetNoMatch("Item not found")
+
+	objectIDs := make([]primitive.ObjectID, len(idList))
+	for i, id := range idList {
+		objectID, err := primitive.ObjectIDFromHex(id)
+		if err != nil {
+			r.logger.Println(err)
 		}
-		return nil, err
+		objectIDs[i] = objectID
 	}
 
-	return &item, nil
+	filter := bson.M{"_id": bson.M{"$in": objectIDs}}
+
+	cursor, err := collection.Find(ctx, filter)
+	if err != nil {
+		return nil, err
+	}
+	defer cursor.Close(ctx)
+
+	var items []*model.Item
+	if err = cursor.All(ctx, &items); err != nil {
+		r.logger.Println(err)
+	}
+
+	return items, nil
 }
 
 func (r *mongoItemRepository) FindAll(ctx context.Context) ([]*model.Item, error) {
 	collection := r.db.Collection("itemCollection")
-	items := make([]*model.Item, 0)
-	cur, err := collection.Find(ctx, bson.M{})
+
+	cursor, err := collection.Find(ctx, bson.M{})
 	if err != nil {
 		return nil, err
 	}
-	defer cur.Close(ctx)
+	defer cursor.Close(ctx)
 
-	for cur.Next(ctx) {
-		var item model.Item
-		err := cur.Decode(&item)
-		if err != nil {
-			r.logger.Println(err)
-			continue
-		}
-		items = append(items, &item)
-	}
-	if err := cur.Err(); err != nil {
-		return nil, err
+	var items []*model.Item
+	if err = cursor.All(ctx, &items); err != nil {
+		r.logger.Println(err)
 	}
 
 	return items, nil
@@ -110,7 +112,7 @@ func (r *mongoItemRepository) Update(ctx context.Context, id string, updateField
 		r.logger.Println(err)
 	}
 
-	ok := r.itemNameUniqueCheck(ctx, collection, *updateFields.Name)
+	ok := r.itemNameUniqueCheck(ctx, collection, updateFields.Name)
 	if !ok {
 		return 0, itemservice.CreateDuplicatedName("item name" + *updateFields.Name + "already exists")
 	}

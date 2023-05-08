@@ -27,7 +27,7 @@ const _ = grpc.SupportPackageIsVersion7
 
 const (
 	ItemService_CreateItem_FullMethodName  = "/item_service.ItemService/CreateItem"
-	ItemService_GetItem_FullMethodName     = "/item_service.ItemService/GetItem"
+	ItemService_GetItems_FullMethodName    = "/item_service.ItemService/GetItems"
 	ItemService_GetAllItems_FullMethodName = "/item_service.ItemService/GetAllItems"
 	ItemService_UpdateItem_FullMethodName  = "/item_service.ItemService/UpdateItem"
 	ItemService_DeleteItem_FullMethodName  = "/item_service.ItemService/DeleteItem"
@@ -39,8 +39,8 @@ const (
 type ItemServiceClient interface {
 	// CreateItem implements createItem.
 	CreateItem(ctx context.Context, in *CreateItemRequest, opts ...grpc.CallOption) (*CreateItemResponse, error)
-	// GetItem implements getItem.
-	GetItem(ctx context.Context, in *GetItemRequest, opts ...grpc.CallOption) (*GetItemResponse, error)
+	// GetItems implements getItems.
+	GetItems(ctx context.Context, in *GetItemsRequest, opts ...grpc.CallOption) (*GetItemsResponse, error)
 	// GetAllItems implements getAllItems.
 	GetAllItems(ctx context.Context, in *GetAllItemsRequest, opts ...grpc.CallOption) (*GetAllItemsResponse, error)
 	// UpdateItem implements updateItem.
@@ -66,9 +66,9 @@ func (c *itemServiceClient) CreateItem(ctx context.Context, in *CreateItemReques
 	return out, nil
 }
 
-func (c *itemServiceClient) GetItem(ctx context.Context, in *GetItemRequest, opts ...grpc.CallOption) (*GetItemResponse, error) {
-	out := new(GetItemResponse)
-	err := c.cc.Invoke(ctx, ItemService_GetItem_FullMethodName, in, out, opts...)
+func (c *itemServiceClient) GetItems(ctx context.Context, in *GetItemsRequest, opts ...grpc.CallOption) (*GetItemsResponse, error) {
+	out := new(GetItemsResponse)
+	err := c.cc.Invoke(ctx, ItemService_GetItems_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -108,8 +108,8 @@ func (c *itemServiceClient) DeleteItem(ctx context.Context, in *DeleteItemReques
 type ItemServiceServer interface {
 	// CreateItem implements createItem.
 	CreateItem(context.Context, *CreateItemRequest) (*CreateItemResponse, error)
-	// GetItem implements getItem.
-	GetItem(context.Context, *GetItemRequest) (*GetItemResponse, error)
+	// GetItems implements getItems.
+	GetItems(context.Context, *GetItemsRequest) (*GetItemsResponse, error)
 	// GetAllItems implements getAllItems.
 	GetAllItems(context.Context, *GetAllItemsRequest) (*GetAllItemsResponse, error)
 	// UpdateItem implements updateItem.
@@ -126,8 +126,8 @@ type UnimplementedItemServiceServer struct {
 func (UnimplementedItemServiceServer) CreateItem(context.Context, *CreateItemRequest) (*CreateItemResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateItem not implemented")
 }
-func (UnimplementedItemServiceServer) GetItem(context.Context, *GetItemRequest) (*GetItemResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetItem not implemented")
+func (UnimplementedItemServiceServer) GetItems(context.Context, *GetItemsRequest) (*GetItemsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetItems not implemented")
 }
 func (UnimplementedItemServiceServer) GetAllItems(context.Context, *GetAllItemsRequest) (*GetAllItemsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAllItems not implemented")
@@ -169,20 +169,20 @@ func _ItemService_CreateItem_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ItemService_GetItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetItemRequest)
+func _ItemService_GetItems_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetItemsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ItemServiceServer).GetItem(ctx, in)
+		return srv.(ItemServiceServer).GetItems(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ItemService_GetItem_FullMethodName,
+		FullMethod: ItemService_GetItems_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ItemServiceServer).GetItem(ctx, req.(*GetItemRequest))
+		return srv.(ItemServiceServer).GetItems(ctx, req.(*GetItemsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -253,8 +253,8 @@ var ItemService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ItemService_CreateItem_Handler,
 		},
 		{
-			MethodName: "GetItem",
-			Handler:    _ItemService_GetItem_Handler,
+			MethodName: "GetItems",
+			Handler:    _ItemService_GetItems_Handler,
 		},
 		{
 			MethodName: "GetAllItems",

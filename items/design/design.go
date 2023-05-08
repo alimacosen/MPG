@@ -67,14 +67,13 @@ var _ = Service("ItemService", func() {
 		})
 	})
 
-	Method("getItem", func() {
+	Method("getItems", func() {
 		Payload(func() {
-			Field(1, "id", String, "UUId of the item", func() {
+			Field(1, "id", ArrayOf(String), "UUId of the items", func() {
 				Meta("rpc:tag", "1")
 			})
-			Required("id")
 		})
-		Result(Item)
+		Result(ArrayOf(Item))
 		Error("get_invalid_args", String, "Invalid arguments. Required: id ")
 		Error("get_no_match", String, "No item matched given criteria")
 		GRPC(func() {

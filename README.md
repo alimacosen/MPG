@@ -1,78 +1,106 @@
 # Multiplayer Game
 
 
-# TO BE DONE
+## Introduction
 
-## Installation
+### Requirements 
+This is a take-home assessment project. The task is to build a microservice application that stores characters and their item inventories for a multiplayer game.  
+It is required to use [Goa](https://goa.design/), a design-first microservice framework with [Golang](https://go.dev/) to finish the entire task.
+There are 4 microservices in total:
+> An HTTP/JSON front entry service which provides an API to manipulate the characters, their inventories, and the items that exist
 
+> A GRPC back service that handles CRUD operations for the characters and their attributes
+
+> A GRPC back service that handles CRUD operations for the characters’ inventories
+
+> A GRPC back service that handles CRUD operations for the items that exist and their attributes
+
+> The front entry service should not have any state of its own and should call the appropriate back services via GRPC to implement its operations. The back services may store their state in memory.
+
+### Database Schemas
+
+The entry service doesn't have a DB schema, and the rest 3 services, which are Character, Inventory, and Item, have their own schema.
+
+![schemaER](readme_files/schema.png)
+
+### Architecture
+
+The overall architecture is as the image below shows.
+
+![architecture](readme_files/mpg.png)
+
+## Configuration
+
+### Golang
+
+Please follow [Go install instruction](https://go.dev/doc/tutorial/getting-started#install) to install Go
+
+When Go installation is finished, type the following command to check if the command `go` is in your environment PATH
+
+```
+go version
+```
+
+If installed correctly, you will see the version of Go in your machine like the follow
+```
+go version go1.20.3 darwin/arm64
+```
+
+### GOROOT & GOPATH
+Use the command `go env` to see you current GOROOT and GOPATH. Put this entire project user `$GOPATH/src/`
+
+
+### Goa
+Please follow [Goa instruction](https://goa.design/learn/getting-started/) to install Goa
+
+
+### Go mod
+Open a terminal and `cd` to the `mpg` directory, run the command `go mod tidy`. That's it, every thing should be ready to launch this project.
+
+
+### Database
+This project uses MongoDB as the database. If you want to run the services on you local machine, make sure you have installed MongoDB and start a Mongo server.  
+In every microservice, take the `Character` service for example, modify the origin of the existing one with your local origin in `characters/internal/config/config.go`, replace the `mongodb://localhost:27017` with your own origin.
 
 ## Commands
 
-mongodb://localhost:27017
+### Run the services
+Run the `start.sh` file in the root directory
+
+### Use CLI tools
+There are some cli tools already built for each microservice. They are under `mpg/bin`. You can tell from the directory names, the cli files are binary executive files like `*_cli`.  
+Take entry service for example, run the following command to see the usage
+```
+./entry_cli --help
+```
+In the prompts, there are further information to guide you through.
 
 
-go build ./cmd/characters_server  && go build ./cmd/characters_server-cli
+### Use tools like Postman
+To send HTTP requests using REST URLs to the entry service, I recommend to using Postman. (However, you can stick to using commands in a console)
 
-./characters_server
+For API path instructions, there's no GUI swagger server providing interactive API documentation. You can refer to `mpg/entry/gen/http/openapi`.  
+I'll build up the documentation server as soon as possible.
 
-./character_cli --url="grpc://localhost:8060" character-service create-character --message '{"name": "caifanglei", "description": "newuser"}'
+Here's some prompts that may give you some guide.  
+```
+"CreateCharacter" mounted on POST /character  
+"GetCharacter" mounted on GET /character/{id}  
+"UpdateCharacter" mounted on PATCH /character/{id}  
+"DeleteCharacter" mounted on DELETE /character/{id}  
+"GetInventory" mounted on GET /inventory/{id}  
+"UpdateInventory" mounted on PATCH /inventory/{id}  
+"CreateItem" mounted on POST /item  
+"GetItems" mounted on GET /item  
+"UpdateItem" mounted on PATCH /item/{id}  
+"DeleteItem" mounted on DELETE /item/{id}  
+HTTP server listening on "localhost:8050"
+```
 
-./characters_server-cli --url="grpc://localhost:8060" character-service get-character --message '{"id": "645311b1f04abf6cd260b1cf"}'
+## Author
+- Bruce Cai
 
-./characters_server-cli --url="grpc://localhost:8060" character-service update-character --message '{"id": "645311b1f04abf6cd260b1cf", "name": "newname"}'
+- caifanglei1998@gmail.com
 
-./characters_server-cli --url="grpc://localhost:8060" character-service delete-character --message '{"id": "645488667a280b1de71c110a"}'
+Feel free to contact me if you have any question.
 
-
-go build ./cmd/inventory_server  && go build ./cmd/inventory_server-cli
-
-./inventory_server
-
-./inventory_server-cli  --url="grpc://localhost:8070" inventory-service create-inventory --message '{"user_Id": "645312d9575a8f2e8c2fa43e"}'
-
-./inventory_server-cli  --url="grpc://localhost:8070" inventory-service get-inventory --message '{"id": "6454707f78df717203b20bf7"}'
-
-./inventory_server-cli  --url="grpc://localhost:8070" inventory-service update-inventory --message '{"id": "6454707f78df717203b20bf7", "items_Id": ["111", "322"]}'
-
-./inventory_server-cli  --url="grpc://localhost:8070" inventory-service delete-inventory --message '{"id": "64548cfeba9ad5b9bb96a837"}'
-
-
-8080
-
-go build ./cmd/item_server  && go build ./cmd/item_server-cli
-
-./item_server
-
-./item_server-cli  --url="grpc://localhost:8080" item-service create-item --message '{"name": "sword", "description": "very sharp", "healing": 10, "damage": 50, "protection": 35}'
-./item_server-cli  --url="grpc://localhost:8080" item-service create-item --message '{"name": "shield", "description": "very hard", "healing": 15, "damage": 10, "protection": 65}'
-
-./item_server-cli  --url="grpc://localhost:8080" item-service get-item --message '{"id": "6454e1881416cb009192ae31"}'
-
-./item_server-cli  --url="grpc://localhost:8080" item-service update-item --message '{"id": "6454e1881416cb009192ae31", "name": "111shield", "description": "111very hard", "healing": 17, "damage": 17, "protection": 67}'
-
-./item_server-cli  --url="grpc://localhost:8080" item-service delete-item --message '{"id": "6454e1af1416cb009192ae32"}'
-
-
-# entry
-
-./entry_server-cli --url="http://localhost:8050" entry-character-service creat-character --body '{"description": "user desc 1", "name": "user1"}'
-
-./entry_server-cli --url="http://localhost:8050" entry-character-service get-character --id "6454b38fe5ffb9fa6b99f893"
-
-./entry_server-cli --url="http://localhost:8050" entry-character-service update-character --id "64551f8c34b1c02c61a00c12" --body '{"id": "64551f8c34b1c02c61a00c12", "description": "trtr", "name": "E1E1E1", "health": 42}'
-
-./entry_server-cli --url="http://localhost:8050" entry-character-service delete-character --id "64552546fad4971b156e2534"
-
-
-./entry_server-cli --url="http://localhost:8050" entry-inventory-service get-inventory --id "6454707f78df7t7203b2ybf7"
-
-./entry_server-cli --url="http://localhost:8050" entry-inventory-service update-inventory --id "6454b38f70ce8b433693251c" --body '{"itemsId": ["1234", "23456"]}'
-
-
-./entry_server-cli --url="http://localhost:8050" entry-item-service creat-item --body '{"name": "swordd", "description": "very sharp", "healing": 10, "damage": 50, "protection": 35}'
-
-./entry_server-cli --url="http://localhost:8050" entry-item-service get-item --id "6454e1b61416cb009192ae33"
-
-./entry_server-cli --url="http://localhost:8050" entry-item-service update-item --id "6454e31e83890c44515b2341" --body '{"name": "swordd", "description": "very 1 sharp", "healing": 11, "damage": 51, "protection": 31}'
-
-./entry_server-cli --url="http://localhost:8050" entry-item-service delete-item --id "6454ebbd1f80c4a34b0e4799"

@@ -26,17 +26,17 @@ import (
 func UsageCommands() string {
 	return `entry-character-service (create-character|get-character|update-character|delete-character)
 entry-inventory-service (get-inventory|update-inventory)
-entry-item-service (create-item|get-item|update-item|delete-item)
+entry-item-service (create-item|get-items|update-item|delete-item)
 `
 }
 
 // UsageExamples produces an example of a valid invocation of the CLI tool.
 func UsageExamples() string {
 	return os.Args[0] + ` entry-character-service create-character --body '{
-      "description": "Quibusdam sunt vero quia tempora dolor repellat.",
-      "name": "Et est."
+      "description": "Est numquam quibusdam sunt vero.",
+      "name": "Dicta modi quas placeat eaque."
    }'` + "\n" +
-		os.Args[0] + ` entry-inventory-service get-inventory --id "Amet reprehenderit ea."` + "\n" +
+		os.Args[0] + ` entry-inventory-service get-inventory --id "Et corporis."` + "\n" +
 		os.Args[0] + ` entry-item-service create-item --body '{
       "damage": 1446501656436104991,
       "description": "Porro excepturi quia tempore esse sapiente.",
@@ -86,8 +86,8 @@ func ParseEndpoint(
 		entryItemServiceCreateItemFlags    = flag.NewFlagSet("create-item", flag.ExitOnError)
 		entryItemServiceCreateItemBodyFlag = entryItemServiceCreateItemFlags.String("body", "REQUIRED", "")
 
-		entryItemServiceGetItemFlags  = flag.NewFlagSet("get-item", flag.ExitOnError)
-		entryItemServiceGetItemIDFlag = entryItemServiceGetItemFlags.String("id", "REQUIRED", "UUId of the item")
+		entryItemServiceGetItemsFlags   = flag.NewFlagSet("get-items", flag.ExitOnError)
+		entryItemServiceGetItemsIdsFlag = entryItemServiceGetItemsFlags.String("ids", "", "")
 
 		entryItemServiceUpdateItemFlags    = flag.NewFlagSet("update-item", flag.ExitOnError)
 		entryItemServiceUpdateItemBodyFlag = entryItemServiceUpdateItemFlags.String("body", "REQUIRED", "")
@@ -108,7 +108,7 @@ func ParseEndpoint(
 
 	entryItemServiceFlags.Usage = entryItemServiceUsage
 	entryItemServiceCreateItemFlags.Usage = entryItemServiceCreateItemUsage
-	entryItemServiceGetItemFlags.Usage = entryItemServiceGetItemUsage
+	entryItemServiceGetItemsFlags.Usage = entryItemServiceGetItemsUsage
 	entryItemServiceUpdateItemFlags.Usage = entryItemServiceUpdateItemUsage
 	entryItemServiceDeleteItemFlags.Usage = entryItemServiceDeleteItemUsage
 
@@ -179,8 +179,8 @@ func ParseEndpoint(
 			case "create-item":
 				epf = entryItemServiceCreateItemFlags
 
-			case "get-item":
-				epf = entryItemServiceGetItemFlags
+			case "get-items":
+				epf = entryItemServiceGetItemsFlags
 
 			case "update-item":
 				epf = entryItemServiceUpdateItemFlags
@@ -242,9 +242,9 @@ func ParseEndpoint(
 			case "create-item":
 				endpoint = c.CreateItem()
 				data, err = entryitemservicec.BuildCreateItemPayload(*entryItemServiceCreateItemBodyFlag)
-			case "get-item":
-				endpoint = c.GetItem()
-				data, err = entryitemservicec.BuildGetItemPayload(*entryItemServiceGetItemIDFlag)
+			case "get-items":
+				endpoint = c.GetItems()
+				data, err = entryitemservicec.BuildGetItemsPayload(*entryItemServiceGetItemsIdsFlag)
 			case "update-item":
 				endpoint = c.UpdateItem()
 				data, err = entryitemservicec.BuildUpdateItemPayload(*entryItemServiceUpdateItemBodyFlag, *entryItemServiceUpdateItemIDFlag)
@@ -286,8 +286,8 @@ CreateCharacter implements createCharacter.
 
 Example:
     %[1]s entry-character-service create-character --body '{
-      "description": "Quibusdam sunt vero quia tempora dolor repellat.",
-      "name": "Et est."
+      "description": "Est numquam quibusdam sunt vero.",
+      "name": "Dicta modi quas placeat eaque."
    }'
 `, os.Args[0])
 }
@@ -299,7 +299,7 @@ GetCharacter implements getCharacter.
     -id STRING: UUId of the Character
 
 Example:
-    %[1]s entry-character-service get-character --id "Hic aut iste deleniti."
+    %[1]s entry-character-service get-character --id "A molestiae quo eaque ex."
 `, os.Args[0])
 }
 
@@ -312,11 +312,11 @@ UpdateCharacter implements updateCharacter.
 
 Example:
     %[1]s entry-character-service update-character --body '{
-      "description": "Et sit eligendi optio iure.",
-      "experience": 7024460863717845377,
-      "health": 6587466712592608632,
-      "name": "Ut velit vel impedit est et."
-   }' --id "Aliquam cum."
+      "description": "Ut velit vel impedit est et.",
+      "experience": 4260254307231964385,
+      "health": 5285512784116714502,
+      "name": "In ut deleniti nesciunt impedit alias voluptatem."
+   }' --id "Eligendi optio iure."
 `, os.Args[0])
 }
 
@@ -327,7 +327,7 @@ DeleteCharacter implements deleteCharacter.
     -id STRING: UUId of the Character
 
 Example:
-    %[1]s entry-character-service delete-character --id "Modi totam provident ex magni sunt sunt."
+    %[1]s entry-character-service delete-character --id "Beatae maxime."
 `, os.Args[0])
 }
 
@@ -353,7 +353,7 @@ GetInventory implements getInventory.
     -id STRING: UUId of the inventory
 
 Example:
-    %[1]s entry-inventory-service get-inventory --id "Amet reprehenderit ea."
+    %[1]s entry-inventory-service get-inventory --id "Et corporis."
 `, os.Args[0])
 }
 
@@ -367,7 +367,7 @@ UpdateInventory implements updateInventory.
 Example:
     %[1]s entry-inventory-service update-inventory --body '{
       "itemsId": [
-         "Quibusdam nobis natus a.",
+         "Fugiat veniam maiores quibusdam nobis natus a.",
          "Tempore qui."
       ]
    }' --id "Iure quae."
@@ -383,7 +383,7 @@ Usage:
 
 COMMAND:
     create-item: CreateItem implements createItem.
-    get-item: GetItem implements getItem.
+    get-items: GetItems implements getItems.
     update-item: UpdateItem implements updateItem.
     delete-item: DeleteItem implements deleteItem.
 
@@ -408,14 +408,18 @@ Example:
 `, os.Args[0])
 }
 
-func entryItemServiceGetItemUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] entry-item-service get-item -id STRING
+func entryItemServiceGetItemsUsage() {
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] entry-item-service get-items -ids JSON
 
-GetItem implements getItem.
-    -id STRING: UUId of the item
+GetItems implements getItems.
+    -ids JSON: 
 
 Example:
-    %[1]s entry-item-service get-item --id "Molestiae rerum dolorem possimus dolor qui."
+    %[1]s entry-item-service get-items --ids '[
+      "id1",
+      "id2",
+      "id3"
+   ]'
 `, os.Args[0])
 }
 
@@ -428,11 +432,11 @@ UpdateItem implements updateItem.
 
 Example:
     %[1]s entry-item-service update-item --body '{
-      "damage": 8211760277916845929,
-      "description": "Provident voluptas aspernatur.",
-      "healing": 5410378431408351801,
-      "protection": 1138281801445593390
-   }' --id "Dolores autem aut ipsam et non modi."
+      "damage": 3203299607339697376,
+      "description": "Neque et.",
+      "healing": 7179661917089634877,
+      "protection": 8269874940287524892
+   }' --id "Et quo voluptas fugit officiis."
 `, os.Args[0])
 }
 
@@ -443,6 +447,6 @@ DeleteItem implements deleteItem.
     -id STRING: UUId of the item
 
 Example:
-    %[1]s entry-item-service delete-item --id "Aut nam."
+    %[1]s entry-item-service delete-item --id "Eos beatae."
 `, os.Args[0])
 }
