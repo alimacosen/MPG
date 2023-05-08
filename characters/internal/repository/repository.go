@@ -35,12 +35,28 @@ func NewCharacterRepository(logger *log.Logger, client *mongo.Client, dbName str
 
 func (r *mongoCharacterRepository) Create(ctx context.Context, character *model.Character) (*model.Character, error) {
 	collection := r.db.Collection("charactersCollection")
+	if ok := r.characterNameUniqueCheck(ctx, character.Name, collection); !ok {
+		return nil, characterservice.CreateNameNotUnique("Duplicated name found")
+	}
 	res, err := collection.InsertOne(ctx, character)
 	if err != nil {
 		return nil, err
 	}
 	character.ID = res.InsertedID.(primitive.ObjectID).Hex()
 	return character, err
+}
+
+func (r *mongoCharacterRepository)characterNameUniqueCheck(ctx context.Context, name *string, collection *mongo.Collection) bool {
+	if name == nil {
+		return true
+	}
+	filter := bson.M{"name": *name}
+	var character model.Character
+	_ = collection.FindOne(ctx, filter).Decode(&character)
+	if character.Name == nil {
+		return true
+	}
+	return false
 }
 
 func (r *mongoCharacterRepository) FindByID(ctx context.Context, id string) (*model.Character, error) {
@@ -65,6 +81,10 @@ func (r *mongoCharacterRepository) FindByID(ctx context.Context, id string) (*mo
 
 func (r *mongoCharacterRepository) Update(ctx context.Context, id string, updateFields interface{}) (int, error) {
 	collection := r.db.Collection("charactersCollection")
+
+	if ok := r.characterNameUniqueCheck(ctx, updateFields.(model.Character).Name, collection); !ok {
+		return 0, characterservice.CreateNameNotUnique("Duplicated name found")
+	}
 	objectID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		r.logger.Println(err)
