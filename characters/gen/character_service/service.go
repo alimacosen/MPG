@@ -92,6 +92,9 @@ type UpdateCharacterPayload struct {
 // Invalid arguments. Required: name  Optional: description
 type CreateInvalidArgs string
 
+// The name provided already exists
+type CreateNameNotUnique string
+
 // Invalid arguments. Required: id
 type DeleteInvalidArgs string
 
@@ -107,6 +110,9 @@ type GetNoMatch string
 // Invalid arguments. Required: id  Optional: name, description, health,
 // experience
 type UpdateInvalidArgs string
+
+// The name provided already exists
+type UpdateNameNotUnique string
 
 // No character matched given criteria
 type UpdateNoMatch string
@@ -126,6 +132,23 @@ func (e CreateInvalidArgs) ErrorName() string {
 // GoaErrorName returns "create_invalid_args".
 func (e CreateInvalidArgs) GoaErrorName() string {
 	return "create_invalid_args"
+}
+
+// Error returns an error description.
+func (e CreateNameNotUnique) Error() string {
+	return "The name provided already exists"
+}
+
+// ErrorName returns "create_name_not_unique".
+//
+// Deprecated: Use GoaErrorName - https://github.com/goadesign/goa/issues/3105
+func (e CreateNameNotUnique) ErrorName() string {
+	return e.GoaErrorName()
+}
+
+// GoaErrorName returns "create_name_not_unique".
+func (e CreateNameNotUnique) GoaErrorName() string {
+	return "create_name_not_unique"
 }
 
 // Error returns an error description.
@@ -211,6 +234,23 @@ func (e UpdateInvalidArgs) ErrorName() string {
 // GoaErrorName returns "update_invalid_args".
 func (e UpdateInvalidArgs) GoaErrorName() string {
 	return "update_invalid_args"
+}
+
+// Error returns an error description.
+func (e UpdateNameNotUnique) Error() string {
+	return "The name provided already exists"
+}
+
+// ErrorName returns "update_name_not_unique".
+//
+// Deprecated: Use GoaErrorName - https://github.com/goadesign/goa/issues/3105
+func (e UpdateNameNotUnique) ErrorName() string {
+	return e.GoaErrorName()
+}
+
+// GoaErrorName returns "update_name_not_unique".
+func (e UpdateNameNotUnique) GoaErrorName() string {
+	return "update_name_not_unique"
 }
 
 // Error returns an error description.
