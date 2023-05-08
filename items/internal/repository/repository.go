@@ -35,8 +35,7 @@ func NewItemRepository(logger *log.Logger, client *mongo.Client, dbName string) 
 func (r *mongoItemRepository) Create(ctx context.Context, item *model.Item) (*model.Item, error) {
 	collection := r.db.Collection("itemCollection")
 
-	ok := r.itemNameUniqueCheck(ctx, collection, item.Name)
-	if !ok {
+	if ok := r.itemNameUniqueCheck(ctx, collection, item.Name); !ok {
 		return nil, itemservice.CreateDuplicatedName("item name" + *item.Name + "already exists")
 	}
 

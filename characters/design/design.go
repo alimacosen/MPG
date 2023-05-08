@@ -51,6 +51,7 @@ var _ = Service("CharacterService", func() {
 		})
 		Result(Character)
 		Error("create_invalid_args", String, "Invalid arguments. Required: name  Optional: description ")
+		Error("create_name_not_unique", String, "The name provided already exists")
 		GRPC(func() {
 			Response(CodeOK)
 			Response("create_invalid_args", CodeInvalidArgument)
@@ -94,6 +95,7 @@ var _ = Service("CharacterService", func() {
 			Required("id")
 		})
 		Result(Int)
+		Error("update_name_not_unique", String, "The name provided already exists")
 		Error("update_invalid_args", String, "Invalid arguments. Required: id  Optional: name, description, health, experience ")
 		Error("update_no_match", String, "No character matched given criteria")
 		GRPC(func() {
