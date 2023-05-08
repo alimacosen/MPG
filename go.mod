@@ -3,6 +3,7 @@ module mpg
 go 1.20
 
 require (
+	github.com/stretchr/testify v1.6.1
 	go.mongodb.org/mongo-driver v1.11.6
 	goa.design/goa/v3 v3.11.3
 	google.golang.org/grpc v1.55.0
@@ -10,6 +11,7 @@ require (
 )
 
 require (
+	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dimfeld/httppath v0.0.0-20170720192232-ee938bf73598 // indirect
 	github.com/dimfeld/httptreemux/v5 v5.5.0 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
@@ -22,8 +24,10 @@ require (
 	github.com/manveru/faker v0.0.0-20171103152722-9fbc68a78c4d // indirect
 	github.com/montanaflynn/stats v0.0.0-20171201202039-1bf9dbcd8cbe // indirect
 	github.com/pkg/errors v0.9.1 // indirect
+	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/sergi/go-diff v1.3.1 // indirect
 	github.com/smartystreets/assertions v1.13.1 // indirect
+	github.com/stretchr/objx v0.1.0 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
 	github.com/xdg-go/scram v1.1.1 // indirect
 	github.com/xdg-go/stringprep v1.0.3 // indirect

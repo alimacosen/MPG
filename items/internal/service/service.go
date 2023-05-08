@@ -9,7 +9,7 @@ import (
 type ItemSvcInterface interface {
 	GetById(ctx context.Context, idList []string) ([]*model.Item, error)
 	GetAll(ctx context.Context) ([]*model.Item, error)
-	Create(ctx context.Context, character *model.Item) (*model.Item, error)
+	Create(ctx context.Context, item *model.Item) (*model.Item, error)
 	Update(ctx context.Context, id string, updateFields *model.Item) (int, error)
 	Delete(ctx context.Context, id string) (int, error)
 }
