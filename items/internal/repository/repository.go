@@ -48,6 +48,7 @@ func (r *mongoItemRepository) Create(ctx context.Context, item *model.Item) (*mo
 }
 
 func (r *mongoItemRepository) itemNameUniqueCheck(ctx context.Context, collection *mongo.Collection, name *string) bool {
+	// If the item name is unique, return true. Otherwise, return false.
 	if name == nil {
 		return true
 	}
@@ -111,7 +112,6 @@ func (r *mongoItemRepository) Update(ctx context.Context, id string, updateField
 	if err != nil {
 		r.logger.Println(err)
 	}
-
 	ok := r.itemNameUniqueCheck(ctx, collection, updateFields.Name)
 	if !ok {
 		return 0, itemservice.CreateDuplicatedName("item name" + *updateFields.Name + "already exists")

@@ -83,6 +83,8 @@ type Item struct {
 type UpdateItemPayload struct {
 	// UUId of the item
 	ID string
+	// name of the item
+	Name *string
 	// Description of the item
 	Description *string
 	// The amount of damage the item can do

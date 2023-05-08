@@ -21,7 +21,7 @@ func BuildCreateCharacterPayload(entryCharacterServiceCreateCharacterBody string
 	{
 		err = json.Unmarshal([]byte(entryCharacterServiceCreateCharacterBody), &body)
 		if err != nil {
-			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"description\": \"Est numquam quibusdam sunt vero.\",\n      \"name\": \"Dicta modi quas placeat eaque.\"\n   }'")
+			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"description\": \"Quibusdam sunt vero quia tempora dolor repellat.\",\n      \"name\": \"Et est.\"\n   }'")
 		}
 	}
 	v := &entrycharacterservice.CreateCharacterPayload{
@@ -53,7 +53,7 @@ func BuildUpdateCharacterPayload(entryCharacterServiceUpdateCharacterBody string
 	{
 		err = json.Unmarshal([]byte(entryCharacterServiceUpdateCharacterBody), &body)
 		if err != nil {
-			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"description\": \"Ut velit vel impedit est et.\",\n      \"experience\": 4260254307231964385,\n      \"health\": 5285512784116714502,\n      \"name\": \"In ut deleniti nesciunt impedit alias voluptatem.\"\n   }'")
+			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"description\": \"Et sit eligendi optio iure.\",\n      \"experience\": 7024460863717845377,\n      \"health\": 6587466712592608632,\n      \"name\": \"Ut velit vel impedit est et.\"\n   }'")
 		}
 	}
 	var id string

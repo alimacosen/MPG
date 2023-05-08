@@ -62,7 +62,7 @@ func BuildUpdateItemPayload(entryItemServiceUpdateItemBody string, entryItemServ
 	{
 		err = json.Unmarshal([]byte(entryItemServiceUpdateItemBody), &body)
 		if err != nil {
-			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"damage\": 3203299607339697376,\n      \"description\": \"Neque et.\",\n      \"healing\": 7179661917089634877,\n      \"protection\": 8269874940287524892\n   }'")
+			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"damage\": 7370789085788686602,\n      \"description\": \"Sapiente harum sint et quo voluptas fugit.\",\n      \"healing\": 8579359920166379124,\n      \"name\": \"Neque et.\",\n      \"protection\": 8272555717849134277\n   }'")
 		}
 	}
 	var id string
@@ -70,6 +70,7 @@ func BuildUpdateItemPayload(entryItemServiceUpdateItemBody string, entryItemServ
 		id = entryItemServiceUpdateItemID
 	}
 	v := &entryitemservice.UpdateItemPayload{
+		Name:        body.Name,
 		Description: body.Description,
 		Damage:      body.Damage,
 		Healing:     body.Healing,

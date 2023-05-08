@@ -31,6 +31,8 @@ type CreateItemRequestBody struct {
 // UpdateItemRequestBody is the type of the "EntryItemService" service
 // "updateItem" endpoint HTTP request body.
 type UpdateItemRequestBody struct {
+	// name of the item
+	Name *string `form:"name,omitempty" json:"name,omitempty" xml:"name,omitempty"`
 	// Description of the item
 	Description *string `form:"description,omitempty" json:"description,omitempty" xml:"description,omitempty"`
 	// The amount of damage the item can do
@@ -95,6 +97,7 @@ func NewCreateItemRequestBody(p *entryitemservice.CreateItemPayload) *CreateItem
 // the "updateItem" endpoint of the "EntryItemService" service.
 func NewUpdateItemRequestBody(p *entryitemservice.UpdateItemPayload) *UpdateItemRequestBody {
 	body := &UpdateItemRequestBody{
+		Name:        p.Name,
 		Description: p.Description,
 		Damage:      p.Damage,
 		Healing:     p.Healing,
