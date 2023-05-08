@@ -76,10 +76,26 @@ Take entry service for example, run the following command to see the usage
 In the prompts, there are further information to guide you through.
 
 
-### Use tools like Postman or browser
-To send HTTP requests using REST URLs to the entry service, I recommend to using Postman or a browser. (However, you can stick to using commands in a console)
+### Use tools like Postman
+To send HTTP requests using REST URLs to the entry service, I recommend to using Postman. (However, you can stick to using commands in a console)
 
+For API path instructions, there's no GUI swagger server providing interactive API documentation. You can refer to `mpg/entry/gen/http/openapi`.  
+I'll build up the documentation server as soon as possible.
 
+Here's some prompts that may give you some guide.  
+```
+"CreateCharacter" mounted on POST /character  
+"GetCharacter" mounted on GET /character/{id}  
+"UpdateCharacter" mounted on PATCH /character/{id}  
+"DeleteCharacter" mounted on DELETE /character/{id}  
+"GetInventory" mounted on GET /inventory/{id}  
+"UpdateInventory" mounted on PATCH /inventory/{id}  
+"CreateItem" mounted on POST /item  
+"GetItems" mounted on GET /item  
+"UpdateItem" mounted on PATCH /item/{id}  
+"DeleteItem" mounted on DELETE /item/{id}  
+HTTP server listening on "localhost:8050"
+```
 
 ## Author
 - Bruce Cai

@@ -24,20 +24,20 @@ import (
 //
 //	command (subcommand1|subcommand2|...)
 func UsageCommands() string {
-	return `entry-character-service (creat-character|get-character|update-character|delete-character)
+	return `entry-character-service (create-character|get-character|update-character|delete-character)
 entry-inventory-service (get-inventory|update-inventory)
-entry-item-service (creat-item|get-items|update-item|delete-item)
+entry-item-service (create-item|get-items|update-item|delete-item)
 `
 }
 
 // UsageExamples produces an example of a valid invocation of the CLI tool.
 func UsageExamples() string {
-	return os.Args[0] + ` entry-character-service creat-character --body '{
+	return os.Args[0] + ` entry-character-service create-character --body '{
       "description": "Est numquam quibusdam sunt vero.",
       "name": "Dicta modi quas placeat eaque."
    }'` + "\n" +
 		os.Args[0] + ` entry-inventory-service get-inventory --id "Et corporis."` + "\n" +
-		os.Args[0] + ` entry-item-service creat-item --body '{
+		os.Args[0] + ` entry-item-service create-item --body '{
       "damage": 1446501656436104991,
       "description": "Porro excepturi quia tempore esse sapiente.",
       "healing": 8469736963636152442,
@@ -59,8 +59,8 @@ func ParseEndpoint(
 	var (
 		entryCharacterServiceFlags = flag.NewFlagSet("entry-character-service", flag.ContinueOnError)
 
-		entryCharacterServiceCreatCharacterFlags    = flag.NewFlagSet("creat-character", flag.ExitOnError)
-		entryCharacterServiceCreatCharacterBodyFlag = entryCharacterServiceCreatCharacterFlags.String("body", "REQUIRED", "")
+		entryCharacterServiceCreateCharacterFlags    = flag.NewFlagSet("create-character", flag.ExitOnError)
+		entryCharacterServiceCreateCharacterBodyFlag = entryCharacterServiceCreateCharacterFlags.String("body", "REQUIRED", "")
 
 		entryCharacterServiceGetCharacterFlags  = flag.NewFlagSet("get-character", flag.ExitOnError)
 		entryCharacterServiceGetCharacterIDFlag = entryCharacterServiceGetCharacterFlags.String("id", "REQUIRED", "UUId of the Character")
@@ -83,8 +83,8 @@ func ParseEndpoint(
 
 		entryItemServiceFlags = flag.NewFlagSet("entry-item-service", flag.ContinueOnError)
 
-		entryItemServiceCreatItemFlags    = flag.NewFlagSet("creat-item", flag.ExitOnError)
-		entryItemServiceCreatItemBodyFlag = entryItemServiceCreatItemFlags.String("body", "REQUIRED", "")
+		entryItemServiceCreateItemFlags    = flag.NewFlagSet("create-item", flag.ExitOnError)
+		entryItemServiceCreateItemBodyFlag = entryItemServiceCreateItemFlags.String("body", "REQUIRED", "")
 
 		entryItemServiceGetItemsFlags   = flag.NewFlagSet("get-items", flag.ExitOnError)
 		entryItemServiceGetItemsIdsFlag = entryItemServiceGetItemsFlags.String("ids", "", "")
@@ -97,7 +97,7 @@ func ParseEndpoint(
 		entryItemServiceDeleteItemIDFlag = entryItemServiceDeleteItemFlags.String("id", "REQUIRED", "UUId of the item")
 	)
 	entryCharacterServiceFlags.Usage = entryCharacterServiceUsage
-	entryCharacterServiceCreatCharacterFlags.Usage = entryCharacterServiceCreatCharacterUsage
+	entryCharacterServiceCreateCharacterFlags.Usage = entryCharacterServiceCreateCharacterUsage
 	entryCharacterServiceGetCharacterFlags.Usage = entryCharacterServiceGetCharacterUsage
 	entryCharacterServiceUpdateCharacterFlags.Usage = entryCharacterServiceUpdateCharacterUsage
 	entryCharacterServiceDeleteCharacterFlags.Usage = entryCharacterServiceDeleteCharacterUsage
@@ -107,7 +107,7 @@ func ParseEndpoint(
 	entryInventoryServiceUpdateInventoryFlags.Usage = entryInventoryServiceUpdateInventoryUsage
 
 	entryItemServiceFlags.Usage = entryItemServiceUsage
-	entryItemServiceCreatItemFlags.Usage = entryItemServiceCreatItemUsage
+	entryItemServiceCreateItemFlags.Usage = entryItemServiceCreateItemUsage
 	entryItemServiceGetItemsFlags.Usage = entryItemServiceGetItemsUsage
 	entryItemServiceUpdateItemFlags.Usage = entryItemServiceUpdateItemUsage
 	entryItemServiceDeleteItemFlags.Usage = entryItemServiceDeleteItemUsage
@@ -150,8 +150,8 @@ func ParseEndpoint(
 		switch svcn {
 		case "entry-character-service":
 			switch epn {
-			case "creat-character":
-				epf = entryCharacterServiceCreatCharacterFlags
+			case "create-character":
+				epf = entryCharacterServiceCreateCharacterFlags
 
 			case "get-character":
 				epf = entryCharacterServiceGetCharacterFlags
@@ -176,8 +176,8 @@ func ParseEndpoint(
 
 		case "entry-item-service":
 			switch epn {
-			case "creat-item":
-				epf = entryItemServiceCreatItemFlags
+			case "create-item":
+				epf = entryItemServiceCreateItemFlags
 
 			case "get-items":
 				epf = entryItemServiceGetItemsFlags
@@ -213,9 +213,9 @@ func ParseEndpoint(
 		case "entry-character-service":
 			c := entrycharacterservicec.NewClient(scheme, host, doer, enc, dec, restore)
 			switch epn {
-			case "creat-character":
-				endpoint = c.CreatCharacter()
-				data, err = entrycharacterservicec.BuildCreatCharacterPayload(*entryCharacterServiceCreatCharacterBodyFlag)
+			case "create-character":
+				endpoint = c.CreateCharacter()
+				data, err = entrycharacterservicec.BuildCreateCharacterPayload(*entryCharacterServiceCreateCharacterBodyFlag)
 			case "get-character":
 				endpoint = c.GetCharacter()
 				data, err = entrycharacterservicec.BuildGetCharacterPayload(*entryCharacterServiceGetCharacterIDFlag)
@@ -239,9 +239,9 @@ func ParseEndpoint(
 		case "entry-item-service":
 			c := entryitemservicec.NewClient(scheme, host, doer, enc, dec, restore)
 			switch epn {
-			case "creat-item":
-				endpoint = c.CreatItem()
-				data, err = entryitemservicec.BuildCreatItemPayload(*entryItemServiceCreatItemBodyFlag)
+			case "create-item":
+				endpoint = c.CreateItem()
+				data, err = entryitemservicec.BuildCreateItemPayload(*entryItemServiceCreateItemBodyFlag)
 			case "get-items":
 				endpoint = c.GetItems()
 				data, err = entryitemservicec.BuildGetItemsPayload(*entryItemServiceGetItemsIdsFlag)
@@ -269,7 +269,7 @@ Usage:
     %[1]s [globalflags] entry-character-service COMMAND [flags]
 
 COMMAND:
-    creat-character: CreatCharacter implements creatCharacter.
+    create-character: CreateCharacter implements createCharacter.
     get-character: GetCharacter implements getCharacter.
     update-character: UpdateCharacter implements updateCharacter.
     delete-character: DeleteCharacter implements deleteCharacter.
@@ -278,14 +278,14 @@ Additional help:
     %[1]s entry-character-service COMMAND --help
 `, os.Args[0])
 }
-func entryCharacterServiceCreatCharacterUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] entry-character-service creat-character -body JSON
+func entryCharacterServiceCreateCharacterUsage() {
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] entry-character-service create-character -body JSON
 
-CreatCharacter implements creatCharacter.
+CreateCharacter implements createCharacter.
     -body JSON: 
 
 Example:
-    %[1]s entry-character-service creat-character --body '{
+    %[1]s entry-character-service create-character --body '{
       "description": "Est numquam quibusdam sunt vero.",
       "name": "Dicta modi quas placeat eaque."
    }'
@@ -382,7 +382,7 @@ Usage:
     %[1]s [globalflags] entry-item-service COMMAND [flags]
 
 COMMAND:
-    creat-item: CreatItem implements creatItem.
+    create-item: CreateItem implements createItem.
     get-items: GetItems implements getItems.
     update-item: UpdateItem implements updateItem.
     delete-item: DeleteItem implements deleteItem.
@@ -391,14 +391,14 @@ Additional help:
     %[1]s entry-item-service COMMAND --help
 `, os.Args[0])
 }
-func entryItemServiceCreatItemUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] entry-item-service creat-item -body JSON
+func entryItemServiceCreateItemUsage() {
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] entry-item-service create-item -body JSON
 
-CreatItem implements creatItem.
+CreateItem implements createItem.
     -body JSON: 
 
 Example:
-    %[1]s entry-item-service creat-item --body '{
+    %[1]s entry-item-service create-item --body '{
       "damage": 1446501656436104991,
       "description": "Porro excepturi quia tempore esse sapiente.",
       "healing": 8469736963636152442,
