@@ -4,7 +4,7 @@
 ## Introduction
 
 ### Requirements 
-This is a take-home assessment project. The task is to build a microservice application that stores characters and their item inventories for a multiplayer game.  
+This project is to build a microservice application that stores characters and their item inventories for a multiplayer game.  
 It is required to use [Goa](https://goa.design/), a design-first microservice framework with [Golang](https://go.dev/) to finish the entire task.
 There are 4 microservices in total:
 > An HTTP/JSON front entry service which provides an API to manipulate the characters, their inventories, and the items that exist
